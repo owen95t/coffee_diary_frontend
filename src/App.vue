@@ -1,17 +1,43 @@
 <template>
   <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+    <b-navbar toggleable="lg" variant="light" type="light" class="justify-content-between">
+      <b-navbar-brand><router-link to="/">Coffee Diary</router-link></b-navbar-brand>
+
+      <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
+      <b-collapse id="nav-collapse" is-nav>
+        <b-navbar-nav>
+
+          <b-nav-item to="/">Home</b-nav-item>
+          <b-nav-item to="/dashboard" >Dashboard</b-nav-item>
+          <b-nav-item to="/login">Login</b-nav-item>
+          <b-nav-item to="/register">Register</b-nav-item>
+        </b-navbar-nav>
+      </b-collapse>
+
+      <b-navbar-nav class="ml-auto">
+        <!--        RIGHT SIDE ITEMS    -->
+      </b-navbar-nav>
+
+    </b-navbar>
+<!--    <img alt="Vue logo" src="./assets/logo.png">-->
+<!--    <HelloWorld msg="Welcome to Your Vue.js App"/>-->
+    <router-view/>
   </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+//import HelloWorld from './components/HelloWorld.vue'
 
 export default {
   name: 'App',
   components: {
-    HelloWorld
+
+  },
+  methods: {
+
+  },
+  mounted() {
+
   }
 }
 </script>
@@ -23,6 +49,8 @@ export default {
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
-  margin-top: 60px;
+}
+nav a.router-link-active {
+  text-decoration: none;
 }
 </style>

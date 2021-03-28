@@ -1,0 +1,80 @@
+<template>
+  <div id="login-page">
+    <h1>Login</h1>
+    <b-container>
+      <b-row>
+        <b-col></b-col>
+        <b-col>
+          <b-form>
+            <b-form-group label="Email Address:">
+              <div>
+                <b-form-input id="input-email" v-model="form.username" placeholder="Enter email" required></b-form-input>
+              </div>
+            </b-form-group>
+            <b-form-group label="Password:">
+              <div>
+                <b-form-input id="input-password" v-model="form.password" placeholder="Enter password" required></b-form-input>
+              </div>
+            </b-form-group>
+          </b-form>
+          <b-button variant="success">Login</b-button>
+<!--          <b-button v-on:click="getStatus">set isLoggedIn</b-button>-->
+<!--          <p>{{status}}</p>-->
+        </b-col>
+        <b-col></b-col>
+      </b-row>
+
+    </b-container>
+  </div>
+</template>
+
+<script>
+import axios from 'axios';
+
+axios.defaults.xsrfHeaderName = 'X-CSRFToken';
+axios.defaults.xsrfCookieName = 'csrftoken';
+
+export default {
+  name: "Login",
+  data() {
+    return {
+      form: {
+        username: '',
+        password: ''
+      },
+      // status: '',
+    }
+  },
+  methods: {
+    // getStatus() {
+    //   //this.status = this.$store.getters.getLoggedIn
+    //   console.log(this.$store.getters.getLoggedIn)
+    //   if (this.$store.getters.getLoggedIn) {
+    //     this.$store.commit("setLoggedIn", false)
+    //     console.log('getStatus changed to false')
+    //   }else if (!this.$store.getters.getLoggedIn) {
+    //     this.$store.commit("setLoggedIn", true)
+    //     console.log('getStatus changed to true')
+    //   }
+    //   this.status = this.$store.getters.getLoggedIn
+    // },
+    async Login() {
+      const user = {
+        username: this.form.username,
+        password: this.form.password
+      }
+      axios.post('http://localhost:3000/api/user/login', user).then(res => {
+        if (res) {
+          console.log(res)
+        }
+      }).catch(e => {
+        console.log(e)
+      })
+    }
+  }
+}
+</script>
+
+<style scoped>
+
+</style>
