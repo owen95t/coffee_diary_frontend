@@ -16,6 +16,7 @@
 
       <b-navbar-nav class="ml-auto">
         <!--        RIGHT SIDE ITEMS    -->
+<!--        TODO: MOVE LOGIN BUTTON TO RIGHT SIDE-->
       </b-navbar-nav>
 
     </b-navbar>
