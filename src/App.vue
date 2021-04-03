@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <b-navbar toggleable="lg" variant="light" type="light" class="justify-content-between">
+    <b-navbar id="custom-nav" toggleable="lg" class="justify-content-between">
       <b-navbar-brand><router-link to="/">Coffee Diary</router-link></b-navbar-brand>
 
       <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
@@ -44,14 +44,25 @@ export default {
 </script>
 
 <style>
+@import url('https://fonts.googleapis.com/css?family=Inconsolata');
 #app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
+  font-family: Inconsolata, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
 }
+
 nav a.router-link-active {
   text-decoration: none;
 }
+
+#custom-nav a{
+  color: black;
+}
+#custom-nav a:hover{
+  font-style: italic;
+}
+
+
 </style>

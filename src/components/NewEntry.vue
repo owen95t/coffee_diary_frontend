@@ -2,7 +2,7 @@
 <!--button component-->
 <!--  Upon click, modal pops up for new entry-->
   <div id="new-entry">
-    <b-button variant="success" v-on:click="$bvModal.show('new-entry-modal')">New Entry</b-button>
+    <b-button class="custom-button" v-on:click="$bvModal.show('new-entry-modal')">New Entry</b-button>
     <b-modal id="new-entry-modal" v-on:ok="postEntry" @hide="resetModal" title="New Entry">
       <template>
         <b-form-input placeholder="Enter Brand" v-model="entryInfo.brand"></b-form-input>
@@ -19,7 +19,6 @@
     </b-modal>
   </div>
 </template>
-
 <script>
 
 import customAxios from "@/customAxios/customAxios";
@@ -68,5 +67,20 @@ export default {
 </script>
 
 <style scoped>
+
+.custom-button {
+  background: none;
+  border: 1px solid black;
+  border-radius: 0;
+  color: black;
+  /*box-shadow: 5px 5px black;*/
+}
+.custom-button:hover {
+  background: none;
+  border: 1px solid black;
+  color: black;
+  font-style: italic;
+}
+
 
 </style>

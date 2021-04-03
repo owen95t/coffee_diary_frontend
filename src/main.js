@@ -10,7 +10,6 @@ Vue.config.productionTip = false
 
 Vue.use(BootstrapVue)
 
-
 new Vue({
   router,
   store,

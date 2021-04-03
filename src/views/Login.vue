@@ -1,7 +1,7 @@
 <template>
   <div id="login-page">
-    <h1>Login</h1>
-    <b-container>
+    <b-container class="justify-content-center mt-5">
+      <h1>Login</h1>
       <b-row>
         <b-col></b-col>
         <b-col>

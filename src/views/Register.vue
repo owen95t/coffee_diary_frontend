@@ -1,7 +1,7 @@
 <template>
   <div id="register-page">
-    <h1>Register</h1>
-    <b-container>
+    <b-container class="justify-content-center mt-5">
+      <h1>Register</h1>
       <b-row>
         <b-col></b-col>
         <b-col>
@@ -13,12 +13,18 @@
             </b-form-group>
             <b-form-group label="Password:">
               <div>
-                <b-form-input id="input-password" v-model="form.password" placeholder="Enter password" required></b-form-input>
+                <b-form-input id="input-password" v-model="form.password" placeholder="Enter password" required type="password"></b-form-input>
               </div>
             </b-form-group>
           </b-form>
-          <b-button variant="success" v-on:click="register">Register</b-button>
-          <b-button v-on:click="testCustomAxios">Cancel</b-button>
+          <b-row>
+            <b-col>
+              <b-button class="custom-button" v-on:click="register">Register</b-button>
+            </b-col>
+            <b-col>
+              <b-button class="custom-button" v-on:click="testCustomAxios">Cancel</b-button>
+            </b-col>
+          </b-row>
         </b-col>
         <b-col></b-col>
       </b-row>
@@ -103,5 +109,19 @@ export default {
 </script>
 
 <style scoped>
+
+.custom-button {
+  background: none;
+  border: 1px solid black;
+  border-radius: 0;
+  color: black;
+  /*box-shadow: 5px 5px black;*/
+}
+.custom-button:hover {
+  background: none;
+  border: 1px solid black;
+  color: black;
+  font-style: italic;
+}
 
 </style>

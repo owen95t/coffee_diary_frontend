@@ -1,9 +1,9 @@
 <template>
   <div id="table-view">
-    <b-container v-if="!this.$store.getters.getLoggedIn">
-      <p>You are not logged in. Please log in again!</p>
-    </b-container>
-    <b-container v-else>
+<!--    <b-container v-if="!this.$store.getters.getLoggedIn">-->
+<!--      <p>You are not logged in. Please log in again!</p>-->
+<!--    </b-container>-->
+    <b-container class="m-0 p-0">
       <b-table
           hover
           bordered
@@ -28,9 +28,21 @@ export default {
     return {
       list_results: [],
       perPage: '',
-      fields: [{}],
+      fields: [{
+        key: 'date',
+        label: 'Date'
+      }, {
+        key: 'brand',
+        label: 'Brand'
+      }, {
+        key: 'beans',
+        label: 'Beans'
+      }, {
+        key: 'roast',
+        label: 'Roast'
+      }],
       modalKey: '',
-      selectedItem: ''
+      selectedItem: '',
     }
   },
   methods: {

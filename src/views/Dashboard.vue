@@ -1,10 +1,25 @@
 <template>
   <div id="dashboard">
-    <h1>Welcome to your Dashboard!</h1>
-    <b-button v-on:click="testRequest">Test Request</b-button>
-    <p>{{message}}</p>
-    <NewEntry/>
-    <TableView/>
+<!--    <b-button v-on:click="testRequest">Test Request</b-button>-->
+<!--    <p>{{message}}</p>-->
+    <b-container fluid="xl">
+      <b-row class="justify-content-center mt-5">
+        <h1>Welcome to your Dashboard!</h1>
+      </b-row>
+      <b-row class="no-gutters mt-3" style="margin-right: 0; padding-right: 0;">
+        <b-col></b-col>
+        <b-col></b-col>
+        <b-col>
+          <div class="float-right"><NewEntry/></div>
+        </b-col>
+      </b-row>
+      <b-row class="mt-3 border border-dark no-gutters" no-gutters style="height: 30rem">
+        <b-col>
+<!--          main content-->
+          <TableView/>
+        </b-col>
+      </b-row>
+    </b-container>
   </div>
 </template>
 

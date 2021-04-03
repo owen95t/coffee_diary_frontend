@@ -39,18 +39,18 @@ const routes = [
 
 const router = new VueRouter({routes})
 
-router.beforeEach((to, from, next) => {
-    const status = store.getters.getLoggedIn
-    console.log('BEFORE EACH STAT : ' + status)
-    //With more routes, update this to:
-    //if(to.name !== 'Login' && !status)
-    //as this will check for all routes, and not just dashboard
-    if (to.name == 'Dashboard' && !status) {
-        next({name: 'Login'})
-    } else {
-        document.title = to.meta.title;
-        next()
-    }
-})
+// router.beforeEach((to, from, next) => {
+//     const status = store.getters.getLoggedIn
+//     console.log('BEFORE EACH STAT : ' + status)
+//     //With more routes, update this to:
+//     //if(to.name !== 'Login' && !status)
+//     //as this will check for all routes, and not just dashboard
+//     // if (to.name == 'Dashboard' && !status) {
+//     //     next({name: 'Login'})
+//     // } else {
+//     //     document.title = to.meta.title;
+//     //     next()
+//     // }
+// })
 
 export default router
