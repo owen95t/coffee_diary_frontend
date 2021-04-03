@@ -2,7 +2,7 @@
 <!--button component-->
 <!--  Upon click, modal pops up for new entry-->
   <div id="new-entry">
-    <b-button class="custom-button" v-on:click="$bvModal.show('new-entry-modal')">New Entry</b-button>
+    <b-button class="custom-button" v-on:click="$bvModal.show('new-entry-modal')">NEW ENTRY</b-button>
     <b-modal id="new-entry-modal" v-on:ok="postEntry" @hide="resetModal" title="New Entry">
       <template>
         <b-form-input placeholder="Enter Brand" v-model="entryInfo.brand"></b-form-input>

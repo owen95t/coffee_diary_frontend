@@ -7,13 +7,14 @@
         <h1>Welcome to your Dashboard!</h1>
       </b-row>
       <b-row class="no-gutters mt-3" style="margin-right: 0; padding-right: 0;">
-        <b-col></b-col>
-        <b-col></b-col>
+        <b-col cols="10">
+          <b-form-input class="custom-input-search" v-model="search_term" placeholder="Search..."></b-form-input>
+        </b-col>
         <b-col>
           <div class="float-right"><NewEntry/></div>
         </b-col>
       </b-row>
-      <b-row class="mt-3 border border-dark no-gutters" no-gutters style="height: 30rem">
+      <b-row class="mt-3 border border-dark no-gutters mb-3" no-gutters style="height: 30rem">
         <b-col>
 <!--          main content-->
           <TableView/>
@@ -36,7 +37,8 @@ export default {
   components: {TableView, NewEntry},
   data() {
     return {
-      message: ''
+      message: '',
+      search_term: ''
     }
   },
   methods: {
@@ -58,5 +60,9 @@ export default {
 </script>
 
 <style scoped>
-
+.custom-input-search {
+  border: 1px solid black;
+  border-radius: 0;
+  color: black;
+}
 </style>

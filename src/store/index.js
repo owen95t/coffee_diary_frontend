@@ -10,7 +10,7 @@ export default new Vuex.Store({
   mutations: { //synchronous
     setLoggedIn(state, payload) {
       state.isLoggedIn = payload
-    }
+    },
   },
   actions: { //asynchronous
     setLoggedIn(state, payload) {

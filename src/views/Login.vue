@@ -17,7 +17,15 @@
               </div>
             </b-form-group>
           </b-form>
-          <b-button variant="success" v-on:click="Login">Login</b-button>
+          <b-row>
+            <b-col>
+              <b-button class="custom-button" v-on:click="Login">Login</b-button>
+            </b-col>
+            <b-col>
+              <b-button class="custom-button" v-on:click="$router.push('/register')">Register</b-button>
+            </b-col>
+          </b-row>
+
 <!--          <b-button v-on:click="getStatus">set isLoggedIn</b-button>-->
 <!--          <p>{{status}}</p>-->
         </b-col>
@@ -91,5 +99,19 @@ export default {
 </script>
 
 <style scoped>
+
+.custom-button {
+  background: none;
+  border: 1px solid black;
+  border-radius: 0;
+  color: black;
+  /*box-shadow: 5px 5px black;*/
+}
+.custom-button:hover {
+  background: none;
+  border: 1px solid black;
+  color: black;
+  font-style: italic;
+}
 
 </style>
