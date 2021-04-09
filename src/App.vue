@@ -1,27 +1,6 @@
 <template>
   <div id="app">
-    <b-navbar id="custom-nav" toggleable="lg" class="justify-content-between">
-      <b-navbar-brand style="font-size: 1.5rem"><router-link to="/">Coffee Diary</router-link></b-navbar-brand>
-
-      <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
-      <b-collapse id="nav-collapse" is-nav>
-        <b-navbar-nav style="font-size: 1.2rem">
-
-          <b-nav-item to="/">Home</b-nav-item>
-          <b-nav-item to="/dashboard" >Dashboard</b-nav-item>
-          <b-nav-item to="/login">Login</b-nav-item>
-          <b-nav-item to="/register">Register</b-nav-item>
-        </b-navbar-nav>
-      </b-collapse>
-
-      <b-navbar-nav class="ml-auto">
-        <!--        RIGHT SIDE ITEMS    -->
-<!--        TODO: MOVE LOGIN BUTTON TO RIGHT SIDE-->
-      </b-navbar-nav>
-
-    </b-navbar>
-<!--    <img alt="Vue logo" src="./assets/logo.png">-->
-<!--    <HelloWorld msg="Welcome to Your Vue.js App"/>-->
+<!--    <Home/>-->
     <router-view/>
   </div>
 </template>
@@ -29,9 +8,16 @@
 <script>
 //import HelloWorld from './components/HelloWorld.vue'
 
+// import Home from "@/views/Home";
 export default {
   name: 'App',
+  data() {
+    return {
+
+    }
+  },
   components: {
+    // Home
 
   },
   methods: {
@@ -47,23 +33,15 @@ export default {
 @import url('https://fonts.googleapis.com/css?family=Inconsolata');
 #app {
   font-family: Inconsolata, sans-serif;
+  font-size: 48px;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
+  /*padding: 0;*/
+  /*margin: 0;*/
+  /*box-sizing: border-box;*/
+  /*display: flex;*/
 }
-
-nav a.router-link-active {
-  text-decoration: none;
-}
-
-
-#custom-nav a{
-  color: black;
-}
-#custom-nav a:hover{
-  font-style: italic;
-}
-
 
 </style>

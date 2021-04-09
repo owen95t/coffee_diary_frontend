@@ -34,6 +34,14 @@ const routes = [
         // beforeEnter: (to, from, next) => {
         // //Can also do a beforeEnter specific route
         // }
+    },
+    {
+        path: '/dashboard2',
+        name: 'Dashboard2',
+        component: () => import('../views/Dashboard2'),
+        meta: {
+            title: 'Dashboard2'
+        }
     }
 ]
 

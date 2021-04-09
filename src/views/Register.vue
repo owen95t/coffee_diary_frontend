@@ -1,28 +1,28 @@
 <template>
   <div id="register-page">
     <b-container class="justify-content-center mt-5">
-      <h1>Register</h1>
+      <h1 style="font-size: 1.5em">Register</h1>
       <b-row>
         <b-col></b-col>
-        <b-col>
+        <b-col cols="5">
           <b-form>
             <b-form-group label="Email Address:">
               <div>
-                <b-form-input id="input-email" v-model="form.username" placeholder="Enter email" required></b-form-input>
+                <b-form-input id="input-email" v-model="form.username" placeholder="ENTER EMAIL" required></b-form-input>
               </div>
             </b-form-group>
             <b-form-group label="Password:">
               <div>
-                <b-form-input id="input-password" v-model="form.password" placeholder="Enter password" required type="password"></b-form-input>
+                <b-form-input id="input-password" v-model="form.password" placeholder="ENTER PASSWORD" required type="password"></b-form-input>
               </div>
             </b-form-group>
           </b-form>
           <b-row>
             <b-col>
-              <b-button class="custom-button" v-on:click="register">Register</b-button>
+              <b-button class="custom-button" v-on:click="register">REGISTER</b-button>
             </b-col>
             <b-col>
-              <b-button class="custom-button" v-on:click="testCustomAxios">Cancel</b-button>
+              <b-button class="custom-button" v-on:click="testCustomAxios">CANCEL</b-button>
             </b-col>
           </b-row>
         </b-col>
@@ -109,6 +109,11 @@ export default {
 </script>
 
 <style scoped>
+
+#register-page {
+  text-transform: uppercase;
+  font-size: 1.2em;
+}
 
 .custom-button {
   background: none;
