@@ -1,35 +1,5 @@
 <template>
   <div id="dashboard">
-<!--    <b-button v-on:click="testRequest">Test Request</b-button>-->
-<!--    <p>{{message}}</p>-->
-<!--    <b-nav class="sidebar" vertical>-->
-<!--      <div class="sidebar-header">-->
-
-<!--      </div>-->
-<!--      <div class="sidebar-items">-->
-<!--        <div class="left-sidebar">-->
-<!--          <li class="sidebar-links">-->
-<!--            <ul>-->
-<!--              <a href="#" class="home">Home</a>-->
-<!--            </ul>-->
-<!--            <ul>-->
-<!--              <a href="#" class="projects">Projects</a>-->
-<!--            </ul>-->
-<!--            <ul>-->
-<!--              <a href="#" class="about">About</a>-->
-<!--            </ul>-->
-<!--            <ul>-->
-<!--              <a href="#" class="contact">Contact</a>-->
-<!--            </ul>-->
-<!--            <ul>-->
-<!--              <a href="#" class="createdBy">Me</a>-->
-<!--            </ul>-->
-<!--          </li>-->
-<!--        </div>-->
-<!--      </div>-->
-<!--    </b-nav>-->
-
-
     <b-container fluid="xl">
       <b-row class="justify-content-center mt-5">
         <h1>Welcome to your Dashboard!</h1>

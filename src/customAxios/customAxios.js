@@ -1,4 +1,5 @@
 const axios = require('axios');
+import router from '../router/index'
 
 const customAxios = new axios.create({
     baseURL: 'http://localhost:3000/api/',
@@ -19,6 +20,7 @@ customAxios.interceptors.response.use((response) => {
 }, (error) => {
     if (error.response.status == 401) {
         alert('401 intercept')
+        //router.push('/login')
     }
     return Promise.reject(error);
 })
