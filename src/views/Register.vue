@@ -1,132 +1,25 @@
 <template>
-  <div id="register-page">
-    <b-container class="justify-content-center mt-5">
-      <h1 style="font-size: 1.5em">Register</h1>
-      <b-row>
-        <b-col></b-col>
-        <b-col cols="5">
-          <b-form>
-            <b-form-group label="Email Address:">
-              <div>
-                <b-form-input id="input-email" v-model="form.username" placeholder="ENTER EMAIL" required></b-form-input>
-              </div>
-            </b-form-group>
-            <b-form-group label="Password:">
-              <div>
-                <b-form-input id="input-password" v-model="form.password" placeholder="ENTER PASSWORD" required type="password"></b-form-input>
-              </div>
-            </b-form-group>
-          </b-form>
-          <b-row>
-            <b-col>
-              <b-button class="custom-button" v-on:click="register">REGISTER</b-button>
-            </b-col>
-            <b-col>
-              <b-button class="custom-button" v-on:click="testCustomAxios">CANCEL</b-button>
-            </b-col>
-          </b-row>
-        </b-col>
-        <b-col></b-col>
-      </b-row>
-
-    </b-container>
+  <div>
+    <b-row>
+      <b-col>
+        <Form isRegister="true"/>
+      </b-col>
+    </b-row>
   </div>
 </template>
 
 <script>
-import axios from 'axios';
-
-// import service from '../customAxios/customAxios'
-import customAxios from '../customAxios/customAxios'
-axios.defaults.xsrfHeaderName = 'X-CSRFToken';
-axios.defaults.xsrfCookieName = 'csrftoken';
-
+import Form from "@/components/Form";
 export default {
-  name: "Register",
-  data() {
-    return {
-      form: {
-        username: '',
-        password: ''
-      }
-    }
-  },
-  methods: {
-    register() {
-      const user = {
-        username: this.form.username,
-        password: this.form.password
-      }
-      customAxios.post('user/register', user).then(res => {
-        if (res) {
-          console.log(res.data.message + '')
-          alert('Logged In successful!')
-          this.$store.dispatch("setLoggedIn", true)
-          this.$router.push('dashboard')
-          console.log('Logged In status: ' + this.$store.getters.getLoggedIn);
-        }
-      }).catch(e => {
-        if (e) {
-          console.log(e.response.data.message);
-          alert('Login Unsuccessful. + ' + e.response.data.message)
-          this.$router.go(0);
-        }
-      })
-      // axios.post('http://localhost:3000/api/user/register', user).then(res => {
-      //   if (res) { //response is ok
-      //     console.log(res.data.message + '')
-      //     console.log(res)
-      //     //alert user created success.
-      //     this.$store.dispatch("setLoggedIn", true)
-      //     //alert user created
-      //     //Redirect to dashboard
-      //     // alert(res.data.message)
-      //     this.$router.push('dashboard')
-      //   }
-      // }).catch(e => {
-      //   if (e) {
-      //     console.log(e.response.data.message);
-      //     //alert(e.response.data.message);
-      //     this.$router.go(0);
-      //   }
-      // })
-    },
-    testCustomAxios() {
-      const user = {
-        username: this.form.username,
-        password: this.form.password
-      }
-      customAxios.post('user/register', user).then(response => {
-        if (response) {
-          console.log('test' + response)
-        }
-      }).catch(e => {
-        console.log('ERROR'+e);
-      })
-    }
-  }
+name: "FormTest",
+  components: {Form}
 }
 </script>
 
 <style scoped>
 
-#register-page {
-  text-transform: uppercase;
-  font-size: 1.2em;
-}
-
-.custom-button {
-  background: none;
-  border: 1px solid black;
-  border-radius: 0;
-  color: black;
-  /*box-shadow: 5px 5px black;*/
-}
-.custom-button:hover {
-  background: none;
-  border: 1px solid black;
-  color: black;
-  font-style: italic;
+.form {
+  padding-top: 3em;
 }
 
 </style>

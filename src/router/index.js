@@ -42,7 +42,7 @@ const routes = [
         meta: {
             title: 'Dashboard2'
         }
-    }
+    },
 ]
 
 const router = new VueRouter({routes})

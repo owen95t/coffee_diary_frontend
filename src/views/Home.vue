@@ -6,13 +6,15 @@
          <div class="welcome">
            <h1>WELCOME TO</h1>
          </div>
-         <div class="scroll">
-           <h1 class="scroll-inner">
-             COFFEE DIARY <span class="span-lower">COFFEE DIARY</span> COFFEE DIARY
-           </h1>
-           <h1><span class="scroll2">COFFEE DIARY COFFEE DIARY <span class="span-italics">COFFEE DIARY</span></span></h1>
-         </div>
-         <div class="marquee" style="--tw: 50vw; --ad: 2.5s;">
+
+<!--         <div class="scroll">-->
+<!--           <h1 class="scroll-inner">-->
+<!--             <span class="span1">COFFEE DIARY </span><span class="span-lower">COFFEE DIARY</span><span class="span3"> COFFEE DIARY</span>-->
+<!--           </h1>-->
+<!--           <h1><span class="scroll2"><span class="span4"> COFFEE DIARY</span> COFFEE DIARY <span class="span-italics">COFFEE DIARY</span></span></h1>-->
+<!--         </div>-->
+
+         <div class="marquee" style="--tw: 60vw; --ad: 4.0s;">
            <span>COFFEE DIARY</span>
          </div>
          <a href="#" v-scroll-to="'#bottom'">
@@ -23,19 +25,21 @@
      <section id="bottom" class="bottom">
        <div class="bottom-container">
          <div class="nav">
-           <p>Coffee Diary</p>
+           <p class="">Coffee Diary</p>
          </div>
+
          <div>
            <h1>
              ABOUT
            </h1>
          </div>
          <p class="about-description">Do you love coffee like I do? Do you keep track of your coffee brewing methodologies? You can do that here, with Coffee Diary!</p>
-         <div class="">
+         <div class="bottom-buttons">
            <h1>
-             <router-link to="/register" class="routerLink">SIGN UP</router-link>
-             <span style="padding-left: 0.5em; padding-right: 0.5em">|</span>
-             <router-link to="/login" class="routerLink">LOG IN</router-link>
+             <router-link to="/register" class="routerLink"> SIGN UP </router-link>
+           </h1>
+           <h1>
+             <router-link to="/login" class="routerLink"> LOG IN </router-link>
            </h1>
          </div>
        </div>
@@ -58,7 +62,6 @@ export default {
 
 <style scoped>
 
-
 section {
   min-height: 100vh;
   width: 100%;
@@ -67,7 +70,7 @@ section {
   justify-content: center;
   text-align: center;
   align-content: center;
-  scroll-snap-align: center;
+  /*scroll-snap-align: center;*/
 }
 
 h1 {
@@ -99,7 +102,22 @@ h1 {
 }
 
 .bottom-container {
+  /*box-sizing: border-box;*/
+  /*line-height: normal;*/
+}
 
+.span1 {
+  font-family: 'Apple Garamond';
+}
+.span3 {
+  font-family: 'Times New Roman';
+}
+.span4 {
+  font-family: 'DIN Alternate';
+}
+
+.bottom-buttons {
+  position: relative;
 }
 
 
@@ -107,28 +125,31 @@ h1 {
 .routerLink {
   text-decoration: none;
   color: black;
+  white-space: pre;
 }
 .routerLink:hover {
   text-decoration: none;
   color: black;
   text-transform: lowercase;
+  white-space: pre;
+  width: initial;
+
 }
 
-.span-lower:hover {
-  text-transform: lowercase;
-}
+/*.span-lower:hover {*/
+/*  text-transform: lowercase;*/
+/*}*/
 .span-italics:hover {
   font-style: italic;
 }
 
 .nav {
   position: absolute;
-  /* margin-left: auto;
-  margin-right: auto; */
   top: 100vh;
-  left: 0;
-  right: 0;
-  text-align: center;
+  width: 100%;
+  /*left: 50%;*/
+  /*right: 0;*/
+  /*text-align: center;*/
 }
 
 .about-description {
@@ -171,7 +192,7 @@ h1 {
   margin: 2rem 0;
   font-size: 8vw;
   overflow: hidden;
-  width: 100%;
+  width: 100vw;
   display: flex;
 }
 
