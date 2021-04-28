@@ -1,23 +1,25 @@
 <template>
-  <div id="form">
+
     <div class="container">
       <div class="heading">
         <h1>{{ header }}</h1>
       </div>
-      <div class="form-input">
+      <div class="form-input mx-auto">
         <b-form>
-          <b-form-input id="input-email" class="input" placeholder="ENTER EMAIL" v-model="email" required></b-form-input>
+          <b-form-input id="input-email" class="input" placeholder="ENTER EMAIL" v-model="username" required></b-form-input>
         </b-form>
         <b-form>
-          <b-form-input type="password" id="input-password" class="input" placeholder="ENTER PASSWORD" required></b-form-input>
+          <b-form-input type="password" id="input-password" class="input" placeholder="ENTER PASSWORD" v-model="password" required></b-form-input>
         </b-form>
+        <p>{{username}}</p>
+        <p>{{password}}</p>
+        <a v-on:click="$router.push('/')" class="">Forgot Password</a>
         <div class="buttons">
           <b-button class="custom-button" v-on:click="submit">{{button_text}}</b-button>
           <b-button class="custom-button" v-on:click="$router.push('/')">CANCEL</b-button>
         </div>
       </div>
     </div>
-  </div>
 </template>
 
 <script>
@@ -34,7 +36,7 @@ export default {
     return {
       header: '',
       button_text: '',
-      email: '',
+      username: '',
       password: ''
     }
   },
@@ -57,9 +59,10 @@ export default {
     },
     async sendLogin() {
       const userInfo = {
-        username: this.email,
+        username: this.username,
         password: this.password
       }
+      console.log(userInfo)
       await customAxios.post('http://localhost:3000/api/user/login', userInfo).then(response => {
         if (response) {
           console.log(response.data.message)
@@ -77,10 +80,11 @@ export default {
     },
     sendRegister() {
       const userInfo = {
-        username: this.email,
+        username: this.username,
         password: this.password
       }
-      customAxios.post('http:localhost:3000/api/user/register', userInfo).then(response => {
+      console.log(userInfo)
+      customAxios.post('http://localhost:3000/api/user/register', userInfo).then(response => {
         if (response) {
           console.log(response.data.message)
           if (response.status == 201) {
@@ -111,11 +115,6 @@ export default {
 
 <style scoped>
 
-.container {
-  /*border: 1px solid black;*/
-  /*width: 50%;*/
-  text-transform: uppercase;
-}
 .heading h1{
   color: black;
   font-size: 20vw;
@@ -132,8 +131,10 @@ export default {
   /*border-bottom: 1px solid black;*/
 }
 .form-input {
-  position: relative;
-  margin-top: 25%;
+  border: 1px solid black;
+  /*position: relative;*/
+  margin-top: 40%;
+  width: 50%;
 }
 
 .buttons {
@@ -147,12 +148,16 @@ export default {
   border-left: none;
   border-right: none;
   border-radius: 0;
-  width: 100%;
-  margin-left: 1em;
+
 }
 .input:focus{
   box-shadow: none;
 }
+/*NEW*/
 
+.form-container {
+  background: #f1faee;
+  /*height: 100vh;*/
+}
 
 </style>

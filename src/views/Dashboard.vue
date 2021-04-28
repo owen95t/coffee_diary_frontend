@@ -19,6 +19,7 @@
         </b-col>
       </b-row>
     </b-container>
+    <p v-on:click="logout">Logout</p>
   </div>
 </template>
 
@@ -49,6 +50,19 @@ export default {
       }).catch(e => {
         if (e) {
           console.log(e)
+          this.message = e.response.data.message
+        }
+      })
+    },
+    logout() {
+      customAxios.get('user/logout').then(response => {
+        if (response) {
+          console.log(response.data.message)
+          this.$router.push('/')
+        }
+      }).catch(e => {
+        if (e) {
+          console.log(e);
           this.message = e.response.data.message
         }
       })
