@@ -4,7 +4,7 @@
       <b-row class="justify-content-center mt-5">
         <h1>Welcome to your Dashboard!</h1>
       </b-row>
-      <b-row class="no-gutters mt-3" style="margin-right: 0; padding-right: 0;">
+      <b-row class="mt-3 h-auto">
         <b-col cols="10">
           <b-form-input class="custom-input-search" v-model="search_term" placeholder="Search..."></b-form-input>
         </b-col>

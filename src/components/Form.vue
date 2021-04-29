@@ -11,8 +11,6 @@
         <b-form>
           <b-form-input type="password" id="input-password" class="input" placeholder="ENTER PASSWORD" v-model="password" required></b-form-input>
         </b-form>
-        <p>{{username}}</p>
-        <p>{{password}}</p>
         <a v-on:click="$router.push('/')" class="">Forgot Password</a>
         <div class="buttons">
           <b-button class="custom-button" v-on:click="submit">{{button_text}}</b-button>
@@ -68,6 +66,7 @@ export default {
           console.log(response.data.message)
           if (response.status == 200) {
             alert('Log in success! Taking you to your dashboard...')
+            this.$store.dispatch("setLoggedIn", true);
             this.$router.push('/dashboard')
           }
         }

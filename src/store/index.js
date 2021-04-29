@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
+import router from '../router/index'
 
 Vue.use(Vuex)
 
@@ -16,9 +17,11 @@ export default new Vuex.Store({
     setLoggedIn(state, payload) {
       if (payload) {
         console.log('State action setLoggedin is true')
+        router.push('dashboard')
       }
       if (!payload) {
         console.log("State action setLoggedIn is false")
+        router.push('/login')
       }
       state.commit("setLoggedIn", payload);
     }
