@@ -1,17 +1,22 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import router from '../router/index'
+import customAxios from "@/customAxios/customAxios";
 
 Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
-    isLoggedIn: false
+    isLoggedIn: false,
+    results: []
   },
   mutations: { //synchronous
     setLoggedIn(state, payload) {
       state.isLoggedIn = payload
     },
+    setData(state, payload) {
+      state.results = payload
+    }
   },
   actions: { //asynchronous
     setLoggedIn(state, payload) {
@@ -24,6 +29,17 @@ export default new Vuex.Store({
         router.push('/login')
       }
       state.commit("setLoggedIn", payload);
+    },
+    async getAllData(state) {
+      console.log('Store getAllData is called')
+      await customAxios.get('/coffee/all').then((response) => {
+        if (response) {
+          state.commit("setData", response.data)
+        }
+      }).catch((e) => {
+        console.log('Store getAllData Error')
+        console.log(e)
+      })
     }
   },
   modules: {
@@ -31,6 +47,9 @@ export default new Vuex.Store({
   getters: {
     getLoggedIn(state) {
       return state.isLoggedIn
+    },
+    getAllData(state) {
+      return state.results
     }
   }
 })

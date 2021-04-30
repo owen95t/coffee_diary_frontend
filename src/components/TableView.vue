@@ -8,7 +8,7 @@
           hover
           bordered
           responsive="sm"
-          :items="list_results"
+          :items="this.$store.getters.getAllData"
           :per-page="perPage"
           :fields="fields"
           @row-clicked="info"
@@ -49,21 +49,29 @@ export default {
     info() {
 
     },
-    async getAll() {
-      await customAxios.get('coffee/all').then(response => {
-        if (response) {
-          console.log(response)
-          this.list_results = response.data
-        }
-      }).catch(e => {
-        if (e) {
-          console.log('getAll error: ' + e)
-        }
-      })
+    // async getAll() {
+    //   await customAxios.get('coffee/all').then(response => {
+    //     if (response) {
+    //       console.log(response)
+    //       this.list_results = response.data
+    //     }
+    //   }).catch(e => {
+    //     if (e) {
+    //       console.log('getAll error: ' + e)
+    //     }
+    //   })
+    // },
+    getData() {
+      try{
+        this.$store.dispatch("getAllData")
+      }catch (e) {
+        console.log("tableview store dispatch error: "+ e)
+      }
     }
   },
   mounted() {
-    this.getAll()
+    // this.getAll()
+    this.getData()
   }
 }
 </script>
