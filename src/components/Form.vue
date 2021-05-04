@@ -9,7 +9,7 @@
           <b-form-input id="input-email" class="input" placeholder="ENTER EMAIL" v-model="username" required></b-form-input>
         </b-form>
         <b-form>
-          <b-form-input type="password" id="input-password" class="input" placeholder="ENTER PASSWORD" v-model="password" required></b-form-input>
+          <b-form-input type="password" id="input-password" class="input" placeholder="ENTER PASSWORD" v-model="password" v-on:keyup.enter="submit" required></b-form-input>
         </b-form>
         <a v-on:click="$router.push('/')" class="">Forgot Password</a>
         <div class="buttons">
