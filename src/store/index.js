@@ -34,7 +34,14 @@ export default new Vuex.Store({
       console.log('Store getAllData is called')
       await customAxios.get('/coffee/all').then((response) => {
         if (response) {
-          state.commit("setData", response.data)
+          let formattedResults = response.data
+          for(let i = 0; i < formattedResults.length; i++){
+            console.log(formattedResults[i].date)
+            let day = new Date(formattedResults[i].date)
+            formattedResults[i].date = day.toLocaleString('th-TH')
+          }
+
+          state.commit("setData", formattedResults)
         }
       }).catch((e) => {
         console.log('Store getAllData Error')

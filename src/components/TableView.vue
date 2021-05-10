@@ -12,7 +12,8 @@
           :per-page="perPage"
           :fields="fields"
           @row-clicked="info"
-          :key="modalKey">
+          :key="modalKey"
+          class="table-view">
       </b-table>
     </b-container>
   </div>
@@ -27,6 +28,7 @@ export default {
   data() {
     return {
       list_results: [],
+      formatted_results: [],
       perPage: '',
       fields: [{
         key: 'date',
@@ -72,10 +74,23 @@ export default {
   mounted() {
     // this.getAll()
     this.getData()
+  },
+  watch: {
+    formatDate() {
+      for(let i = 0; i < this.list_results.length; i++){
+        let day = Date.parse(this.list_results[i].date);
+        this.list_results[i].date = day.toLocaleString('en-US', {dateStyle: "short"})
+      }
+    }
   }
 }
 </script>
 
 <style scoped>
+
+.table-view {
+  overflow: auto;
+  font-size: 1rem;
+}
 
 </style>
