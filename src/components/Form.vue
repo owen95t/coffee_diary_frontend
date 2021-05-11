@@ -73,7 +73,7 @@ export default {
       }).catch(e => {
         if (e) {
           console.log('LOG IN ERROR: ')
-          console.log(e.response.data.message)
+          console.log(e)
         }
       })
     },

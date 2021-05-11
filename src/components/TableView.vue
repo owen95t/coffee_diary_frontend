@@ -8,6 +8,7 @@
           hover
           bordered
           responsive="sm"
+          sticky-header="30rem"
           :items="this.$store.getters.getAllData"
           :per-page="perPage"
           :fields="fields"
@@ -79,6 +80,7 @@ export default {
 .table-view {
   overflow: auto;
   font-size: 1rem;
+  height: inherit;
 }
 
 </style>

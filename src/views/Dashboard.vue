@@ -14,13 +14,13 @@
         </b-col>
       </b-row>
       <b-row class="mt-3 border border-dark no-gutters mb-3" no-gutters style="height: 30rem">
-        <b-col>
+        <b-col class="main-column">
 <!--          main content-->
           <TableView/>
         </b-col>
       </b-row>
     </b-container>
-    <p v-on:click="logout">Logout</p>
+    <b-link v-on:click="logout" class="logout-button">LOG OUT</b-link>
   </div>
 </template>
 
@@ -83,5 +83,18 @@ export default {
 .sidebar {
   max-width: 25%;
   height: 100%;
+}
+
+.logout-button {
+  color: black;
+  text-decoration: none;
+}
+.logout-button:hover{
+  text-decoration: none;
+  text-transform: lowercase;
+}
+
+.main-column{
+
 }
 </style>

@@ -153,6 +153,7 @@
         <b-button
             variant="success"
             v-show="page == 2"
+            v-on:click="submit"
         >
           Submit
         </b-button>
@@ -183,6 +184,20 @@ export default {
     }
   },
   methods: {
+    async submit() {
+      this.$store.commit('setPost', this.entryInfo)
+      await this.$store.dispatch('postEntry').then(response => {
+        if (response) {
+          if (response.status == 201) {
+            this.$bvModal.hide('input-modal')
+          }
+        }
+      }).catch(e => {
+        if (e) {
+          console.log('Error: caught at inputform: ' + e)
+        }
+      })
+    }
   }
 }
 </script>
@@ -204,6 +219,9 @@ export default {
 }
 .entry-modal{
   height: 50%;
+}
+#modal-body{
+  height: 75%
 }
 
 </style>

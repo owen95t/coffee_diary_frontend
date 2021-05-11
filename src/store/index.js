@@ -8,7 +8,8 @@ Vue.use(Vuex)
 export default new Vuex.Store({
   state: {
     isLoggedIn: false,
-    results: []
+    results: [],
+    post: {},
   },
   mutations: { //synchronous
     setLoggedIn(state, payload) {
@@ -16,6 +17,9 @@ export default new Vuex.Store({
     },
     setData(state, payload) {
       state.results = payload
+    },
+    setPost(state, payload){
+      state.post = payload
     }
   },
   actions: { //asynchronous
@@ -36,17 +40,29 @@ export default new Vuex.Store({
         if (response) {
           let formattedResults = response.data
           for(let i = 0; i < formattedResults.length; i++){
-            console.log(formattedResults[i].date)
             let day = new Date(formattedResults[i].date)
             formattedResults[i].date = day.toLocaleString('en-CA', {dateStyle: 'medium'})
           }
-
           state.commit("setData", formattedResults)
         }
       }).catch((e) => {
         console.log('Store getAllData Error')
         console.log(e)
       })
+    },
+    async postEntry({getters, dispatch}) {
+      const post = getters['getPost']
+      let response;
+      try{
+        response = await customAxios.post('coffee/new', post)
+        if (response) {
+          alert('New Entry Success')
+          dispatch('getAllData')
+          return response
+        }
+      }catch (e) {
+        console.log(e)
+      }
     }
   },
   modules: {
@@ -57,6 +73,9 @@ export default new Vuex.Store({
     },
     getAllData(state) {
       return state.results
+    },
+    getPost(state){
+      return state.post
     }
   }
 })
