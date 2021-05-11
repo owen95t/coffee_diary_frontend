@@ -38,7 +38,7 @@ export default new Vuex.Store({
           for(let i = 0; i < formattedResults.length; i++){
             console.log(formattedResults[i].date)
             let day = new Date(formattedResults[i].date)
-            formattedResults[i].date = day.toLocaleString('th-TH')
+            formattedResults[i].date = day.toLocaleString('en-CA', {dateStyle: 'medium'})
           }
 
           state.commit("setData", formattedResults)

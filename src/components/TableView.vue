@@ -51,18 +51,6 @@ export default {
     info() {
 
     },
-    // async getAll() {
-    //   await customAxios.get('coffee/all').then(response => {
-    //     if (response) {
-    //       console.log(response)
-    //       this.list_results = response.data
-    //     }
-    //   }).catch(e => {
-    //     if (e) {
-    //       console.log('getAll error: ' + e)
-    //     }
-    //   })
-    // },
     getData() {
       try{
         this.$store.dispatch("getAllData")

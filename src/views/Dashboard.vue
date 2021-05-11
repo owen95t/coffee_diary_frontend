@@ -9,7 +9,8 @@
           <b-form-input class="custom-input-search" v-model="search_term" placeholder="Search..."></b-form-input>
         </b-col>
         <b-col>
-          <div class="float-right"><NewEntry/></div>
+<!--          <div class="float-right"><NewEntry/></div>-->
+          <div class="float-right"><InputForm/></div>
         </b-col>
       </b-row>
       <b-row class="mt-3 border border-dark no-gutters mb-3" no-gutters style="height: 30rem">
@@ -25,15 +26,16 @@
 
 <script>
 import customAxios from "@/customAxios/customAxios";
-import NewEntry from "@/components/NewEntry";
+//import NewEntry from "@/components/NewEntry";
 import TableView from "@/components/TableView";
+import InputForm from "@/components/InputForm";
 
 customAxios.defaults.xsrfHeaderName = 'X-CSRFToken';
 customAxios.defaults.xsrfCookieName = 'csrftoken';
 
 export default {
   name: "Dashboard",
-  components: {TableView, NewEntry},
+  components: {InputForm, TableView},
   data() {
     return {
       message: '',
