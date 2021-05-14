@@ -60,43 +60,34 @@ export default {
         username: this.username,
         password: this.password
       }
-      console.log(userInfo)
-      await customAxios.post('http://localhost:3000/api/user/login', userInfo).then(response => {
-        if (response) {
-          console.log(response.data.message)
-          if (response.status == 200) {
-            alert('Log in success! Taking you to your dashboard...')
-            this.$store.dispatch("setLoggedIn", true);
-            this.$router.push('/dashboard')
-          }
+      try {
+        let response = await customAxios.post('http://localhost:3000/api/user/login', userInfo)
+        if(response.status == 200){
+          alert('Log in success! Taking you to your dashboard...')
+          await this.$store.dispatch("setLoggedIn", true);
+          await this.$router.push('/dashboard')
         }
-      }).catch(e => {
-        if (e) {
-          console.log('LOG IN ERROR: ')
-          console.log(e)
-        }
-      })
+      }catch (e) {
+        console.log('Log in error: ' + e)
+        alert('Log in error: ' + e.response.data.message)
+      }
     },
-    sendRegister() {
+    async sendRegister() {
       const userInfo = {
         username: this.username,
         password: this.password
       }
-      console.log(userInfo)
-      customAxios.post('http://localhost:3000/api/user/register', userInfo).then(response => {
-        if (response) {
-          console.log(response.data.message)
-          if (response.status == 201) {
-            alert('User created successfully! Taking you to your dashboard...')
-            this.$router.push('/dashboard')
-          }
+      //console.log(userInfo)
+      try{
+        let response = await customAxios.post('http://localhost:3000/api/user/register', userInfo)
+        if (response.status == 201) {
+          alert('User created successfully! Taking you to your dashboard...')
+          await this.$router.push('/dashboard')
         }
-      }).catch(e => {
-        if (e) {
-          console.log('REGISTER ERROR: ')
-          console.log(e.response.data.message)
-        }
-      })
+      }catch (e) {
+        console.log('Registration Error: ' + e.response.data.message)
+        alert('Registration Error: ' + e.response.data.message)
+      }
     },
     destroy() {
       this.header = ''

@@ -109,21 +109,23 @@
                 label="Remarks: "
                 label-for="input-remarks"
             >
-              <b-form-input
+              <b-form-textarea
                   id="input-remarks"
                   v-model="entryInfo.remarks"
+                  rows="3"
               >
-              </b-form-input>
+              </b-form-textarea>
             </b-form-group>
             <b-form-group
                 label="Roaster Remarks: "
                 label-for="input-roasterremarks"
             >
-              <b-form-input
+              <b-form-textarea
                   id="input-roasterremarks"
                   v-model="entryInfo.roaster_remarks"
+                  rows="3"
               >
-              </b-form-input>
+              </b-form-textarea>
             </b-form-group>
           </div>
         </template>
@@ -186,17 +188,15 @@ export default {
   methods: {
     async submit() {
       this.$store.commit('setPost', this.entryInfo)
-      await this.$store.dispatch('postEntry').then(response => {
-        if (response) {
-          if (response.status == 201) {
-            this.$bvModal.hide('input-modal')
-          }
+      try{
+        let response = await this.$store.dispatch('postEntry')
+        if(response.status == 201){
+          this.$bvModal.hide('input-modal')
         }
-      }).catch(e => {
-        if (e) {
-          console.log('Error: caught at inputform: ' + e)
-        }
-      })
+      }catch (e) {
+        console.log('Error caught at submit: ' + e)
+        alert('Error Submitting + e')
+      }
     }
   }
 }

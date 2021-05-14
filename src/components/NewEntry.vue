@@ -57,8 +57,8 @@ export default {
     },
     resetModal() {
       this.$bvModal.hide('new-entry-modal')
-      for (let item in this.entryInfo) {
-        this.entryInfo[item] = '';
+      for (let item of this.entryInfo) {
+        item = ''
         console.log(item)
       }
     }
