@@ -198,7 +198,7 @@ export default {
         alert('Error Submitting + e')
       }
     }
-  }
+  },
 }
 </script>
 

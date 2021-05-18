@@ -17,6 +17,79 @@
           class="table-view">
       </b-table>
     </b-container>
+
+    <!--    MODAL     -->
+    <b-modal
+        id="content"
+        @hide="modalClose"
+        size="lg"
+        >
+      <template>
+<!--        <pre>{{this.selectedItem}}</pre>-->
+        <b-row id="row1">
+          <b-col id="r1c1">
+            <b-form-group
+                disabled="disabled == 1"
+            >
+              <label for="showBrand" class="mb-0">Brand:</label>
+              <b-form-input v-model="modalInfo.content.brand" id="showBrand"></b-form-input>
+              <label for="showBeans" class="mb-0 mt-1">Beans:</label>
+              <b-form-input v-model="modalInfo.content.beans" id="showBeans"></b-form-input>
+              <label for="showRoast" class="mb-0 mt-1">Roast:</label>
+              <b-form-input v-model="modalInfo.content.roast" id="showRoast"></b-form-input>
+            </b-form-group>
+          </b-col>
+          <b-col id="r1c2" class="w-100">
+            <b-form-group
+                disabled="disabled == 1"
+            >
+              <label for="showWeight" class="mb-0">Weight:</label>
+              <b-form-input v-model="modalInfo.content.weight" id="showWeight"></b-form-input>
+              <label for="showGrind" class="mb-0 mt-1">Grind Size:</label>
+              <b-form-input v-model="modalInfo.content.grind_size" id="showGrind"></b-form-input>
+              <label for="showYield" class="mb-0 mt-1">Yield (gm):</label>
+              <b-form-input v-model="modalInfo.content.yield" id="showYield"></b-form-input>
+              <label for="showTime" class="mb-0 mt-1">Time (sec):</label>
+              <b-form-input v-model="modalInfo.content.time" id="showTime"></b-form-input>
+              <label for="showEquip" class="mb-0 mt-1">Equipment:</label>
+              <b-form-input v-model="modalInfo.content.equipment" id="showEquip"></b-form-input>
+            </b-form-group>
+          </b-col>
+        </b-row>
+        <b-row id="row2">
+          <b-form-group
+            disabled="disabled == 1"
+            class="w-100 m-3"
+          >
+            <label for="showRemarks" class="mb-0 mt-1">Remarks:</label>
+            <b-form-textarea
+                v-model="modalInfo.content.remarks"
+              rows="3"
+            id="showRemarks">
+            </b-form-textarea>
+          </b-form-group>
+        </b-row>
+        <b-row id="row3">
+          <b-form-group
+            disabled="disabled == 1"
+            class="w-100 m-3"
+          >
+            <label for="showRR" class="mb-0 mt-1">Roaster Remarks:</label>
+            <b-form-textarea
+                v-model="modalInfo.content.roaster_remarks"
+              rows="3"
+              class="w-100"
+                id="showRR"
+              >
+            </b-form-textarea>
+          </b-form-group>
+        </b-row>
+      </template>
+      <template #modal-footer>
+        <b-button>Edit</b-button>
+        <b-button v-on:click="$bvModal.hide('content')" variant="primary">OK</b-button>
+      </template>
+    </b-modal>
   </div>
 </template>
 
@@ -31,6 +104,10 @@ export default {
       list_results: [],
       formatted_results: [],
       perPage: '',
+      modalInfo: {
+        title: '',
+        content: ''
+      },
       fields: [{
         key: 'date',
         label: 'Date'
@@ -45,12 +122,36 @@ export default {
         label: 'Roast'
       }],
       modalKey: '',
-      selectedItem: '',
+      selectedItem: {
+        brand: '',
+        beans: '',
+        roast: '',
+        weight: '',
+        grind_size: '',
+        yield: '',
+        time: '',
+        equipment: '',
+        remarks: '',
+        roaster_remarks: '',
+      },
+      disabled: 1,
+
     }
   },
   methods: {
-    info() {
+    info(item) {
+      this.modalInfo.content = item
+      // console.log(this.modalInfo.content.length)
+      // for(let i of this.modalInfo.content){
+      //   if(this.selectedItem[item]){
+      //     this.selectedItem[item] = i
+      //   }
+      // }
+      // Object.entries(this.modalInfo.content).forEach(item => {
+      //   console.log(item)
+      // })
 
+      this.$bvModal.show('content')
     },
     getData() {
       try{
@@ -58,6 +159,10 @@ export default {
       }catch (e) {
         console.log("tableview store dispatch error: "+ e)
       }
+    },
+    modalClose(){
+      this.disabled = 1
+      this.modalInfo.content = ''
     }
   },
   mounted() {

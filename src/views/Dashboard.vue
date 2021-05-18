@@ -59,8 +59,11 @@ export default {
     logout() {
       customAxios.get('user/logout').then(response => {
         if (response) {
+          console.log('logout response is...')
           console.log(response.data.message)
           this.$router.push('/')
+        }else{
+          console.log('no logout response')
         }
       }).catch(e => {
         if (e) {
