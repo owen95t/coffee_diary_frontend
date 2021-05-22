@@ -24,12 +24,13 @@
         @hide="modalClose"
         size="lg"
         >
+      <template #modal-header>{{modalInfo.title.toUpperCase()}}</template>
       <template>
-<!--        <pre>{{this.selectedItem}}</pre>-->
         <b-row id="row1">
           <b-col id="r1c1">
             <b-form-group
-                disabled="disabled == 1"
+
+                :disabled="disabled"
             >
               <label for="showBrand" class="mb-0">Brand:</label>
               <b-form-input v-model="modalInfo.content.brand" id="showBrand"></b-form-input>
@@ -41,7 +42,7 @@
           </b-col>
           <b-col id="r1c2" class="w-100">
             <b-form-group
-                disabled="disabled == 1"
+                :disabled="disabled"
             >
               <label for="showWeight" class="mb-0">Weight:</label>
               <b-form-input v-model="modalInfo.content.weight" id="showWeight"></b-form-input>
@@ -58,7 +59,7 @@
         </b-row>
         <b-row id="row2">
           <b-form-group
-            disabled="disabled == 1"
+              :disabled="disabled"
             class="w-100 m-3"
           >
             <label for="showRemarks" class="mb-0 mt-1">Remarks:</label>
@@ -71,7 +72,7 @@
         </b-row>
         <b-row id="row3">
           <b-form-group
-            disabled="disabled == 1"
+              :disabled="disabled"
             class="w-100 m-3"
           >
             <label for="showRR" class="mb-0 mt-1">Roaster Remarks:</label>
@@ -86,8 +87,10 @@
         </b-row>
       </template>
       <template #modal-footer>
-        <b-button>Edit</b-button>
-        <b-button v-on:click="$bvModal.hide('content')" variant="primary">OK</b-button>
+        <b-button v-on:click="$bvModal.hide('content')" v-show="disabled == false">Cancel</b-button>
+        <b-button v-show="disabled==true" v-on:click="toggleDisabled">Edit</b-button>
+        <b-button v-on:click="$bvModal.hide('content')" variant="primary" v-show="disabled==true">OK</b-button>
+        <b-button v-show="disabled == false">Save</b-button>
       </template>
     </b-modal>
   </div>
@@ -134,13 +137,14 @@ export default {
         remarks: '',
         roaster_remarks: '',
       },
-      disabled: 1,
+      disabled: true,
 
     }
   },
   methods: {
     info(item) {
       this.modalInfo.content = item
+      this.modalInfo.title = item.brand + " " + item.beans
       // console.log(this.modalInfo.content.length)
       // for(let i of this.modalInfo.content){
       //   if(this.selectedItem[item]){
@@ -163,6 +167,11 @@ export default {
     modalClose(){
       this.disabled = 1
       this.modalInfo.content = ''
+    },
+    toggleDisabled() {
+      console.log(this.disabled)
+      this.disabled = false
+      console.log(this.disabled)
     }
   },
   mounted() {
