@@ -10,6 +10,11 @@ export default new Vuex.Store({
     isLoggedIn: false,
     results: [],
     post: {},
+    csrfToken: '',
+    user: {
+      email: '',
+      password: ''
+    }
   },
   mutations: { //synchronous
     setLoggedIn(state, payload) {
@@ -20,6 +25,12 @@ export default new Vuex.Store({
     },
     setPost(state, payload){
       state.post = payload
+    },
+    setCSRFToken(state, payload){
+      state.csrfToken = payload
+    },
+    setUser(state, payload){
+      state.user = payload
     }
   },
   actions: { //asynchronous
@@ -34,8 +45,9 @@ export default new Vuex.Store({
       }
       state.commit("setLoggedIn", payload);
     },
-    async getAllData(state) {
+    async getAllData({getters, commit}) {
       console.log('Store getAllData is called')
+      const cToken = getters['getToken']
       await customAxios.get('/coffee/all').then((response) => {
         if (response) {
           let formattedResults = response.data
@@ -43,7 +55,7 @@ export default new Vuex.Store({
             let day = new Date(formattedResults[i].date)
             formattedResults[i].date = day.toLocaleString('en-CA', {dateStyle: 'medium'})
           }
-          state.commit("setData", formattedResults)
+          commit("setData", formattedResults)
         }
       }).catch((e) => {
         console.log('Store getAllData Error')
@@ -63,6 +75,20 @@ export default new Vuex.Store({
       }catch (e) {
         console.log(e)
       }
+    },
+    async userLogin({getters, dispatch}){
+      let user = getters['getUser']
+      let response;
+      try{
+        response = await customAxios.post('user/login', user)
+        if (response.status == 200) {
+          alert('Log in success! Taking you to your dashboard...')
+          await dispatch("setLoggedIn", true)
+          await router.push('/dashboard')
+        }
+      }catch (e) {
+        console.log('Login error: ' + e)
+      }
     }
   },
   modules: {
@@ -76,6 +102,12 @@ export default new Vuex.Store({
     },
     getPost(state){
       return state.post
+    },
+    getToken(state){
+      return state.csrfToken
+    },
+    getUser(state){
+      return state.user
     }
   }
 })

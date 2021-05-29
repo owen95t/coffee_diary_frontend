@@ -4,13 +4,13 @@
       <b-row class="justify-content-center mt-5">
         <h1>Welcome to your Dashboard!</h1>
       </b-row>
-      <b-row class="mt-3 h-auto">
-        <b-col cols="10">
-          <b-form-input class="custom-input-search" v-model="search_term" placeholder="Search..."></b-form-input>
-        </b-col>
+      <b-row class="">
         <b-col>
-<!--          <div class="float-right"><NewEntry/></div>-->
-          <div class="float-right"><InputForm/></div>
+          <b-input-group class="mt-4">
+            <b-form-input class="custom-input-search" v-model="search_term" placeholder="Search..."></b-form-input>
+            <b-input-group-append class=""><b-button class="custom-button" v-on:click="openModal">NEW ENTRY</b-button></b-input-group-append>
+          </b-input-group>
+
         </b-col>
       </b-row>
       <b-row class="mt-3 border border-dark no-gutters mb-3" no-gutters style="height: 30rem">
@@ -21,6 +21,8 @@
       </b-row>
     </b-container>
     <b-link v-on:click="logout" class="logout-button">LOG OUT</b-link>
+    <!--  MODAL NEW ENTRY-->
+    <InputForm ref="modalComp"/>
   </div>
 </template>
 
@@ -29,9 +31,10 @@ import customAxios from "@/customAxios/customAxios";
 //import NewEntry from "@/components/NewEntry";
 import TableView from "@/components/TableView";
 import InputForm from "@/components/InputForm";
+import InputButton from "@/components/InputButton";
 
-customAxios.defaults.xsrfHeaderName = 'X-CSRFToken';
-customAxios.defaults.xsrfCookieName = 'csrftoken';
+// customAxios.defaults.xsrfHeaderName = 'X-CSRFToken';
+// customAxios.defaults.xsrfCookieName = 'csrftoken';
 
 export default {
   name: "Dashboard",
@@ -71,12 +74,28 @@ export default {
           this.message = e.response.data.message
         }
       })
+    },
+    openModal(){
+      this.$refs.modalComp.show()
     }
   }
 }
 </script>
 
 <style scoped>
+.custom-button {
+  background: none;
+  border: 1px solid black;
+  border-radius: 0;
+  color: black;
+  /*box-shadow: 5px 5px black;*/
+}
+.custom-button:hover {
+  background: none;
+  border: 1px solid black;
+  color: black;
+  font-style: italic;
+}
 .custom-input-search {
   border: 1px solid black;
   border-radius: 0;
@@ -99,5 +118,14 @@ export default {
 
 .main-column{
 
+}
+
+.input-form{
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font-size: 100%;
+  font: inherit;
+  vertical-align: baseline;
 }
 </style>

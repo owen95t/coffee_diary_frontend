@@ -1,8 +1,5 @@
 <template>
-  <div class="modal-template">
-    <b-button class="custom-button m-0" v-on:click="$bvModal.show('input-modal')">
-      NEW ENTRY
-    </b-button>
+  <div class="m-0 p-0">
     <b-modal id="input-modal" size="lg" class="entry-modal">
       <template id="modal-body">
 
@@ -197,6 +194,9 @@ export default {
         console.log('Error caught at submit: ' + e)
         alert('Error Submitting + e')
       }
+    },
+    show(){
+      this.$bvModal.show('input-modal')
     }
   },
 }

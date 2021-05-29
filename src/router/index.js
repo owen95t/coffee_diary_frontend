@@ -43,6 +43,11 @@ const routes = [
             title: 'Dashboard2'
         }
     },
+    {
+        path: '/login2',
+        name: 'Login2',
+        component: () => import('../components/AccountForm')
+    }
 ]
 
 const router = new VueRouter({routes})

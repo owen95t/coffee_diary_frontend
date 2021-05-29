@@ -18,8 +18,4 @@ name: "FormTest",
 
 <style scoped>
 
-.form {
-  padding-top: 3em;
-}
-
 </style>

@@ -41,6 +41,9 @@
            <h1>
              <router-link to="/login" class="routerLink"> LOG IN </router-link>
            </h1>
+           <p>
+             <router-link to="/dashboard2" class="routerLink">Test Dashboard</router-link>
+           </p>
          </div>
        </div>
      </section>
