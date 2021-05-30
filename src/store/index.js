@@ -47,8 +47,8 @@ export default new Vuex.Store({
     },
     async getAllData({getters, commit}) {
       console.log('Store getAllData is called')
-      const cToken = getters['getToken']
-      await customAxios.get('/coffee/all').then((response) => {
+      const cToken = localStorage.getItem('csrftoken')
+      await customAxios.get('/coffee/all', {headers: {'CSRFToken' : cToken}}).then((response) => {
         if (response) {
           let formattedResults = response.data
           for(let i = 0; i < formattedResults.length; i++){

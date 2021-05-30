@@ -1,7 +1,7 @@
 <template>
   <div class="m-0 p-0">
-    <b-modal id="input-modal" size="lg" class="entry-modal">
-      <template id="modal-body">
+    <b-modal id="input-modal" size="lg" class="modal-dialog" @hide="hide" title="New Entry">
+      <template id="modal-content">
 
         <template v-if="this.page == 0" id="page1">
           <div>
@@ -197,6 +197,9 @@ export default {
     },
     show(){
       this.$bvModal.show('input-modal')
+    },
+    hide() {
+      this.page = 0;
     }
   },
 }
@@ -217,11 +220,12 @@ export default {
   color: black;
   font-style: italic;
 }
-.entry-modal{
-  height: 50%;
+.modal-dialog{
+  height: 75%;
+  min-height: 75%;
 }
-#modal-body{
-  height: 75%
+#modal-content{
+  height: 100%;
 }
 
 </style>

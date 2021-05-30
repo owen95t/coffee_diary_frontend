@@ -64,7 +64,9 @@ export default {
         let response = await customAxios.post('http://localhost:3000/api/user/login', userInfo)
         if(response.status == 200){
           alert('Log in success! Taking you to your dashboard...')
-          console.log(response.headers['csrftoken'])
+          console.log('CSRFToken: ' + response.headers['csrftoken'])
+          localStorage.setItem('csrftoken', response.headers['csrftoken'])
+          // this.$store.commit("setCSRFToken", token)
           await this.$store.dispatch("setLoggedIn", true);
           await this.$router.push('/dashboard')
         }

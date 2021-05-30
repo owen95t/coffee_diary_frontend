@@ -23,6 +23,8 @@
     <b-link v-on:click="logout" class="logout-button">LOG OUT</b-link>
     <!--  MODAL NEW ENTRY-->
     <InputForm ref="modalComp"/>
+<!--    <b-button v-on:click="testCSRF">Test CSRFToken</b-button>-->
+<!--    <p>{{tokenTest}}</p>-->
   </div>
 </template>
 
@@ -42,7 +44,8 @@ export default {
   data() {
     return {
       message: '',
-      search_term: ''
+      search_term: '',
+      tokenTest: ''
     }
   },
   methods: {
@@ -77,7 +80,23 @@ export default {
     },
     openModal(){
       this.$refs.modalComp.show()
-    }
+    },
+    // async testCSRF() {
+    //   let token = this.$store.getters.getToken
+    //
+    //   try{
+    //     let response = await customAxios.get('user/test', {
+    //       params: {
+    //         _csrf: token
+    //       }
+    //     })
+    //     if (response) {
+    //       this.tokenTest = response.data
+    //     }
+    //   }catch (e) {
+    //     console.log(e)
+    //   }
+    // }
   }
 }
 </script>

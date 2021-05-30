@@ -12,6 +12,8 @@
           :items="this.$store.getters.getAllData"
           :per-page="perPage"
           :fields="fields"
+          :sort-by.sync="sortBy"
+          :sort-desc.sync="sortDesc"
           @row-clicked="info"
           :key="modalKey"
           class="table-view">
@@ -113,16 +115,20 @@ export default {
       },
       fields: [{
         key: 'date',
-        label: 'Date'
+        label: 'Date',
+        sortable: true
       }, {
         key: 'brand',
-        label: 'Brand'
+        label: 'Brand',
+        sortable: true
       }, {
         key: 'beans',
-        label: 'Beans'
+        label: 'Beans',
+        sortable: true
       }, {
         key: 'roast',
-        label: 'Roast'
+        label: 'Roast',
+        sortable: true
       }],
       modalKey: '',
       selectedItem: {
@@ -138,6 +144,8 @@ export default {
         roaster_remarks: '',
       },
       disabled: true,
+      sortBy: 'date',
+      sortDesc: true,
 
     }
   },
