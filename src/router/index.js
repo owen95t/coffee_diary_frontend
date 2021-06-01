@@ -1,21 +1,43 @@
 import Vue from 'vue';
 import VueRouter from 'vue-router';
 import store from '../store/index'
+import customAxios from "@/customAxios/customAxios";
 
 Vue.use(VueRouter);
+
+const check = () => {
+    return customAxios.get('user/check')
+}
 
 const routes = [
     {
         path: '/',
         name: 'Homepage',
         component: () => import('../views/Home'),
-        meta: {title: 'Home'}
+        meta: {title: 'Home'},
     },
     {
         path: '/login',
         name: 'Login',
         component: () => import('../views/Login'),
-        meta: {title: 'Login'}
+        meta: {title: 'Login'},
+        beforeEnter: (to, from, next) => {
+            if(store.getters.getLoggedIn){
+                next('/dashboard')
+            }else{
+                check().then(response => {
+                    if (response.data.valid) {
+                        store.commit('setLoggedIn', true)
+                        localStorage.setItem('csrftoken', response.headers['csrftoken'])
+                        next('/dashboard')
+                    }
+                }).catch(e => {
+                    console.log('App.vue Guard Checker Error' + e)
+                    store.commit('setLoggedIn', false)
+                    next()
+                })
+            }
+        }
     },
     {
         path: '/dashboard',
@@ -25,15 +47,30 @@ const routes = [
             title: 'Dashboard',
             requiresAuth: true
         },
+        beforeEnter: (to, from, next) => {
+            if(store.getters.getLoggedIn){
+                next()
+            }else{
+                check().then(response => {
+                    if (response.data.valid) {
+                        store.commit('setLoggedIn', true)
+                        localStorage.setItem('csrftoken', response.headers['csrftoken'])
+                        next()
+                    }
+                }).catch(e => {
+                    console.log('App.vue Guard Checker Error' + e)
+                    store.commit('setLoggedIn', false)
+                    next('/login')
+                })
+            }
+        }
     },
     {
         path: '/register',
         name: 'Register',
         component: () => import('../views/Register'),
         meta: {title: 'Register'},
-        // beforeEnter: (to, from, next) => {
-        // //Can also do a beforeEnter specific route
-        // }
+
     },
     {
         path: '/dashboard2',
@@ -46,24 +83,11 @@ const routes = [
     {
         path: '/login2',
         name: 'Login2',
-        component: () => import('../components/AccountForm')
+        component: () => import('../views/EntryView')
     }
 ]
 
 const router = new VueRouter({routes})
 
-// router.beforeEach((to, from, next) => {
-//     const status = store.getters.getLoggedIn
-//     console.log('BEFORE EACH STAT : ' + status)
-//     //With more routes, update this to:
-//     //if(to.name !== 'Login' && !status)
-//     //as this will check for all routes, and not just dashboard
-//     // if (to.name == 'Dashboard' && !status) {
-//     //     next({name: 'Login'})
-//     // } else {
-//     //     document.title = to.meta.title;
-//     //     next()
-//     // }
-// })
 
 export default router

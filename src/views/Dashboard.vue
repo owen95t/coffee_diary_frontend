@@ -2,7 +2,7 @@
   <div id="dashboard">
     <b-container fluid="xl">
       <b-row class="justify-content-center mt-5">
-        <h1>Welcome to your Dashboard!</h1>
+        <h1>Welcome to your Coffee Diary!</h1>
       </b-row>
       <b-row class="">
         <b-col>
@@ -33,7 +33,7 @@ import customAxios from "@/customAxios/customAxios";
 //import NewEntry from "@/components/NewEntry";
 import TableView from "@/components/TableView";
 import InputForm from "@/components/InputForm";
-import InputButton from "@/components/InputButton";
+
 
 // customAxios.defaults.xsrfHeaderName = 'X-CSRFToken';
 // customAxios.defaults.xsrfCookieName = 'csrftoken';
@@ -62,14 +62,13 @@ export default {
         }
       })
     },
-    logout() {
-      customAxios.get('user/logout').then(response => {
+    async logout() {
+      await customAxios.get('user/logout').then(response => {
         if (response) {
           console.log('logout response is...')
           console.log(response.data.message)
+          this.$store.dispatch('setLoggedIn', false)
           this.$router.push('/')
-        }else{
-          console.log('no logout response')
         }
       }).catch(e => {
         if (e) {

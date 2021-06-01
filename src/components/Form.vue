@@ -4,19 +4,19 @@
       <div class="heading">
         <h1>{{ header }}</h1>
       </div>
-      <div class="form-input mx-auto">
-        <b-form>
+      <b-form class="form-input mx-auto" @submit="submit">
+        <b-form-group class="mb-0">
           <b-form-input id="input-email" class="input" placeholder="ENTER EMAIL" v-model="username" required></b-form-input>
-        </b-form>
-        <b-form>
-          <b-form-input type="password" id="input-password" class="input" placeholder="ENTER PASSWORD" v-model="password" v-on:keyup.enter="submit" required></b-form-input>
-        </b-form>
-        <a v-on:click="$router.push('/')" class="">Forgot Password</a>
+        </b-form-group>
+        <b-form-group class="mt-0">
+          <b-form-input type="password" id="input-password" class="input" placeholder="ENTER PASSWORD" v-model="password" required></b-form-input>
+        </b-form-group>
+        <a v-on:click="$router.push('/')" style="font-size: 3vw">Forgot Password</a>
         <div class="buttons">
-          <b-button class="custom-button" v-on:click="submit">{{button_text}}</b-button>
-          <b-button class="custom-button" v-on:click="$router.push('/')">CANCEL</b-button>
+          <b-button class="custom-button mr-1" v-on:click="submit">{{button_text}}</b-button>
+          <b-button class="custom-button ml-1" v-on:click="$router.push('/')">CANCEL</b-button>
         </div>
-      </div>
+      </b-form>
     </div>
 </template>
 

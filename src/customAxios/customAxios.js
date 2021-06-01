@@ -20,9 +20,10 @@ customAxios.interceptors.response.use((response) => {
     return response
 }, (error) => {
     if (error.response.status == 401) {
-        alert('401 intercept')
+        //alert('401 intercept')
         console.log('Error 401 intercepted by axios')
-        store.dispatch("setLoggedIn", false)
+        //store.dispatch("setLoggedIn", false)
+        store.commit('setLoggedIn', false)
     }
     return Promise.reject(error);
 })

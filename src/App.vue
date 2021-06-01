@@ -6,6 +6,9 @@
 
 <script>
 
+import customAxios from "@/customAxios/customAxios";
+import store from "@/store";
+
 export default {
   name: 'App',
   data() {
@@ -18,10 +21,12 @@ export default {
 
   },
   methods: {
-
   },
   mounted() {
 
+  },
+  created() {
+    //
   }
 }
 </script>

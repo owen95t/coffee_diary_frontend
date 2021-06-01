@@ -18,6 +18,7 @@ export default new Vuex.Store({
   },
   mutations: { //synchronous
     setLoggedIn(state, payload) {
+      console.log('Commit set logged in: ' + payload)
       state.isLoggedIn = payload
     },
     setData(state, payload) {
@@ -65,8 +66,9 @@ export default new Vuex.Store({
     async postEntry({getters, dispatch}) {
       const post = getters['getPost']
       let response;
+      let cToken = localStorage.getItem('csrftoken')
       try{
-        response = await customAxios.post('coffee/new', post)
+        response = await customAxios.post('coffee/new', post, {headers: {'CSRFToken' : cToken}})
         if (response) {
           alert('New Entry Success')
           dispatch('getAllData')
@@ -89,7 +91,7 @@ export default new Vuex.Store({
       }catch (e) {
         console.log('Login error: ' + e)
       }
-    }
+    },
   },
   modules: {
   },

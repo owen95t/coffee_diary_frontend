@@ -21,8 +21,8 @@
   <div class="form-wrapper">
     <div class="account-form">
       <b-form>
-        <h2 class="text-center">{{title}}</h2>
-        <b-form-group>
+        <h2 class="text-center">{{header}}</h2>
+        <b-form-group class="mt-3">
           <b-form-input type="text" class="form-control" placeholder="Username" required></b-form-input>
         </b-form-group>
         <b-form-group>
