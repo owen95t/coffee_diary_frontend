@@ -45,7 +45,10 @@
              <router-link to="/dashboard2" class="routerLink">Test Dashboard</router-link>
            </p>
            <p>
-             <router-link to="/login2" class="routerLink">Test Login Simple</router-link>
+             <router-link to="/loginsimple" class="routerLink">LoginSimple</router-link>
+           </p>
+           <p>
+             <router-link to="/registersimple" class="routerLink">RegisterSimple</router-link>
            </p>
          </div>
        </div>

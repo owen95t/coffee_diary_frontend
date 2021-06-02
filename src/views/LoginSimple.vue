@@ -3,11 +3,12 @@
 </template>
 
 <script>
-import SimpleAccountForm from '@/components/SimpleAccountForm'
+import SimpleAccountForm from "@/components/SimpleAccountForm";
+
 export default {
-  name: "EntryView",
+  name: "LoginSimple",
   components: {
-    SimpleAccountForm,
+    SimpleAccountForm
   }
 }
 </script>

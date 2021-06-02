@@ -99,9 +99,20 @@ const routes = [
         }
     },
     {
-        path: '/login2',
-        name: 'Login2',
-        component: () => import('../views/EntryView')
+        path: '/loginsimple',
+        name: 'Login Simple',
+        component: () => import('../views/LoginSimple'),
+        meta: {
+            title: 'Login'
+        }
+    },
+    {
+        path: '/registersimple',
+        name: 'RegisterSimple',
+        component: () => import('../views/RegisterSimple'),
+        meta: {
+            title: 'Register'
+        }
     }
 ]
 
