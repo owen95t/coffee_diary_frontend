@@ -9,6 +9,7 @@ const check = () => {
     return customAxios.get('user/check')
 }
 
+
 const routes = [
     {
         path: '/',
@@ -51,6 +52,22 @@ const routes = [
             if(store.getters.getLoggedIn){
                 next()
             }else{
+                // let csrf = localStorage.getItem('csrftoken')
+                // if(csrf != null){
+                //     checkCSRF(csrf).then(response => {
+                //         if (response.data.valid) {
+                //             store.commit('setLoggedIn', true)
+                //             if(response.headers['csrftoken'] != null){
+                //                 localStorage.setItem('csrftoken', response.headers['csrftoken'])
+                //             }
+                //             next()
+                //         }
+                //     }).catch(e => {
+                //         console.log(e)
+                //         store.commit('setLoggedIn', false)
+                //         next('/login')
+                //     })
+                // } else {
                 check().then(response => {
                     if (response.data.valid) {
                         store.commit('setLoggedIn', true)
@@ -62,6 +79,7 @@ const routes = [
                     store.commit('setLoggedIn', false)
                     next('/login')
                 })
+                //}
             }
         }
     },

@@ -3,7 +3,7 @@
 <!--    <b-container v-if="!this.$store.getters.getLoggedIn">-->
 <!--      <p>You are not logged in. Please log in again!</p>-->
 <!--    </b-container>-->
-    <b-container class="m-0 p-0">
+    <div>
       <b-table
           hover
           bordered
@@ -14,11 +14,17 @@
           :fields="fields"
           :sort-by.sync="sortBy"
           :sort-desc.sync="sortDesc"
+          :sort-compare="mySortCompare"
           @row-clicked="info"
           :key="modalKey"
-          class="table-view">
+          fixed
+          class="table-view m-0 w-100">
       </b-table>
-    </b-container>
+<!--      Options-->
+<!--      :sort-desc.sync="sortDesc"-->
+<!--      :sort-by.sync="sortBy"-->
+
+    </div>
 
     <!--    MODAL     -->
     <b-modal
@@ -180,6 +186,16 @@ export default {
       console.log(this.disabled)
       this.disabled = false
       console.log(this.disabled)
+    },
+    mySortCompare(a, b, key) {
+      if (key === 'date') {
+        // Assuming the date field is a `Date` object, subtraction
+        // works on the date serial number (epoch value)
+        return b[key] - a[key]
+      } else {
+        // Let b-table handle sorting other fields (other than `date` field)
+        return false
+      }
     }
   },
   mounted() {
@@ -203,6 +219,7 @@ export default {
   overflow: auto;
   font-size: 1rem;
   height: inherit;
+  width: 100%;
 }
 
 </style>
