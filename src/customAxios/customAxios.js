@@ -3,7 +3,7 @@ import router from '../router/index'
 import store from '../store/index'
 
 const customAxios = new axios.create({
-    baseURL: 'http://localhost:3000/api/',
+    baseURL: 'https://secret-meadow-27419.herokuapp.com/' || 'http://localhost:3000',
     timeout: 5000,
     withCredentials: true,
 })
