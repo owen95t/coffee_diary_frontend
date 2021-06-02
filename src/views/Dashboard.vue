@@ -16,7 +16,7 @@
       <b-row class="mt-3 border border-dark no-gutters mb-3" no-gutters style="height: 30rem">
         <b-col class="main-column">
 <!--          main content-->
-          <TableView/>
+          <TableView :search="search_term"/>
         </b-col>
       </b-row>
     </b-container>

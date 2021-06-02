@@ -1,8 +1,6 @@
 <template>
   <div id="table-view">
-<!--    <b-container v-if="!this.$store.getters.getLoggedIn">-->
-<!--      <p>You are not logged in. Please log in again!</p>-->
-<!--    </b-container>-->
+<!--    <b-spinner variant="primary" v-if="loading" class="d-flex justify-content-center" style="width: 5rem; height: 5rem;" label="Loading..."></b-spinner>-->
     <div>
       <b-table
           hover
@@ -18,7 +16,9 @@
           @row-clicked="info"
           :key="modalKey"
           fixed
-          class="table-view m-0 w-100">
+          class="table-view m-0 w-100"
+          :filter="search"
+      >
       </b-table>
 <!--      Options-->
 <!--      :sort-desc.sync="sortDesc"-->
@@ -110,6 +110,9 @@ import customAxios from "@/customAxios/customAxios";
 
 export default {
   name: "TableView",
+  props: [
+      'search'
+  ],
   data() {
     return {
       list_results: [],
@@ -152,7 +155,8 @@ export default {
       disabled: true,
       sortBy: 'date',
       sortDesc: true,
-
+      loading: false,
+      searchFilter: ""
     }
   },
   methods: {
@@ -172,8 +176,10 @@ export default {
       this.$bvModal.show('content')
     },
     getData() {
+      this.loading = true
       try{
         this.$store.dispatch("getAllData")
+        this.loading = false
       }catch (e) {
         console.log("tableview store dispatch error: "+ e)
       }
