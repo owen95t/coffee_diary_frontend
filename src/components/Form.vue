@@ -61,7 +61,7 @@ export default {
         password: this.password
       }
       try {
-        let response = await customAxios.post('http://localhost:3000/api/user/login', userInfo)
+        let response = await customAxios.post('user/login', userInfo)
         if(response.status == 200){
           alert('Log in success! Taking you to your dashboard...')
           console.log('CSRFToken: ' + response.headers['csrftoken'])
