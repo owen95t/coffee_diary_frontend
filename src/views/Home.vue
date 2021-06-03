@@ -68,6 +68,18 @@ export default {
 
 <style scoped>
 
+.welcome {
+  animation: fadeIn 2s;
+}
+@keyframes fadeIn {
+  0% {
+    opacity: 0%;
+  }
+  100% {
+    opacity: 100%;
+  }
+}
+
 section {
   min-height: 100vh;
   width: 100%;
@@ -114,17 +126,7 @@ h1 {
 .top {
   background-color: #ffecd1;
 }
-.welcome {
-  animation: fadeIn 2s;
-}
-@keyframes fadeIn {
-  0% {
-    opacity: 0%;
-  }
-  100% {
-    opacity: 100%;
-  }
-}
+
 
 .bottom {
   background-color: #15616D;
