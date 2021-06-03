@@ -118,10 +118,12 @@ export default new Vuex.Store({
         }
       })
     },
-    async deleteEntry(payload){
-      const id = payload
+    async deleteEntry(store, id){
+      const _id = id
+      const cToken = localStorage.getItem('csrftoken')
+      console.log(_id)
       try{
-        let response = await customAxios.delete('coffee/deleteEntry', {data: {id: id}})
+        let response = await customAxios.delete('coffee/deleteEntry', {data: {id: _id}, headers: {'CSRFToken' : cToken}})
         if (response.status == 200) {
           alert('Delete Entry Success')
         }
