@@ -20,7 +20,7 @@ const routes = [
     {
         path: '/login',
         name: 'Login to Coffee Diary',
-        component: () => import('../views/Login'),
+        component: () => import('../views/LoginSimple'),
         meta: {title: 'Login'},
         beforeEnter: (to, from, next) => {
             if(store.getters.getLoggedIn){
@@ -86,7 +86,7 @@ const routes = [
     {
         path: '/register',
         name: 'Register for Coffee Diary',
-        component: () => import('../views/Register'),
+        component: () => import('../views/RegisterSimple'),
         meta: {title: 'Register'},
 
     },
@@ -101,7 +101,7 @@ const routes = [
     {
         path: '/loginsimple',
         name: 'Login Simple',
-        component: () => import('../views/LoginSimple'),
+        component: () => import('../views/Login'),
         meta: {
             title: 'Login'
         }
@@ -109,7 +109,7 @@ const routes = [
     {
         path: '/registersimple',
         name: 'RegisterSimple',
-        component: () => import('../views/RegisterSimple'),
+        component: () => import('../views/Register'),
         meta: {
             title: 'Register'
         }

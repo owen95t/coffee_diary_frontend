@@ -1,56 +1,50 @@
 <template>
-<!--  <div class="login-form">-->
-<!--    <form action="/examples/actions/confirmation.php" method="post">-->
-<!--      <h2 class="text-center">Log in</h2>-->
-<!--      <div class="form-group">-->
-<!--        <input type="text" class="form-control" placeholder="Username" required="required">-->
-<!--      </div>-->
-<!--      <div class="form-group">-->
-<!--        <input type="password" class="form-control" placeholder="Password" required="required">-->
-<!--      </div>-->
-<!--      <div class="form-group">-->
-<!--        <button type="submit" class="btn btn-primary btn-block">Log in</button>-->
-<!--      </div>-->
-<!--      <div class="clearfix">-->
-<!--        <label class="float-left form-check-label"><input type="checkbox"> Remember me</label>-->
-<!--        <a href="#" class="float-right">Forgot Password?</a>-->
-<!--      </div>-->
-<!--    </form>-->
-<!--    <p class="text-center"><a href="#">Create an Account</a></p>-->
-<!--  </div>-->
-  <div class="form-wrapper">
-    <div class="account-form">
-      <b-form>
-        <h2 class="text-center">{{header}}</h2>
-        <b-form-group class="mt-3">
-          <b-form-input type="text" class="form-control" placeholder="Username" required></b-form-input>
-        </b-form-group>
-        <b-form-group>
-          <b-form-input type="password" class="form-control" placeholder="Password" required></b-form-input>
-        </b-form-group>
-        <b-form-group>
-          <b-button variant="primary" class="btn-block">{{ buttonText }}</b-button>
-        </b-form-group>
-      </b-form>
-  <!--    <p class="text-center"><router-link to="/register"/>Register</p>-->
-      <router-link v-show="isLogin" class="text-center" to="/registersimple">Create an account</router-link>
-      <router-link v-show="isRegister" class="text-center" to="/loginsimple">Log In</router-link>
+  <div class="pagewrap">
+    <b-nav>
+      <b-nav-item class="back-nav" to="/"><BIconArrowLeft/> Home</b-nav-item>
+    </b-nav>
+    <div class="form-wrapper">
+      <h1 class="mt-5 mb-0" style="font-size: 5rem">Coffee Diary</h1>
+      <div class="account-form">
+        <b-form>
+          <h2 class="text-center">{{header}}</h2>
+          <b-form-group class="mt-3">
+            <b-form-input type="text" class="form-control" placeholder="Username" required></b-form-input>
+          </b-form-group>
+          <b-form-group>
+            <b-form-input type="password" class="form-control" placeholder="Password" required></b-form-input>
+          </b-form-group>
+          <b-form-group>
+            <b-button variant="primary" class="btn-block" v-on:click="submit">{{ buttonText }}</b-button>
+          </b-form-group>
+        </b-form>
+    <!--    <p class="text-center"><router-link to="/register"/>Register</p>-->
+        <router-link v-show="isLogin" class="text-center" to="/registersimple">Create an account</router-link>
+        <router-link v-show="isRegister" class="text-center" to="/loginsimple">Log In</router-link>
+      </div>
     </div>
   </div>
 </template>
 
 <script>
+import customAxios from "@/customAxios/customAxios";
+import {BIconArrowLeft} from 'bootstrap-vue'
+
 export default {
   name: "AccountForm",
   props: {
     isLogin: Boolean,
     isRegister: Boolean
   },
+  components: {
+    BIconArrowLeft
+  },
   data(){
     return{
       header: '',
       buttonText: '',
-
+      username: '',
+      password: ''
     }
   },
   methods: {
@@ -63,6 +57,49 @@ export default {
         this.buttonText = 'LOG IN'
       }
     },
+    submit() {
+      if(this.isRegister){
+        this.sendRegister()
+      }else if (this.isLogin) {
+        this.sendLogin()
+      }
+    },
+    async sendRegister(){
+      const userInfo = {
+        username: this.username,
+        password: this.password
+      }
+      try{
+        let response = await customAxios.post('user/register', userInfo)
+        if(response.status == 201){
+          //add loading
+          alert('User Created Successfully! Please Login to Access Your Dashboard')
+          await this.$router.push('/login')
+        }
+      }catch (e) {
+        console.log('Registration Error: ' + e.response.data.message)
+        alert('Registration Error. Please try again.' + '\nError: ' + e.response.data.message)
+      }
+    },
+    async sendLogin(){
+      const userInfo = {
+        username: this.username,
+        password: this.password
+      }
+      try {
+        let response = await customAxios.post('user/login', userInfo)
+        if(response.status == 200){
+          alert('Log in success! Taking you to your dashboard...')
+          console.log('CSRFToken: ' + response.headers['csrftoken'])
+          localStorage.setItem('csrftoken', response.headers['csrftoken'])
+          await this.$store.dispatch("setLoggedIn", true);
+          await this.$router.push('/dashboard')
+        }
+      }catch (e) {
+        console.log('Log in error: ' + e)
+        alert('Log in error: ' + e.response.data.message)
+      }
+    }
   },
   mounted() {
     this.check()
@@ -77,7 +114,7 @@ export default {
   justify-content: center;
   align-items: center;
   text-align: center;
-  min-height: 100vh;
+  min-height: 60vh;
 }
 .account-form {
   width: 340px;
@@ -101,4 +138,11 @@ export default {
   font-size: 15px;
   font-weight: bold;
 }
+
+.back-nav{
+  font-size: 1rem;
+  color: black;
+  text-decoration: none;
+}
+
 </style>
