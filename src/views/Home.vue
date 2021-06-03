@@ -7,13 +7,6 @@
            <h1>WELCOME TO</h1>
          </div>
 
-<!--         <div class="scroll">-->
-<!--           <h1 class="scroll-inner">-->
-<!--             <span class="span1">COFFEE DIARY </span><span class="span-lower">COFFEE DIARY</span><span class="span3"> COFFEE DIARY</span>-->
-<!--           </h1>-->
-<!--           <h1><span class="scroll2"><span class="span4"> COFFEE DIARY</span> COFFEE DIARY <span class="span-italics">COFFEE DIARY</span></span></h1>-->
-<!--         </div>-->
-
          <div class="marquee" style="--tw: 60vw; --ad: 4.0s;">
            <span>COFFEE DIARY</span>
          </div>
@@ -29,7 +22,7 @@
          </div>
 
          <div>
-           <h1>
+           <h1 style="font-size: 1.5em">
              ABOUT
            </h1>
          </div>
@@ -41,6 +34,8 @@
            <h1>
              <router-link to="/login" class="routerLink"> LOG IN </router-link>
            </h1>
+           <br/>
+           <h3>Experimental</h3>
            <p>
              <router-link to="/dashboard2" class="routerLink">Test Dashboard</router-link>
            </p>
@@ -126,6 +121,7 @@ h1 {
 }
 
 .bottom-buttons {
+  font-size: 2rem;
   position: relative;
 }
 
@@ -162,6 +158,7 @@ h1 {
 }
 
 .about-description {
+  font-size: 2.5vw;
   margin-left: 20%;
   margin-right: 20%;
   white-space: break-spaces;

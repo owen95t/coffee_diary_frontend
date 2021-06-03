@@ -15,11 +15,11 @@ const routes = [
         path: '/',
         name: 'Homepage',
         component: () => import('../views/Home'),
-        meta: {title: 'Home'},
+        meta: {title: 'Coffee Diary Homepage'},
     },
     {
         path: '/login',
-        name: 'Login',
+        name: 'Login to Coffee Diary',
         component: () => import('../views/Login'),
         meta: {title: 'Login'},
         beforeEnter: (to, from, next) => {
@@ -45,7 +45,7 @@ const routes = [
         name: 'Dashboard',
         component: () => import('../views/Dashboard'),
         meta: {
-            title: 'Dashboard',
+            title: 'Coffee Diary Dashboard',
             requiresAuth: true
         },
         beforeEnter: (to, from, next) => {
@@ -85,7 +85,7 @@ const routes = [
     },
     {
         path: '/register',
-        name: 'Register',
+        name: 'Register for Coffee Diary',
         component: () => import('../views/Register'),
         meta: {title: 'Register'},
 
@@ -118,5 +118,9 @@ const routes = [
 
 const router = new VueRouter({routes})
 
+router.beforeEach((to, from, next) => {
+    document.title = to.meta.title
+    next()
+})
 
 export default router
