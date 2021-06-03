@@ -121,7 +121,7 @@ export default new Vuex.Store({
     async deleteEntry(payload){
       const id = payload
       try{
-        let response = await customAxios.delete('coffee/deleteEntry', id)
+        let response = await customAxios.delete('coffee/deleteEntry', {data: {id: id}})
         if (response.status == 200) {
           alert('Delete Entry Success')
         }

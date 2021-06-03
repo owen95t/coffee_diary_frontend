@@ -230,6 +230,7 @@ export default {
     deleteEntry() {
       const id = this.modalInfo.content._id
       this.$store.dispatch('deleteEntry', id)
+      this.$bvModal.hide('deleteConfirm')
       this.$bvModal.hide('content')
       this.getData()
     },
