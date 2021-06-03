@@ -19,8 +19,8 @@
           </b-form-group>
         </b-form>
     <!--    <p class="text-center"><router-link to="/register"/>Register</p>-->
-        <router-link v-show="isLogin" class="text-center" to="/registersimple">Create an account</router-link>
-        <router-link v-show="isRegister" class="text-center" to="/loginsimple">Log In</router-link>
+        <router-link v-show="isLogin" class="text-center" to="/register">Create an account</router-link>
+        <router-link v-show="isRegister" class="text-center" to="/login">Log In</router-link>
       </div>
     </div>
   </div>
