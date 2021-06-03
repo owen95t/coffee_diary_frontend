@@ -131,6 +131,10 @@ export default new Vuex.Store({
         console.log('Delete Error: ' + e)
         alert('Delete Error')
       }
+    },
+    async editEntry(store, item){
+      let id = item.id
+      // UNFINISHED TODO
     }
   },
   modules: {

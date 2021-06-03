@@ -96,14 +96,15 @@
         </b-row>
       </template>
       <template #modal-footer>
-        <b-button v-on:click="deleteCheck" variant="danger">Delete</b-button>
+        <b-button v-on:click="deleteCheck" variant="danger" v-show="disabled == true">Delete</b-button>
         <b-button v-on:click="$bvModal.hide('content')" v-show="disabled == false">Cancel</b-button>
-        <b-button v-show="disabled == false" v-on:click="disabled == true">Cancel Edit</b-button>
+        <b-button v-show="disabled == false" v-on:click="toggleDisabled">Cancel Edit</b-button>
         <b-button v-show="disabled==true" v-on:click="toggleDisabled">Edit</b-button>
         <b-button v-on:click="$bvModal.hide('content')" variant="primary" v-show="disabled==true">OK</b-button>
-        <b-button v-show="disabled == false">Save</b-button>
+        <b-button v-show="disabled == false" v-on:click="editCheck">Save</b-button>
       </template>
     </b-modal>
+<!--    MODAL DELETE CONFIRM-->
     <b-modal id="deleteConfirm">
       <template #modal-title>
         Delete {{modalInfo.title.toUpperCase()}} ?
@@ -115,6 +116,20 @@
       <template #modal-footer>
         <b-button v-on:click="$bvModal.hide('deleteConfirm')" variant="secondary">Cancel</b-button>
         <b-button v-on:click="deleteEntry" variant="danger">Delete</b-button>
+      </template>
+    </b-modal>
+<!--    MODAL EDIT CONFIRM-->
+    <b-modal id="editConfirm">
+      <template #modal-title>
+        Edit {{modalInfo.title.toUpperCase()}} ?
+      </template>
+      <template>
+        <p>Are you sure you want to edit this entry? ID: </p>
+        <pre>{{modalInfo.content._id}}</pre>
+      </template>
+      <template #modal-footer>
+        <b-button v-on:click="$bvModal.hide('editConfirm')" variant="secondary">Cancel</b-button>
+        <b-button v-on:click="editEntry" variant="primary">Confirm Edit</b-button>
       </template>
     </b-modal>
   </div>
@@ -203,15 +218,14 @@ export default {
       }
     },
     modalClose(){
-      this.disabled = 1
+      this.disabled = true
       this.modalInfo.content = ''
     },
     toggleDisabled() {
-      console.log(this.disabled)
-      this.disabled = false
-      console.log(this.disabled)
+      this.disabled = !this.disabled
     },
     mySortCompare(a, b, key) {
+      // TODO: Sorting table
       if (key === 'date') {
         // Assuming the date field is a `Date` object, subtraction
         // works on the date serial number (epoch value)
@@ -234,6 +248,19 @@ export default {
       this.$bvModal.hide('content')
       this.getData()
     },
+    editCheck(){
+
+    },
+    editEntry(){
+      const item = {
+        id: this.modalInfo.content._id
+      }
+      //TODO: Look up how to use mongoose findOneAndUpdate
+      alert('Not finished')
+      // this.$store.dispatch('editEntry', item)
+      this.$bvModal.hide('editConfirm')
+      this.getData()
+    }
   },
   mounted() {
     // this.getAll()

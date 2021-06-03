@@ -189,6 +189,7 @@ export default {
         let response = await this.$store.dispatch('postEntry')
         if(response.status == 201){
           this.$bvModal.hide('input-modal')
+          this.clear()
         }
       }catch (e) {
         console.log('Error caught at submit: ' + e)
@@ -197,6 +198,20 @@ export default {
     },
     show(){
       this.$bvModal.show('input-modal')
+    },
+    clear(){
+      this.entryInfo = {
+        brand: '',
+        beans: '',
+        roast: '',
+        weight: '',
+        grind_size: '',
+        yield: '',
+        time: '',
+        equipment: '',
+        remarks: '',
+        roaster_remarks: '',
+      }
     },
     hide() {
       this.page = 0;
