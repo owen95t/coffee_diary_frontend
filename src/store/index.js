@@ -102,6 +102,21 @@ export default new Vuex.Store({
         console.log('Session not valid')
         commit('setLoggedIn', false)
       }
+    },
+    async logout({dispatch}) {
+      await customAxios.get('user/logout').then(response => {
+        if (response) {
+          console.log('logout response is...')
+          console.log(response.data.message)
+          dispatch('setLoggedIn', false)
+          router.push('/')
+        }
+      }).catch(e => {
+        if (e) {
+          console.log(e);
+          this.message = e.response.data.message
+        }
+      })
     }
   },
   modules: {

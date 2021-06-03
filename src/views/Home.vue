@@ -6,7 +6,7 @@
          <div class="welcome">
            <h1>WELCOME TO</h1>
          </div>
-         <div>
+         <div class="welcome">
            <h1>COFFEE DIARY</h1>
          </div>
 <!--         <div class="marquee" style="&#45;&#45;tw: 60vw; &#45;&#45;ad: 4.0s;">-->
@@ -113,9 +113,10 @@ h1 {
 
 .top {
   background-color: #ffecd1;
+}
+.welcome {
   animation: fadeIn 2s;
 }
-
 @keyframes fadeIn {
   0% {
     opacity: 0%;

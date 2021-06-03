@@ -1,5 +1,6 @@
 <template>
   <div class="pagewrap">
+<!--    <b-overlay :show="!isLoggedIn">-->
     <b-nav>
       <b-nav-item class="back-nav" to="/"><BIconArrowLeft/> Home</b-nav-item>
     </b-nav>
@@ -23,6 +24,7 @@
         <router-link v-show="isRegister" class="text-center" to="/login">Log In</router-link>
       </div>
     </div>
+<!--    </b-overlay>-->
   </div>
 </template>
 
@@ -43,6 +45,13 @@ export default {
   computed: {
     isLoggedIn() {
       return this.$store.state.isLoggedIn
+    }
+  },
+  watch: {
+    isLoggedIn(newStat) {
+      if (newStat === true) {
+        this.$router.push('/dashboard')
+      }
     }
   },
   data(){
@@ -105,13 +114,15 @@ export default {
         console.log('Log in error: ' + e)
         alert('Log in error: ' + e.response.data.message)
       }
-    }
+    },
   },
   mounted() {
     this.check()
     if (this.isLoggedIn) {
       router.push('/dashboard')
     }
+  },
+  created() {
   }
 }
 </script>

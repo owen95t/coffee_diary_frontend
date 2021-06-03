@@ -48,6 +48,16 @@ export default {
       tokenTest: ''
     }
   },
+  computed: {
+    isLoggedIn(){
+      return this.$store.state.isLoggedIn
+    }
+  },
+  created() {
+    if (!this.isLoggedIn) {
+      this.$router.push('/login')
+    }
+  },
   methods: {
     testRequest() {
       // customAxios.defaults.headers.get['auth-token']
