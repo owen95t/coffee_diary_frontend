@@ -6,10 +6,12 @@
          <div class="welcome">
            <h1>WELCOME TO</h1>
          </div>
-
-         <div class="marquee" style="--tw: 60vw; --ad: 4.0s;">
-           <span>COFFEE DIARY</span>
+         <div>
+           <h1>COFFEE DIARY</h1>
          </div>
+<!--         <div class="marquee" style="&#45;&#45;tw: 60vw; &#45;&#45;ad: 4.0s;">-->
+<!--           <span>COFFEE DIARY</span>-->
+<!--         </div>-->
          <a href="#" v-scroll-to="'#bottom'">
            <div class="scroll-down"></div>
          </a>
@@ -18,11 +20,11 @@
      <section id="bottom" class="bottom">
        <div class="bottom-container">
          <div class="nav">
-           <p class="">Coffee Diary</p>
+           <p class="bottom-header">Coffee Diary</p>
          </div>
 
          <div>
-           <h1 style="font-size: 1.5em">
+           <h1 class="about-header">
              ABOUT
            </h1>
          </div>
@@ -35,16 +37,16 @@
              <router-link to="/login" class="routerLink"> LOG IN </router-link>
            </h1>
            <br/>
-           <h3>Experimental</h3>
-           <p>
-             <router-link to="/dashboard2" class="routerLink">Test Dashboard</router-link>
-           </p>
-           <p>
-             <router-link to="/loginsimple" class="routerLink">LoginSimple</router-link>
-           </p>
-           <p>
-             <router-link to="/registersimple" class="routerLink">RegisterSimple</router-link>
-           </p>
+<!--           <h3>Experimental</h3>-->
+<!--           <p>-->
+<!--             <router-link to="/dashboard2" class="routerLink">Test Dashboard</router-link>-->
+<!--           </p>-->
+<!--           <p>-->
+<!--             <router-link to="/loginsimple" class="routerLink">LoginSimple</router-link>-->
+<!--           </p>-->
+<!--           <p>-->
+<!--             <router-link to="/registersimple" class="routerLink">RegisterSimple</router-link>-->
+<!--           </p>-->
          </div>
        </div>
      </section>
@@ -78,7 +80,35 @@ section {
 }
 
 h1 {
-  font-size: 1.5em;
+  font-size: 5vw;
+}
+@media screen and (min-width: 300px) and (max-width: 500px){
+  h1 {
+    font-size: 10vw;
+  }
+  .about-description{
+    font-size: 5.5vw;
+  }
+  .about-header {
+    font-size: 8vw;
+  }
+  .routerLink{
+    font-size: 8vw;
+  }
+  .bottom-header{
+    font-size: 8vw;
+  }
+}
+@media screen and (min-width: 501px){
+  .about-header{
+    font-size: 4vw;
+  }
+  .routerLink{
+    font-size: 4vw;
+  }
+  .bottom-header {
+
+  }
 }
 
 .top {
@@ -94,11 +124,6 @@ h1 {
     opacity: 100%;
   }
 }
-
-.top-container {
-
-}
-
 
 .bottom {
   background-color: #15616D;
@@ -126,7 +151,8 @@ h1 {
 }
 
 
-
+.about-header{
+}
 .routerLink {
   text-decoration: none;
   color: black;
@@ -158,7 +184,6 @@ h1 {
 }
 
 .about-description {
-  font-size: 2.5vw;
   margin-left: 20%;
   margin-right: 20%;
   white-space: break-spaces;
@@ -196,7 +221,7 @@ h1 {
 
 .marquee {
   margin: 2rem 0;
-  font-size: 8vw;
+  font-size: 3em;
   overflow: hidden;
   width: 100vw;
   display: flex;
