@@ -96,7 +96,7 @@
         </b-row>
       </template>
       <template #modal-footer>
-<!--        <b-button v-on:click="deleteCheck" variant="danger">Delete</b-button>-->
+        <b-button v-on:click="deleteCheck" variant="danger">Delete</b-button>
         <b-button v-on:click="$bvModal.hide('content')" v-show="disabled == false">Cancel</b-button>
         <b-button v-show="disabled == false" v-on:click="disabled == true">Cancel Edit</b-button>
         <b-button v-show="disabled==true" v-on:click="toggleDisabled">Edit</b-button>
@@ -104,18 +104,19 @@
         <b-button v-show="disabled == false">Save</b-button>
       </template>
     </b-modal>
-<!--    <b-modal id="deleteConfirm">-->
-<!--      <template #modal-title>-->
-<!--        Delete {{modalInfo.title.toUpperCase()}} ?-->
-<!--      </template>-->
-<!--      <template>-->
-<!--        <p>Are you sure you want to delete this entry? ID: {{this.modalInfo.item}}</p>-->
-<!--      </template>-->
-<!--      <template #modal-footer>-->
-<!--        <b-button v-on:click="$bvModal.hide('deleteConfirm')" variant="secondary">Cancel</b-button>-->
-<!--        <b-button v-on:click="deleteEntry">Delete</b-button>-->
-<!--      </template>-->
-<!--    </b-modal>-->
+    <b-modal id="deleteConfirm">
+      <template #modal-title>
+        Delete {{modalInfo.title.toUpperCase()}} ?
+      </template>
+      <template>
+        <p>Are you sure you want to delete this entry? ID: </p>
+        <pre>{{modalInfo.content._id}}</pre>
+      </template>
+      <template #modal-footer>
+        <b-button v-on:click="$bvModal.hide('deleteConfirm')" variant="secondary">Cancel</b-button>
+        <b-button v-on:click="deleteEntry" variant="danger">Delete</b-button>
+      </template>
+    </b-modal>
   </div>
 </template>
 
@@ -227,9 +228,8 @@ export default {
       this.$bvModal.show('deleteConfirm')
     },
     deleteEntry() {
-      const id = this.modalInfo.item._id
-      console.log(id)
-      //Logic
+      const id = this.modalInfo.content._id
+      this.$store.dispatch('deleteEntry', id)
       this.$bvModal.hide('content')
       this.getData()
     },

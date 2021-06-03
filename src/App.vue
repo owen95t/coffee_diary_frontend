@@ -33,7 +33,7 @@ export default {
 </script>
 
 <style>
-@import url('https://fonts.googleapis.com/css?family=Inconsolata');
+/*@import url('https://fonts.googleapis.com/css?family=Inconsolata');*/
 @import url('https://fonts.googleapis.com/css2?family=Public+Sans');
 
 /*:wght@1,600&display=swap*/

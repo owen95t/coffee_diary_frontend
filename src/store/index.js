@@ -117,6 +117,18 @@ export default new Vuex.Store({
           this.message = e.response.data.message
         }
       })
+    },
+    async deleteEntry(payload){
+      const id = payload
+      try{
+        let response = await customAxios.delete('coffee/deleteEntry', id)
+        if (response.status == 200) {
+          alert('Delete Entry Success')
+        }
+      }catch (e) {
+        console.log('Delete Error: ' + e)
+        alert('Delete Error')
+      }
     }
   },
   modules: {
