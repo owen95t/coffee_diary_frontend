@@ -199,6 +199,7 @@ h1 {
   border: 2px solid black;
   position: absolute;
   left: 50%;
+  margin-left: -15px;
   bottom: 30px;
   border-radius: 30px;
   cursor: pointer;

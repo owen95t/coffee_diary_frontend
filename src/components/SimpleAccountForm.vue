@@ -4,7 +4,7 @@
       <b-nav-item class="back-nav" to="/"><BIconArrowLeft/> Home</b-nav-item>
     </b-nav>
     <div class="form-wrapper">
-      <h1 class="mt-5 mb-0" style="font-size: 5rem">Coffee Diary</h1>
+      <h1 class="mt-5 mb-0 form-header">Coffee Diary</h1>
       <div class="account-form">
         <b-form>
           <h2 class="text-center">{{header}}</h2>
@@ -108,6 +108,16 @@ export default {
 </script>
 
 <style scoped>
+@media screen and (min-width: 300px) and (max-width: 500px){
+  .form-header {
+    font-size: 10vw;
+  }
+}
+@media screen and (min-width: 501px){
+  .form-header{
+    font-size: 5rem
+  }
+}
 .form-wrapper{
   display: flex;
   flex-direction: column;
@@ -116,6 +126,8 @@ export default {
   text-align: center;
   min-height: 60vh;
 }
+
+
 .account-form {
   width: 340px;
   margin: auto;
