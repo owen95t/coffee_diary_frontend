@@ -68,17 +68,17 @@ export default {
 
 <style scoped>
 
-.welcome {
-  animation: fadeIn 2s;
-}
-@keyframes fadeIn {
-  0% {
-    opacity: 0%;
-  }
-  100% {
-    opacity: 100%;
-  }
-}
+/*.welcome {*/
+/*  animation: fadeIn 2s;*/
+/*}*/
+/*@keyframes fadeIn {*/
+/*  0% {*/
+/*    opacity: 0%;*/
+/*  }*/
+/*  100% {*/
+/*    opacity: 100%;*/
+/*  }*/
+/*}*/
 
 section {
   min-height: 100vh;
