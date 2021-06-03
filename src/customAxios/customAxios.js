@@ -3,7 +3,7 @@ import router from '../router/index'
 import store from '../store/index'
 
 const customAxios = new axios.create({
-    baseURL: 'https://secret-meadow-27419.herokuapp.com/api',
+    baseURL: 'https://api.coffeediary.app/api',
     timeout: 5000,
     withCredentials: true,
 })
