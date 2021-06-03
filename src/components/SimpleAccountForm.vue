@@ -9,10 +9,10 @@
         <b-form>
           <h2 class="text-center">{{header}}</h2>
           <b-form-group class="mt-3">
-            <b-form-input type="text" class="form-control" placeholder="Username" required></b-form-input>
+            <b-form-input type="text" class="form-control" placeholder="Username" v-model="username" required></b-form-input>
           </b-form-group>
           <b-form-group>
-            <b-form-input type="password" class="form-control" placeholder="Password" required></b-form-input>
+            <b-form-input type="password" class="form-control" placeholder="Password" v-model="password" required></b-form-input>
           </b-form-group>
           <b-form-group>
             <b-button variant="primary" class="btn-block" v-on:click="submit">{{ buttonText }}</b-button>
