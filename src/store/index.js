@@ -16,7 +16,7 @@ export default new Vuex.Store({
       password: ''
     }
   },
-  mutations: { //synchronous
+  mutations: { //synchronous COMMIT
     setLoggedIn(state, payload) {
       console.log('Commit set logged in: ' + payload)
       state.isLoggedIn = payload
@@ -34,7 +34,7 @@ export default new Vuex.Store({
       state.user = payload
     }
   },
-  actions: { //asynchronous
+  actions: { //asynchronous DISPATCH
     setLoggedIn(state, payload) {
       if (payload) {
         console.log('State action setLoggedin is true')
@@ -92,6 +92,17 @@ export default new Vuex.Store({
         console.log('Login error: ' + e)
       }
     },
+    async checkSession({commit}){
+      try{
+        let response = await customAxios.get('/user/check')
+        if (response.data.valid) {
+          commit('setLoggedIn', true)
+        }
+      }catch (e) {
+        console.log('Session not valid')
+        commit('setLoggedIn', false)
+      }
+    }
   },
   modules: {
   },

@@ -21,12 +21,13 @@ export default {
 
   },
   methods: {
+
   },
   mounted() {
 
   },
   created() {
-    //
+    this.$store.dispatch('checkSession')
   }
 }
 </script>

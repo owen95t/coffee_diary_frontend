@@ -29,6 +29,7 @@
 <script>
 import customAxios from "@/customAxios/customAxios";
 import {BIconArrowLeft} from 'bootstrap-vue'
+import router from "@/router";
 
 export default {
   name: "AccountForm",
@@ -38,6 +39,11 @@ export default {
   },
   components: {
     BIconArrowLeft
+  },
+  computed: {
+    isLoggedIn() {
+      return this.$store.state.isLoggedIn
+    }
   },
   data(){
     return{
@@ -103,6 +109,9 @@ export default {
   },
   mounted() {
     this.check()
+    if (this.isLoggedIn) {
+      router.push('/dashboard')
+    }
   }
 }
 </script>

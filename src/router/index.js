@@ -5,9 +5,9 @@ import customAxios from "@/customAxios/customAxios";
 
 Vue.use(VueRouter);
 
-const check = () => {
-    return customAxios.get('user/check')
-}
+// const check = () => {
+//     return customAxios.get('user/check')
+// }
 
 
 const routes = [
@@ -22,23 +22,23 @@ const routes = [
         name: 'Login to Coffee Diary',
         component: () => import('../views/LoginSimple'),
         meta: {title: 'Login'},
-        beforeEnter: (to, from, next) => {
-            if(store.getters.getLoggedIn){
-                next('/dashboard')
-            }else{
-                check().then(response => {
-                    if (response.data.valid) {
-                        store.commit('setLoggedIn', true)
-                        localStorage.setItem('csrftoken', response.headers['csrftoken'])
-                        next('/dashboard')
-                    }
-                }).catch(e => {
-                    console.log('App.vue Guard Checker Error' + e)
-                    store.commit('setLoggedIn', false)
-                    next()
-                })
-            }
-        }
+        // beforeEnter: (to, from, next) => {
+        //     if(store.getters.getLoggedIn){
+        //         next('/dashboard')
+        //     }else{
+        //         check().then(response => {
+        //             if (response.data.valid) {
+        //                 store.commit('setLoggedIn', true)
+        //                 localStorage.setItem('csrftoken', response.headers['csrftoken'])
+        //                 next('/dashboard')
+        //             }
+        //         }).catch(e => {
+        //             console.log('App.vue Guard Checker Error' + e)
+        //             store.commit('setLoggedIn', false)
+        //             next()
+        //         })
+        //     }
+        // }
     },
     {
         path: '/dashboard',
@@ -48,40 +48,40 @@ const routes = [
             title: 'Coffee Diary Dashboard',
             requiresAuth: true
         },
-        beforeEnter: (to, from, next) => {
-            if(store.getters.getLoggedIn){
-                next()
-            }else{
-                // let csrf = localStorage.getItem('csrftoken')
-                // if(csrf != null){
-                //     checkCSRF(csrf).then(response => {
-                //         if (response.data.valid) {
-                //             store.commit('setLoggedIn', true)
-                //             if(response.headers['csrftoken'] != null){
-                //                 localStorage.setItem('csrftoken', response.headers['csrftoken'])
-                //             }
-                //             next()
-                //         }
-                //     }).catch(e => {
-                //         console.log(e)
-                //         store.commit('setLoggedIn', false)
-                //         next('/login')
-                //     })
-                // } else {
-                check().then(response => {
-                    if (response.data.valid) {
-                        store.commit('setLoggedIn', true)
-                        localStorage.setItem('csrftoken', response.headers['csrftoken'])
-                        next()
-                    }
-                }).catch(e => {
-                    console.log('App.vue Guard Checker Error' + e)
-                    store.commit('setLoggedIn', false)
-                    next('/login')
-                })
-                //}
-            }
-        }
+        // beforeEnter: (to, from, next) => {
+        //     if(store.getters.getLoggedIn){
+        //         next()
+        //     }else{
+        //         // let csrf = localStorage.getItem('csrftoken')
+        //         // if(csrf != null){
+        //         //     checkCSRF(csrf).then(response => {
+        //         //         if (response.data.valid) {
+        //         //             store.commit('setLoggedIn', true)
+        //         //             if(response.headers['csrftoken'] != null){
+        //         //                 localStorage.setItem('csrftoken', response.headers['csrftoken'])
+        //         //             }
+        //         //             next()
+        //         //         }
+        //         //     }).catch(e => {
+        //         //         console.log(e)
+        //         //         store.commit('setLoggedIn', false)
+        //         //         next('/login')
+        //         //     })
+        //         // } else {
+        //         check().then(response => {
+        //             if (response.data.valid) {
+        //                 store.commit('setLoggedIn', true)
+        //                 localStorage.setItem('csrftoken', response.headers['csrftoken'])
+        //                 next()
+        //             }
+        //         }).catch(e => {
+        //             console.log('App.vue Guard Checker Error' + e)
+        //             store.commit('setLoggedIn', false)
+        //             next('/login')
+        //         })
+        //         //}
+        //     }
+        // }
     },
     {
         path: '/register',

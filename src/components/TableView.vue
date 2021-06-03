@@ -1,6 +1,7 @@
 <template>
   <div id="table-view">
 <!--    <b-spinner variant="primary" v-if="loading" class="d-flex justify-content-center" style="width: 5rem; height: 5rem;" label="Loading..."></b-spinner>-->
+    <b-overlay :show="show" spinner-type="grow">
     <div>
       <b-table
           hover
@@ -25,7 +26,7 @@
 <!--      :sort-by.sync="sortBy"-->
 
     </div>
-
+    </b-overlay>
     <!--    MODAL     -->
     <b-modal
         id="content"
@@ -97,6 +98,7 @@
       <template #modal-footer>
 <!--        <b-button v-on:click="deleteCheck" variant="danger">Delete</b-button>-->
         <b-button v-on:click="$bvModal.hide('content')" v-show="disabled == false">Cancel</b-button>
+        <b-button v-show="disabled == false" v-on:click="disabled == true">Cancel Edit</b-button>
         <b-button v-show="disabled==true" v-on:click="toggleDisabled">Edit</b-button>
         <b-button v-on:click="$bvModal.hide('content')" variant="primary" v-show="disabled==true">OK</b-button>
         <b-button v-show="disabled == false">Save</b-button>
@@ -169,7 +171,9 @@ export default {
       sortBy: 'date',
       sortDesc: true,
       loading: false,
-      searchFilter: ""
+      searchFilter: '',
+      show: false,
+
     }
   },
   methods: {
@@ -216,6 +220,9 @@ export default {
         return false
       }
     },
+    async saveEntry(){
+      this.show = true
+    },
     deleteCheck() {
       this.$bvModal.show('deleteConfirm')
     },
@@ -225,7 +232,7 @@ export default {
       //Logic
       this.$bvModal.hide('content')
       this.getData()
-    }
+    },
   },
   mounted() {
     // this.getAll()
