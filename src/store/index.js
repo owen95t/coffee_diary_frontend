@@ -103,12 +103,14 @@ export default new Vuex.Store({
         commit('setLoggedIn', false)
       }
     },
-    async logout({dispatch}) {
+    async logout({dispatch, commit}) {
       await customAxios.get('user/logout').then(response => {
         if (response) {
           console.log('logout response is...')
           console.log(response.data.message)
           dispatch('setLoggedIn', false)
+          commit('setData', [])
+          commit('setPost', {})
           router.push('/')
         }
       }).catch(e => {
