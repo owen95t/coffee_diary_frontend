@@ -8,7 +8,7 @@
           bordered
           responsive="sm"
           sticky-header="30rem"
-          :items="this.$store.getters.getAllData"
+          :items="dataWatch"
           :per-page="perPage"
           :fields="fields"
           :sort-by.sync="sortBy"
@@ -272,6 +272,15 @@ export default {
         this.list_results[i].date = day.toLocaleString('en-US', {dateStyle: "short"})
       }
     }
+  },
+  computed: {
+    dataWatch() {
+      return this.$store.getters.getAllData
+    }
+  },
+  beforeDestroy() {
+    this.$store.commit('setData', [])
+
   }
 }
 </script>
