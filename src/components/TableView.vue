@@ -249,17 +249,16 @@ export default {
       this.getData()
     },
     editCheck(){
-
+      this.$bvModal.show('editConfirm')
     },
     editEntry(){
       const item = {
-        id: this.modalInfo.content._id
+        id: this.modalInfo.content._id,
+        body: this.modalInfo.content
       }
-      //TODO: Look up how to use mongoose findOneAndUpdate
-      alert('Not finished')
-      // this.$store.dispatch('editEntry', item)
+      this.$store.dispatch('editEntry', item)
       this.$bvModal.hide('editConfirm')
-      this.getData()
+      this.$bvModal.hide('content')
     }
   },
   mounted() {

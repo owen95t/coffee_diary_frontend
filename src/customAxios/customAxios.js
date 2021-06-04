@@ -4,7 +4,8 @@ import store from '../store/index'
 
 const customAxios = new axios.create({
     baseURL: 'https://api.coffeediary.app/api',
-    // baseURL: 'http://localhost:3000/api', for local testing
+    // baseURL: 'http://localhost:3000/api',
+    //for local testing
     timeout: 5000,
     withCredentials: true,
 })

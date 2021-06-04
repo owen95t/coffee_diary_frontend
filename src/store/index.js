@@ -132,9 +132,21 @@ export default new Vuex.Store({
         alert('Delete Error')
       }
     },
-    async editEntry(store, item){
+    async editEntry({dispatch}, item){
       let id = item.id
-      // UNFINISHED TODO
+      let toUpdate = item.body
+      console.log('Item to update: ' + toUpdate)
+      let cToken = localStorage.getItem('csrftoken')
+      try{
+        let response = await customAxios.put('coffee/updateEntry', {id: id, item: toUpdate}, {headers: {'CSRFToken' : cToken}})
+        if (response) {
+          alert('Entry Edited')
+          dispatch('getAllData')
+        }
+      }catch (e) {
+        console.log('Edit Entry Error: ' + e)
+        alert('Entry was not updated. Error: ' + e)
+      }
     }
   },
   modules: {
