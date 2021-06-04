@@ -51,6 +51,7 @@
                   id="input-weight"
                   required
                   v-model="entryInfo.weight"
+                  type="number"
               >
               </b-form-input>
             </b-form-group>
@@ -62,6 +63,7 @@
                   id="input-grindsize"
                   required
                   v-model="entryInfo.grind_size"
+                  type="number"
               >
               </b-form-input>
             </b-form-group>
@@ -73,17 +75,19 @@
                   id="input-yield"
                   required
                   v-model="entryInfo.yield"
+                  type="number"
               >
               </b-form-input>
             </b-form-group>
             <b-form-group
-                label="Time: "
+                label="Time(s): "
                 label-for="input-time"
             >
               <b-form-input
                   id="input-time"
                   required
                   v-model="entryInfo.time"
+                  type="number"
               >
               </b-form-input>
             </b-form-group>
