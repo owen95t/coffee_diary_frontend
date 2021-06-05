@@ -125,6 +125,7 @@ export default {
       }catch (e) {
         console.log('Log in error: ' + e)
         alert('Log in error: ' + e.response.data.message)
+        this.show = false
       }
     },
   },
