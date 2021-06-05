@@ -1,7 +1,8 @@
 <template>
   <div id="table-view">
 <!--    <b-spinner variant="primary" v-if="loading" class="d-flex justify-content-center" style="width: 5rem; height: 5rem;" label="Loading..."></b-spinner>-->
-    <b-overlay :show="show" spinner-type="grow">
+<!--    <b-overlay :show="show" spinner-type="grow">-->
+<!--      :show="show"-->
     <div>
       <b-table
           hover
@@ -26,7 +27,7 @@
 <!--      :sort-by.sync="sortBy"-->
 
     </div>
-    </b-overlay>
+<!--    </b-overlay>-->
     <!--    MODAL     -->
     <b-modal
         id="content"
@@ -266,17 +267,17 @@ export default {
     this.getData()
   },
   watch: {
-    formatDate() {
-      for(let i = 0; i < this.list_results.length; i++){
-        let day = Date.parse(this.list_results[i].date);
-        this.list_results[i].date = day.toLocaleString('en-US', {dateStyle: "short"})
-      }
-    }
+    // formatDate() {
+    //   for(let i = 0; i < this.list_results.length; i++){
+    //     let day = Date.parse(this.list_results[i].date);
+    //     this.list_results[i].date = day.toLocaleString('en-US', {dateStyle: "short"})
+    //   }
+    // }
   },
   computed: {
     dataWatch() {
       return this.$store.getters.getAllData
-    }
+    },
   },
   beforeDestroy() {
     this.$store.commit('setData', [])

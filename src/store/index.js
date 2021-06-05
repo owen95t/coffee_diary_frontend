@@ -14,7 +14,8 @@ export default new Vuex.Store({
     user: {
       email: '',
       password: ''
-    }
+    },
+    gettingData: false,
   },
   mutations: { //synchronous COMMIT
     setLoggedIn(state, payload) {
@@ -32,6 +33,9 @@ export default new Vuex.Store({
     },
     setUser(state, payload){
       state.user = payload
+    },
+    setGettingData(state, payload) {
+      state.gettingData = payload
     }
   },
   actions: { //asynchronous DISPATCH
@@ -46,7 +50,8 @@ export default new Vuex.Store({
       }
       state.commit("setLoggedIn", payload);
     },
-    async getAllData({getters, commit}) {
+    async getAllData({commit}) {
+      commit('setGettingData', true)
       console.log('Store getAllData is called')
       const cToken = localStorage.getItem('csrftoken')
       await customAxios.get('/coffee/all', {headers: {'CSRFToken' : cToken}}).then((response) => {
@@ -57,6 +62,7 @@ export default new Vuex.Store({
             formattedResults[i].date = day.toLocaleString('en-CA', {dateStyle: 'medium'})
           }
           commit("setData", formattedResults)
+          commit('setGettingData', false)
         }
       }).catch((e) => {
         console.log('Store getAllData Error')
@@ -168,6 +174,9 @@ export default new Vuex.Store({
     },
     getUser(state){
       return state.user
+    },
+    getGettingData(state) {
+      return state.gettingData
     }
   }
 })

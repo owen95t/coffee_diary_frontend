@@ -7,18 +7,27 @@
     <div class="form-wrapper">
       <h1 class="mt-5 mb-0 form-header">Coffee Diary</h1>
       <div class="account-form">
-        <b-form>
-          <h2 class="text-center">{{header}}</h2>
-          <b-form-group class="mt-3">
-            <b-form-input type="text" class="form-control" placeholder="Username" v-model="username" required></b-form-input>
-          </b-form-group>
-          <b-form-group>
-            <b-form-input type="password" class="form-control" placeholder="Password" v-model="password" required></b-form-input>
-          </b-form-group>
-          <b-form-group>
-            <b-button variant="primary" class="btn-block" v-on:click="submit">{{ buttonText }}</b-button>
-          </b-form-group>
-        </b-form>
+        <!--      OVERLAY-->
+        <b-overlay :show="show">
+          <b-form>
+            <h2 class="text-center">{{header}}</h2>
+            <b-form-group class="mt-3">
+              <b-form-input type="text" class="form-control" placeholder="Username" v-model="username" required></b-form-input>
+            </b-form-group>
+            <b-form-group>
+              <b-form-input type="password" class="form-control" placeholder="Password" v-model="password" required></b-form-input>
+            </b-form-group>
+            <b-form-group>
+              <b-button variant="primary" class="btn-block" v-on:click="submit">{{ buttonText }}</b-button>
+            </b-form-group>
+          </b-form>
+          <template #overlay>
+            <div class="text-center">
+              <b-spinner variant="info" style="height: 5rem; width: 5rem"></b-spinner>
+              <p>Hold your horses!</p>
+            </div>
+          </template>
+        </b-overlay>
     <!--    <p class="text-center"><router-link to="/register"/>Register</p>-->
         <router-link v-show="isLogin" class="text-center" to="/register">Create an account</router-link>
         <router-link v-show="isRegister" class="text-center" to="/login">Log In</router-link>
@@ -59,7 +68,8 @@ export default {
       header: '',
       buttonText: '',
       username: '',
-      password: ''
+      password: '',
+      show: false
     }
   },
   methods: {
@@ -75,8 +85,10 @@ export default {
     submit() {
       if(this.isRegister){
         this.sendRegister()
+        this.show = true
       }else if (this.isLogin) {
         this.sendLogin()
+        this.show = true
       }
     },
     async sendRegister(){

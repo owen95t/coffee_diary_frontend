@@ -16,7 +16,15 @@
       <b-row class="mt-3 border border-dark no-gutters mb-3" no-gutters style="height: 30rem">
         <b-col class="main-column">
 <!--          main content-->
+          <b-overlay :show="show">
           <TableView :search="search_term"/>
+            <template #overlay>
+              <div class="text-center">
+                <b-spinner variant="info" style="height: 5rem; width: 5rem"></b-spinner>
+                <p>Working on it!</p>
+              </div>
+            </template>
+          </b-overlay>
         </b-col>
       </b-row>
     </b-container>
@@ -25,6 +33,7 @@
     <InputForm ref="modalComp"/>
 <!--    <b-button v-on:click="testCSRF">Test CSRFToken</b-button>-->
 <!--    <p>{{tokenTest}}</p>-->
+
   </div>
 </template>
 
@@ -45,14 +54,30 @@ export default {
     return {
       message: '',
       search_term: '',
-      tokenTest: ''
+      tokenTest: '',
+      show: true
     }
   },
   computed: {
     isLoggedIn(){
       return this.$store.state.isLoggedIn
+    },
+    gettingWatch() {
+      console.log(this.$store.getters.getGettingData)
+      return this.$store.getters.getGettingData
     }
   },
+  watch: {
+    gettingWatch(newStat) {
+      if (newStat === true) {
+        console.log('newstatTrue')
+        this.show = true
+      }else if (newStat === false) {
+        this.show = false
+      }
+    }
+  },
+
   created() {
     if (!this.isLoggedIn) {
       this.$router.push('/login')
