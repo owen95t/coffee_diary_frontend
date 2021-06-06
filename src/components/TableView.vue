@@ -213,13 +213,7 @@ export default {
       this.$bvModal.show('content')
     },
     getData() {
-      this.loading = true
-      try{
-        this.$store.dispatch("getAllData")
-        this.loading = false
-      }catch (e) {
-        console.log("tableview store dispatch error: "+ e)
-      }
+      this.$store.dispatch('getAllData')
     },
     modalClose(){
       this.disabled = true
@@ -271,14 +265,18 @@ export default {
     this.getData()
   },
   watch: {
-    // formatDate() {
-    //   for(let i = 0; i < this.list_results.length; i++){
-    //     let day = Date.parse(this.list_results[i].date);
-    //     this.list_results[i].date = day.toLocaleString('en-US', {dateStyle: "short"})
-    //   }
-    // }
+    isGettingData(newVal) {
+      if (newVal === true) {
+        this.loading = true
+      }else if (newVal === false) {
+        this.loading = false
+      }
+    }
   },
   computed: {
+    isGettingData() {
+      return this.$store.getters.getGettingData
+    },
     dataWatch() {
       return this.$store.getters.getAllData
     },

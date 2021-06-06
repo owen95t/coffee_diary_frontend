@@ -134,7 +134,7 @@ export default new Vuex.Store({
         }
       })
     },
-    async deleteEntry({commit}, id){
+    async deleteEntry({commit, dispatch}, id){
       commit('setGettingData', true)
       const _id = id
       const cToken = localStorage.getItem('csrftoken')
