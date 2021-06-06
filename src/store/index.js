@@ -17,6 +17,7 @@ export default new Vuex.Store({
     },
     gettingData: false,
     submitting: false,
+    loggingout: false,
 
   },
   mutations: { //synchronous COMMIT
@@ -41,6 +42,9 @@ export default new Vuex.Store({
     },
     setSubmitting(state, payload) {
       state.submitting = payload
+    },
+    setLoggingOut(state, payload) {
+      state.loggingout = payload
     }
   },
   actions: { //asynchronous DISPATCH
@@ -118,6 +122,7 @@ export default new Vuex.Store({
       }
     },
     async logout({dispatch, commit}) {
+      commit('setLoggingOut', true)
       await customAxios.get('user/logout').then(response => {
         if (response) {
           console.log('logout response is...')
@@ -130,8 +135,11 @@ export default new Vuex.Store({
       }).catch(e => {
         if (e) {
           console.log(e);
+          alert('Log Out Error: ' + e)
           this.message = e.response.data.message
         }
+      }).finally(() => {
+        commit('setLoggingOut', false)
       })
     },
     async deleteEntry({commit, dispatch}, id){
@@ -192,6 +200,9 @@ export default new Vuex.Store({
     },
     getSubmitting(state) {
       return state.submitting
+    },
+    getLoggingOut(state) {
+      return state.loggingout
     }
   }
 })

@@ -1,5 +1,6 @@
 <template>
   <div id="dashboard">
+    <b-overlay :show="loggingout">
     <b-container fluid="xl">
       <b-row class="justify-content-center mt-5">
         <h1>Welcome to your Coffee Diary!</h1>
@@ -33,6 +34,13 @@
     <InputForm ref="modalComp"/>
 <!--    <b-button v-on:click="testCSRF">Test CSRFToken</b-button>-->
 <!--    <p>{{tokenTest}}</p>-->
+      <template #overlay>
+        <div class="text-center">
+          <b-spinner variant="info" style="height: 7rem; width: 7rem;"></b-spinner>
+          <p>Logging you out...</p>
+        </div>
+      </template>
+    </b-overlay>
   </div>
 </template>
 
@@ -55,6 +63,7 @@ export default {
       search_term: '',
       tokenTest: '',
       show: true,
+      loggingout: false
     }
   },
   computed: {
@@ -62,9 +71,11 @@ export default {
       return this.$store.state.isLoggedIn
     },
     gettingWatch() {
-      //console.log(this.$store.getters.getGettingData)
       return this.$store.getters.getGettingData
     },
+    getLoggingOut() {
+      return this.$store.getters.getLoggingOut
+    }
   },
   watch: {
     gettingWatch(newStat) {
@@ -75,6 +86,13 @@ export default {
         this.show = false
       }
     },
+    getLoggingOut(newVal) {
+      if (newVal === true) {
+        this.loggingout = true
+      }else if (newVal === false) {
+        this.loggingout = false
+      }
+    }
   },
 
   created() {
@@ -83,19 +101,6 @@ export default {
     }
   },
   methods: {
-    testRequest() {
-      // customAxios.defaults.headers.get['auth-token']
-      customAxios.get('user/details').then(response => {
-        if (response) {
-          this.message = response.data.message
-        }
-      }).catch(e => {
-        if (e) {
-          console.log(e)
-          this.message = e.response.data.message
-        }
-      })
-    },
     async logout() {
       await customAxios.get('user/logout').then(response => {
         if (response) {
