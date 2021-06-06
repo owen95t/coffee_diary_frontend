@@ -160,7 +160,8 @@ export default new Vuex.Store({
         commit('setGettingData', false)
       }
     },
-    async editEntry({dispatch}, item){
+    async editEntry({commit, dispatch}, item){
+      commit('setGettingData', true)
       let id = item.id
       let toUpdate = item.body
       console.log('Item to update: ' + toUpdate)
@@ -170,10 +171,12 @@ export default new Vuex.Store({
         if (response) {
           alert('Entry Edited')
           dispatch('getAllData')
+          commit('setGettingData', false)
         }
       }catch (e) {
         console.log('Edit Entry Error: ' + e)
         alert('Entry was not updated. Error: ' + e)
+        commit('setGettingData', false)
       }
     }
   },
