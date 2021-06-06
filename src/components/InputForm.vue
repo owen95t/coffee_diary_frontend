@@ -1,7 +1,9 @@
 <template>
   <div class="m-0 p-0">
-    <b-modal id="input-modal" size="lg" class="modal-dialog" @hide="hide" title="New Entry">
-      <template id="modal-content">
+
+      <b-modal id="input-modal" size="lg" class="modal-dialog" @hide="hide" title="New Entry">
+        <b-overlay :show="showLoading" rounded>
+        <template id="modal-content">
 
         <template v-if="this.page == 0" id="page1">
           <div>
@@ -132,7 +134,14 @@
         </template>
 
       </template>
-      <template #modal-footer id="modal-footer">
+          <template #overlay>
+            <div class="text-center">
+              <b-spinner variant="info"></b-spinner>
+              <p>Processing!</p>
+            </div>
+          </template>
+        </b-overlay>
+        <template #modal-footer id="modal-footer">
         <b-button
             v-on:click="$bvModal.hide('input-modal')"
             variant="danger"
@@ -161,7 +170,8 @@
           Submit
         </b-button>
       </template>
-    </b-modal>
+      </b-modal>
+
   </div>
 </template>
 
@@ -183,21 +193,35 @@ export default {
         equipment: '',
         remarks: '',
         roaster_remarks: '',
+      },
+      showLoading: false,
+    }
+  },
+  computed: {
+    isSubmitting() {
+      return this.$store.getters.getSubmitting
+    }
+  },
+  watch: {
+    isSubmitting(newVal) {
+      if (newVal === true) {
+        this.showLoading = true
+      }else if (newVal === false) {
+        this.showLoading = false
       }
     }
   },
   methods: {
     async submit() {
+      this.showLoading = true
       this.$store.commit('setPost', this.entryInfo)
       try{
-        let response = await this.$store.dispatch('postEntry')
-        if(response.status == 201){
-          this.$bvModal.hide('input-modal')
-          this.clear()
-        }
+        await this.$store.dispatch('postEntry')
+        this.$bvModal.hide('input-modal')
+        this.clear()
       }catch (e) {
         console.log('Error caught at submit: ' + e)
-        alert('Error Submitting + e')
+        alert('Error Submitting: ' + e)
       }
     },
     show(){

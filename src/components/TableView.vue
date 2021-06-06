@@ -29,6 +29,8 @@
     </div>
 <!--    </b-overlay>-->
     <!--    MODAL     -->
+<!--    MODAL OVERLAY-->
+<!--    TODO: overlay-->
     <b-modal
         id="content"
         @hide="modalClose"
@@ -119,6 +121,7 @@
         <b-button v-on:click="deleteEntry" variant="danger">Delete</b-button>
       </template>
     </b-modal>
+
 <!--    MODAL EDIT CONFIRM-->
     <b-modal id="editConfirm">
       <template #modal-title>
@@ -260,6 +263,7 @@ export default {
       this.$store.dispatch('editEntry', item)
       this.$bvModal.hide('editConfirm')
       this.$bvModal.hide('content')
+      this.getData()
     }
   },
   mounted() {

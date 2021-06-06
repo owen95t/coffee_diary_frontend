@@ -105,7 +105,7 @@ export default {
         }
       }catch (e) {
         console.log('Registration Error: ' + e.response.data.message)
-        alert('Registration Error. Please try again.' + '\nError: ' + e.response.data.message)
+        alert('Registration Error. Please try again.' + '\n' + e.response.data.message)
         this.show = false
       }
     },

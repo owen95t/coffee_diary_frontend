@@ -6,13 +6,14 @@ import 'bootstrap/dist/css/bootstrap.css';
 import 'bootstrap-vue/dist/bootstrap-vue.css';
 import store from './store'
 import VueScrollTo from 'vue-scrollto'
-
+import Vuelidate from 'vuelidate'
 
 
 Vue.config.productionTip = false
 
 Vue.use(BootstrapVue)
 Vue.use(VueScrollTo)
+Vue.use(Vuelidate)
 
 new Vue({
   router,

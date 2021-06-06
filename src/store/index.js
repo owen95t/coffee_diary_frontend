@@ -16,6 +16,8 @@ export default new Vuex.Store({
       password: ''
     },
     gettingData: false,
+    submitting: false,
+
   },
   mutations: { //synchronous COMMIT
     setLoggedIn(state, payload) {
@@ -36,6 +38,9 @@ export default new Vuex.Store({
     },
     setGettingData(state, payload) {
       state.gettingData = payload
+    },
+    setSubmitting(state, payload) {
+      state.submitting = payload
     }
   },
   actions: { //asynchronous DISPATCH
@@ -69,7 +74,8 @@ export default new Vuex.Store({
         console.log(e)
       })
     },
-    async postEntry({getters, dispatch}) {
+    async postEntry({getters, dispatch, commit}) {
+      commit('setSubmitting', true)
       const post = getters['getPost']
       let response;
       let cToken = localStorage.getItem('csrftoken')
@@ -77,11 +83,13 @@ export default new Vuex.Store({
         response = await customAxios.post('coffee/new', post, {headers: {'CSRFToken' : cToken}})
         if (response) {
           alert('New Entry Success')
+          commit('setSubmitting', false)
           dispatch('getAllData')
-          return response
         }
       }catch (e) {
         console.log(e)
+        commit('setSubmitting', false)
+        alert('Entry Error: ' + e.response.data.message)
       }
     },
     async userLogin({getters, dispatch}){
@@ -126,7 +134,8 @@ export default new Vuex.Store({
         }
       })
     },
-    async deleteEntry(store, id){
+    async deleteEntry({commit}, store, id){
+      commit('setGettingData', true)
       const _id = id
       const cToken = localStorage.getItem('csrftoken')
       console.log(_id)
@@ -134,10 +143,12 @@ export default new Vuex.Store({
         let response = await customAxios.delete('coffee/deleteEntry', {data: {id: _id}, headers: {'CSRFToken' : cToken}})
         if (response.status == 200) {
           alert('Delete Entry Success')
+          commit('setGettingData', false)
         }
       }catch (e) {
         console.log('Delete Error: ' + e)
         alert('Delete Error')
+        commit('setGettingData', false)
       }
     },
     async editEntry({dispatch}, item){
@@ -177,6 +188,9 @@ export default new Vuex.Store({
     },
     getGettingData(state) {
       return state.gettingData
+    },
+    getSubmitting(state) {
+      return state.submitting
     }
   }
 })

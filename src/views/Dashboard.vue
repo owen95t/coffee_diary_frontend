@@ -33,7 +33,6 @@
     <InputForm ref="modalComp"/>
 <!--    <b-button v-on:click="testCSRF">Test CSRFToken</b-button>-->
 <!--    <p>{{tokenTest}}</p>-->
-
   </div>
 </template>
 
@@ -55,7 +54,7 @@ export default {
       message: '',
       search_term: '',
       tokenTest: '',
-      show: true
+      show: true,
     }
   },
   computed: {
@@ -63,19 +62,19 @@ export default {
       return this.$store.state.isLoggedIn
     },
     gettingWatch() {
-      console.log(this.$store.getters.getGettingData)
+      //console.log(this.$store.getters.getGettingData)
       return this.$store.getters.getGettingData
-    }
+    },
   },
   watch: {
     gettingWatch(newStat) {
       if (newStat === true) {
-        console.log('newstatTrue')
+        //console.log('newstatTrue')
         this.show = true
       }else if (newStat === false) {
         this.show = false
       }
-    }
+    },
   },
 
   created() {
@@ -162,11 +161,11 @@ export default {
 
 .logout-button {
   color: black;
-  text-decoration: none;
+  text-decoration: underline;
 }
 .logout-button:hover{
-  text-decoration: none;
-  text-transform: lowercase;
+  text-decoration: underline;
+  font-style: italic;
 }
 
 .main-column{
