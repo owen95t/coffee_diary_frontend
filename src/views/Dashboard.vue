@@ -80,7 +80,6 @@ export default {
   watch: {
     gettingWatch(newStat) {
       if (newStat === true) {
-        //console.log('newstatTrue')
         this.show = true
       }else if (newStat === false) {
         this.show = false
@@ -94,47 +93,18 @@ export default {
       }
     }
   },
-
   created() {
     if (!this.isLoggedIn) {
       this.$router.push('/login')
     }
   },
   methods: {
-    async logout() {
-      await customAxios.get('user/logout').then(response => {
-        if (response) {
-          console.log('logout response is...')
-          console.log(response.data.message)
-          this.$store.dispatch('setLoggedIn', false)
-          this.$router.push('/')
-        }
-      }).catch(e => {
-        if (e) {
-          console.log(e);
-          this.message = e.response.data.message
-        }
-      })
+    logout() {
+      this.$store.dispatch('logout')
     },
     openModal(){
       this.$refs.modalComp.show()
     },
-    // async testCSRF() {
-    //   let token = this.$store.getters.getToken
-    //
-    //   try{
-    //     let response = await customAxios.get('user/test', {
-    //       params: {
-    //         _csrf: token
-    //       }
-    //     })
-    //     if (response) {
-    //       this.tokenTest = response.data
-    //     }
-    //   }catch (e) {
-    //     console.log(e)
-    //   }
-    // }
   }
 }
 </script>
