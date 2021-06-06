@@ -232,6 +232,7 @@ export default {
       this.$bvModal.show('editConfirm')
     },
     editEntry(){
+      this.show = true
       const item = {
         id: this.modalInfo.content._id,
         body: this.modalInfo.content

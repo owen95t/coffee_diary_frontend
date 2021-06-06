@@ -1,6 +1,5 @@
 <template>
   <div class="pagewrap">
-<!--    <b-overlay :show="!isLoggedIn">-->
     <b-nav>
       <b-nav-item class="back-nav" to="/"><BIconArrowLeft/> Home</b-nav-item>
     </b-nav>
@@ -12,10 +11,10 @@
           <b-form>
             <h2 class="text-center">{{header}}</h2>
             <b-form-group class="mt-3">
-              <b-form-input type="text" class="form-control" placeholder="Username" v-model="username" required></b-form-input>
+              <b-form-input type="text" class="form-control" placeholder="Username" v-model.trim="username" required></b-form-input>
             </b-form-group>
             <b-form-group>
-              <b-form-input type="password" class="form-control" placeholder="Password" v-model="password" required></b-form-input>
+              <b-form-input type="password" class="form-control" placeholder="Password" v-model.trim="password" required></b-form-input>
             </b-form-group>
             <b-form-group>
               <b-button variant="primary" class="btn-block" v-on:click="submit">{{ buttonText }}</b-button>
@@ -28,12 +27,10 @@
             </div>
           </template>
         </b-overlay>
-    <!--    <p class="text-center"><router-link to="/register"/>Register</p>-->
         <router-link v-show="isLogin" class="text-center" to="/register">Create an account</router-link>
         <router-link v-show="isRegister" class="text-center" to="/login">Log In</router-link>
       </div>
     </div>
-<!--    </b-overlay>-->
   </div>
 </template>
 
@@ -93,7 +90,7 @@ export default {
     },
     async sendRegister(){
       const userInfo = {
-        username: this.username,
+        username: this.username.toLowerCase(),
         password: this.password
       }
       try{

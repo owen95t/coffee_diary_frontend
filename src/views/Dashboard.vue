@@ -1,6 +1,6 @@
 <template>
   <div id="dashboard">
-    <b-overlay :show="loggingout">
+    <b-overlay :show="loggingout" style="height: 100vh">
     <b-container fluid="xl">
       <b-row class="justify-content-center mt-5">
         <h1>Welcome to your Coffee Diary!</h1>
@@ -110,6 +110,9 @@ export default {
 </script>
 
 <style scoped>
+#dashboard{
+  height: 100vh;
+}
 .custom-button {
   background: none;
   border: 1px solid black;

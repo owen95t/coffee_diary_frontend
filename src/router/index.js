@@ -1,14 +1,7 @@
 import Vue from 'vue';
 import VueRouter from 'vue-router';
-import store from '../store/index'
-import customAxios from "@/customAxios/customAxios";
 
 Vue.use(VueRouter);
-
-// const check = () => {
-//     return customAxios.get('user/check')
-// }
-
 
 const routes = [
     {
