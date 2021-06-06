@@ -144,6 +144,7 @@ export default new Vuex.Store({
         if (response.status == 200) {
           alert('Delete Entry Success')
           commit('setGettingData', false)
+          dispatch('getAllData')
         }
       }catch (e) {
         console.log('Delete Error: ' + e)

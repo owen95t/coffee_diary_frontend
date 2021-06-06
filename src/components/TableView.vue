@@ -244,7 +244,6 @@ export default {
       this.$store.dispatch('deleteEntry', id)
       this.$bvModal.hide('deleteConfirm')
       this.$bvModal.hide('content')
-      this.getData()
     },
     editCheck(){
       this.$bvModal.show('editConfirm')
