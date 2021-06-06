@@ -1,8 +1,5 @@
 <template>
   <div id="table-view">
-<!--    <b-spinner variant="primary" v-if="loading" class="d-flex justify-content-center" style="width: 5rem; height: 5rem;" label="Loading..."></b-spinner>-->
-<!--    <b-overlay :show="show" spinner-type="grow">-->
-<!--      :show="show"-->
     <div>
       <b-table
           hover
@@ -200,16 +197,6 @@ export default {
     info(item) {
       this.modalInfo.content = item
       this.modalInfo.title = item.brand + " " + item.beans
-      // console.log(this.modalInfo.content.length)
-      // for(let i of this.modalInfo.content){
-      //   if(this.selectedItem[item]){
-      //     this.selectedItem[item] = i
-      //   }
-      // }
-      // Object.entries(this.modalInfo.content).forEach(item => {
-      //   console.log(item)
-      // })
-
       this.$bvModal.show('content')
     },
     getData() {
@@ -232,9 +219,6 @@ export default {
         return false
       }
     },
-    async saveEntry(){
-      this.show = true
-    },
     deleteCheck() {
       this.$bvModal.show('deleteConfirm')
     },
@@ -255,11 +239,9 @@ export default {
       this.$store.dispatch('editEntry', item)
       this.$bvModal.hide('editConfirm')
       this.$bvModal.hide('content')
-      this.getData()
     }
   },
   mounted() {
-    // this.getAll()
     this.getData()
   },
   watch: {
@@ -281,7 +263,6 @@ export default {
   },
   beforeDestroy() {
     this.$store.commit('setData', [])
-
   }
 }
 </script>
