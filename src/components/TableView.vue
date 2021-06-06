@@ -139,6 +139,7 @@
 <script>
 
 import customAxios from "@/customAxios/customAxios";
+import moment from 'moment'
 
 export default {
   name: "TableView",
@@ -157,7 +158,10 @@ export default {
       fields: [{
         key: 'date',
         label: 'Date',
-        sortable: true
+        sortable: true,
+        formatter: (value, key, item) => {
+          return moment(item.date).format('MMM Do, YYYY')
+        }
       }, {
         key: 'brand',
         label: 'Brand',

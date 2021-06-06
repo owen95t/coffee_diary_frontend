@@ -65,12 +65,7 @@ export default new Vuex.Store({
       const cToken = localStorage.getItem('csrftoken')
       await customAxios.get('/coffee/all', {headers: {'CSRFToken' : cToken}}).then((response) => {
         if (response) {
-          let formattedResults = response.data
-          for(let i = 0; i < formattedResults.length; i++){
-            let day = new Date(formattedResults[i].date)
-            formattedResults[i].date = day.toLocaleString('en-CA', {dateStyle: 'medium'})
-          }
-          commit("setData", formattedResults)
+          commit('setData', response.data)
           commit('setGettingData', false)
         }
       }).catch((e) => {
