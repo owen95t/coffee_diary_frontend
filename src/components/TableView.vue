@@ -223,11 +223,10 @@ export default {
       this.disabled = !this.disabled
     },
     mySortCompare(a, b, key) {
-      // TODO: Sorting table
       if (key === 'date') {
         // Assuming the date field is a `Date` object, subtraction
         // works on the date serial number (epoch value)
-        return b[key] - a[key]
+        return Date.parse(a[key]) - Date.parse(b[key])
       } else {
         // Let b-table handle sorting other fields (other than `date` field)
         return false
