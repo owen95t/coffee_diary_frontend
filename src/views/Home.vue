@@ -6,12 +6,12 @@
          <div class="welcome">
            <h1>WELCOME TO</h1>
          </div>
-         <div class="welcome">
-           <h1>COFFEE DIARY</h1>
-         </div>
-<!--         <div class="marquee" style="&#45;&#45;tw: 60vw; &#45;&#45;ad: 4.0s;">-->
-<!--           <span>COFFEE DIARY</span>-->
+<!--         <div class="welcome">-->
+<!--           <h1>COFFEE DIARY</h1>-->
 <!--         </div>-->
+         <div class="welcome marquee" style="--tw: 60vw; --ad: 4.0s;">
+           <span>COFFEE DIARY</span>
+         </div>
          <a href="#" v-scroll-to="'#bottom'">
            <div class="scroll-down"></div>
          </a>
@@ -66,19 +66,19 @@ export default {
 }
 </script>
 
-<style scoped>
+<style>
 
-/*.welcome {*/
-/*  animation: fadeIn 2s;*/
-/*}*/
-/*@keyframes fadeIn {*/
-/*  0% {*/
-/*    opacity: 0%;*/
-/*  }*/
-/*  100% {*/
-/*    opacity: 100%;*/
-/*  }*/
-/*}*/
+.welcome {
+  animation: fadeIn 2s;
+}
+@keyframes fadeIn {
+  0% {
+    opacity: 0%;
+  }
+  100% {
+    opacity: 100%;
+  }
+}
 
 section {
   min-height: 100vh;

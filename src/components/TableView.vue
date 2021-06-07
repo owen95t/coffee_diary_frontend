@@ -8,7 +8,6 @@
           responsive="sm"
           sticky-header="30rem"
           :items="dataWatch"
-          :per-page="perPage"
           :fields="fields"
           :sort-by.sync="sortBy"
           :sort-desc.sync="sortDesc"
@@ -16,6 +15,7 @@
           @row-clicked="info"
           :key="modalKey"
           class="table-view m-0 w-100"
+          id="my-table"
           :filter="search"
       >
       </b-table>
@@ -148,7 +148,6 @@ export default {
     return {
       list_results: [],
       formatted_results: [],
-      perPage: '',
       modalInfo: {
         title: '',
         content: ''
@@ -267,7 +266,7 @@ export default {
 }
 </script>
 
-<style scoped>
+<style>
 
 .table-view {
   overflow: auto;
@@ -275,6 +274,11 @@ export default {
   height: inherit;
   width: 100%;
   cursor: pointer;
+}
+
+#my-table.table-hover tbody tr:hover {
+  color: white;
+  background-color: var(--info);
 }
 
 </style>
