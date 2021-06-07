@@ -66,7 +66,7 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
 
 /*.welcome {*/
 /*  animation: fadeIn 2s;*/
