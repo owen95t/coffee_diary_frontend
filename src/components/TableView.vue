@@ -4,6 +4,7 @@
       <b-table
           hover
           bordered
+          fixed
           responsive="sm"
           sticky-header="30rem"
           :items="dataWatch"
@@ -14,7 +15,6 @@
           :sort-compare="mySortCompare"
           @row-clicked="info"
           :key="modalKey"
-          fixed
           class="table-view m-0 w-100"
           :filter="search"
       >
@@ -196,6 +196,10 @@ export default {
     }
   },
   methods: {
+    rowHovered(item, type) {
+      if (!item || type !== 'row') return
+      return 'table-info'
+    },
     info(item) {
       this.modalInfo.content = item
       this.modalInfo.title = item.brand + " " + item.beans
@@ -276,6 +280,7 @@ export default {
   font-size: 1rem;
   height: inherit;
   width: 100%;
+  cursor: pointer;
 }
 
 </style>
