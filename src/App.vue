@@ -26,6 +26,9 @@ export default {
   mounted() {
 
   },
+  metaInfo: {
+    title: 'Coffee Diary',
+  },
   created() {
     this.$store.dispatch('checkSession')
   }
@@ -33,10 +36,8 @@ export default {
 </script>
 
 <style>
-/*@import url('https://fonts.googleapis.com/css?family=Inconsolata');*/
 @import url('https://fonts.googleapis.com/css2?family=Public+Sans');
 
-/*:wght@1,600&display=swap*/
 #app {
   /*font-family: Inconsolata, sans-serif;*/
   font-family: Public Sans, sans-serif;

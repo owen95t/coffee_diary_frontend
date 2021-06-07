@@ -96,12 +96,12 @@
         </b-row>
       </template>
       <template #modal-footer>
-        <b-button v-on:click="deleteCheck" variant="danger" v-show="disabled == true">Delete</b-button>
-        <b-button v-on:click="$bvModal.hide('content')" v-show="disabled == false">Cancel</b-button>
-        <b-button v-show="disabled == false" v-on:click="toggleDisabled">Cancel Edit</b-button>
-        <b-button v-show="disabled==true" v-on:click="toggleDisabled">Edit</b-button>
-        <b-button v-on:click="$bvModal.hide('content')" variant="primary" v-show="disabled==true">OK</b-button>
-        <b-button v-show="disabled == false" v-on:click="editCheck">Save</b-button>
+        <b-button v-on:click="deleteCheck" variant="danger" v-show="disabled === true">Delete</b-button>
+        <b-button v-on:click="$bvModal.hide('content')" v-show="disabled === false">Cancel</b-button>
+        <b-button v-show="disabled === false" v-on:click="toggleDisabled">Cancel Edit</b-button>
+        <b-button v-show="disabled === true" v-on:click="toggleDisabled">Edit</b-button>
+        <b-button v-on:click="$bvModal.hide('content')" variant="primary" v-show="disabled === true">OK</b-button>
+        <b-button v-show="disabled === false" v-on:click="editCheck">Save</b-button>
       </template>
     </b-modal>
 <!--    MODAL DELETE CONFIRM-->
@@ -137,8 +137,6 @@
 </template>
 
 <script>
-
-import customAxios from "@/customAxios/customAxios";
 import moment from 'moment'
 
 export default {
@@ -196,10 +194,6 @@ export default {
     }
   },
   methods: {
-    rowHovered(item, type) {
-      if (!item || type !== 'row') return
-      return 'table-info'
-    },
     info(item) {
       this.modalInfo.content = item
       this.modalInfo.title = item.brand + " " + item.beans

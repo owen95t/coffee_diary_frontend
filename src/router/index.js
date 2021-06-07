@@ -8,7 +8,7 @@ const routes = [
         path: '/',
         name: 'Homepage',
         component: () => import('../views/Home'),
-        meta: {title: 'Coffee Diary Homepage'},
+        meta: {title: 'Coffee Diary'},
     },
     {
         path: '/login',
