@@ -137,7 +137,9 @@
 </template>
 
 <script>
-import moment from 'moment'
+import dayjs from 'dayjs'
+import advancedFormat from 'dayjs/plugin/advancedFormat'
+dayjs.extend(advancedFormat)
 
 export default {
   name: "TableView",
@@ -157,7 +159,7 @@ export default {
         label: 'Date',
         sortable: true,
         formatter: (value, key, item) => {
-          return moment(item.date).format('MMM Do, YYYY')
+          return dayjs(item.date).format('MMM Do, YYYY')
         }
       }, {
         key: 'brand',

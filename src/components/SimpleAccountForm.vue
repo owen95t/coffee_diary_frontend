@@ -14,7 +14,7 @@
               <b-form-input type="text" class="form-control" placeholder="Username" v-model.trim="username" required></b-form-input>
             </b-form-group>
             <b-form-group>
-              <b-form-input type="password" class="form-control" placeholder="Password" v-model.trim="password" required></b-form-input>
+              <b-form-input type="password" class="form-control" placeholder="Password" v-model.trim="password" required v-on:keyup.enter="submit"></b-form-input>
             </b-form-group>
             <b-form-group>
               <b-button variant="primary" class="btn-block" v-on:click="submit">{{ buttonText }}</b-button>
@@ -95,7 +95,7 @@ export default {
       }
       try{
         let response = await customAxios.post('user/register', userInfo)
-        if(response.status == 201){
+        if(response.status === 201){
           //add loading
           alert('User Created Successfully! Please Login to Access Your Dashboard')
           await this.$router.push('/login')
@@ -113,7 +113,7 @@ export default {
       }
       try {
         let response = await customAxios.post('user/login', userInfo)
-        if(response.status == 200){
+        if(response.status === 200){
           alert('Log in success! Taking you to your dashboard...')
           console.log('CSRFToken: ' + response.headers['csrftoken'])
           localStorage.setItem('csrftoken', response.headers['csrftoken'])

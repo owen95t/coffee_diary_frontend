@@ -96,7 +96,7 @@ export default new Vuex.Store({
       let response;
       try{
         response = await customAxios.post('user/login', user)
-        if (response.status == 200) {
+        if (response.status === 200) {
           alert('Log in success! Taking you to your dashboard...')
           await dispatch("setLoggedIn", true)
           await router.push('/dashboard')
@@ -144,7 +144,7 @@ export default new Vuex.Store({
       console.log(_id)
       try{
         let response = await customAxios.delete('coffee/deleteEntry', {data: {id: _id}, headers: {'CSRFToken' : cToken}})
-        if (response.status == 200) {
+        if (response.status === 200) {
           alert('Delete Entry Success')
           commit('setGettingData', false)
           dispatch('getAllData')
