@@ -125,8 +125,8 @@
         Edit {{modalInfo.title.toUpperCase()}} ?
       </template>
       <template>
-        <p>Are you sure you want to edit this entry? ID: </p>
-        <pre>{{modalInfo.content._id}}</pre>
+        <p>Are you sure you want to edit this entry?</p>
+<!--        <pre>{{modalInfo.content._id}}</pre>-->
       </template>
       <template #modal-footer>
         <b-button v-on:click="$bvModal.hide('editConfirm')" variant="secondary">Cancel</b-button>

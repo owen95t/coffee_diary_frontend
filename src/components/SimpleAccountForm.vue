@@ -11,7 +11,7 @@
           <b-form>
             <h2 class="text-center">{{header}}</h2>
             <b-form-group class="mt-3">
-              <b-form-input type="text" class="form-control" placeholder="Username" v-model.trim="username" required></b-form-input>
+              <b-form-input type="text" class="form-control" placeholder="Email Address" v-model.trim="username" required></b-form-input>
             </b-form-group>
             <b-form-group>
               <b-form-input type="password" class="form-control" placeholder="Password" v-model.trim="password" required v-on:keyup.enter="submit"></b-form-input>
@@ -21,9 +21,17 @@
             </b-form-group>
           </b-form>
           <template #overlay>
-            <div class="text-center">
-              <b-spinner variant="info" style="height: 5rem; width: 5rem"></b-spinner>
-              <p>Hold your horses!</p>
+            <div v-if="waiting === true">
+              <div class="text-center">
+                <b-spinner variant="info" style="height: 5rem; width: 5rem"></b-spinner>
+                <p>Hold your horses!</p>
+              </div>
+            </div>
+            <div v-else>
+              <div class="text-center">
+<!--                <b-spinner variant="info" style="height: 5rem; width: 5rem"></b-spinner>-->
+                <p>Success!</p>
+              </div>
             </div>
           </template>
         </b-overlay>
@@ -66,7 +74,8 @@ export default {
       buttonText: '',
       username: '',
       password: '',
-      show: false
+      show: false,
+      waiting: true,
     }
   },
   methods: {
@@ -111,14 +120,17 @@ export default {
         username: this.username,
         password: this.password
       }
+      this.waiting = true;
       try {
         let response = await customAxios.post('user/login', userInfo)
         if(response.status === 200){
-          alert('Log in success! Taking you to your dashboard...')
+          this.waiting = false;
+          //alert('Log in success! Taking you to your dashboard...')
           console.log('CSRFToken: ' + response.headers['csrftoken'])
           localStorage.setItem('csrftoken', response.headers['csrftoken'])
           await this.$store.dispatch("setLoggedIn", true);
-          await this.$router.push('/dashboard')
+          setTimeout(() => this.$router.push('/dashboard'),3000)
+          // await this.$router.push('/dashboard')
         }
       }catch (e) {
         console.log('Log in error: ' + e)
