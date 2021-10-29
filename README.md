@@ -8,6 +8,8 @@ A place where you can keep track of your coffee diary brewing techniques!
 
 ### Backend at https://github.com/owen95t/coffee_diary_server
 
+### [Screenshots](https://lizard-driver-511.notion.site/Coffee-Diary-Screenshots-868f1892e223414a8107fa4d3a238159)
+
 
 ## Dependencies:
 - Vue.js
