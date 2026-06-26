@@ -2,10 +2,6 @@
   <SimpleAccountForm is-login />
 </template>
 
-<script setup>
+<script setup lang="ts">
 import SimpleAccountForm from '@/components/SimpleAccountForm.vue'
 </script>
-
-<style scoped>
-
-</style>

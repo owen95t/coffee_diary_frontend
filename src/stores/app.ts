@@ -1,10 +1,22 @@
 import { defineStore } from 'pinia'
 import customAxios from '@/customAxios/customAxios'
+import type { ApiMessageResponse, SessionCheckResponse } from '@/types/api'
+import type { CoffeeEntry, CoffeeEntryForm, CoffeeEntryUpdate } from '@/types/coffee'
+import { getErrorMessage, isUnauthorizedError } from '@/utils/api'
 
-const getCsrfToken = () => localStorage.getItem('csrftoken') ?? ''
+interface AppState {
+  isLoggedIn: boolean
+  results: CoffeeEntry[]
+  gettingData: boolean
+  submitting: boolean
+  loggingOut: boolean
+  sessionChecked: boolean
+}
+
+const getCsrfToken = (): string => localStorage.getItem('csrftoken') ?? ''
 
 export const useAppStore = defineStore('app', {
-  state: () => ({
+  state: (): AppState => ({
     isLoggedIn: false,
     results: [],
     gettingData: false,
@@ -13,69 +25,76 @@ export const useAppStore = defineStore('app', {
     sessionChecked: false,
   }),
   actions: {
-    setLoggedIn(payload) {
+    setLoggedIn(payload: boolean): void {
       this.isLoggedIn = payload
       this.sessionChecked = true
     },
-    clearResults() {
+    clearResults(): void {
       this.results = []
     },
-    handleUnauthorized() {
+    handleUnauthorized(): void {
       this.isLoggedIn = false
       this.sessionChecked = true
       this.results = []
       localStorage.removeItem('csrftoken')
     },
-    async getAllData() {
+    async getAllData(): Promise<void> {
       this.gettingData = true
+
       try {
-        const response = await customAxios.get('/coffee/all', {
+        const response = await customAxios.get<CoffeeEntry[]>('/coffee/all', {
           headers: { CSRFToken: getCsrfToken() },
         })
+
         this.results = response.data
-      } catch (error) {
-        if (error.response?.status === 401) {
+      } catch (error: unknown) {
+        if (isUnauthorizedError(error)) {
           this.handleUnauthorized()
         }
+
         console.log('Store getAllData Error')
         console.log(error)
       } finally {
         this.gettingData = false
       }
     },
-    async postEntry(entryInfo) {
+    async postEntry(entryInfo: CoffeeEntryForm): Promise<void> {
       this.submitting = true
+
       try {
-        const response = await customAxios.post('coffee/new', entryInfo, {
+        const response = await customAxios.post<ApiMessageResponse>('coffee/new', entryInfo, {
           headers: { CSRFToken: getCsrfToken() },
         })
+
         if (response) {
           alert('New Entry Success')
           await this.getAllData()
         }
-      } catch (error) {
-        if (error.response?.status === 401) {
+      } catch (error: unknown) {
+        if (isUnauthorizedError(error)) {
           this.handleUnauthorized()
         }
+
         console.log(error)
-        alert(`Entry Error: ${error.response?.data?.message ?? error.message}`)
+        alert(`Entry Error: ${getErrorMessage(error)}`)
         throw error
       } finally {
         this.submitting = false
       }
     },
-    async checkSession() {
+    async checkSession(): Promise<boolean> {
       if (this.sessionChecked) {
         return this.isLoggedIn
       }
 
       try {
-        const response = await customAxios.get('/user/check')
+        const response = await customAxios.get<SessionCheckResponse>('/user/check')
         this.isLoggedIn = Boolean(response.data.valid)
+
         if (!this.isLoggedIn) {
           localStorage.removeItem('csrftoken')
         }
-      } catch (error) {
+      } catch (error: unknown) {
         this.isLoggedIn = false
         localStorage.removeItem('csrftoken')
       } finally {
@@ -84,10 +103,12 @@ export const useAppStore = defineStore('app', {
 
       return this.isLoggedIn
     },
-    async logout() {
+    async logout(): Promise<boolean> {
       this.loggingOut = true
+
       try {
-        const response = await customAxios.get('user/logout')
+        const response = await customAxios.get<ApiMessageResponse>('user/logout')
+
         if (response) {
           console.log('logout response is...')
           console.log(response.data.message)
@@ -96,59 +117,67 @@ export const useAppStore = defineStore('app', {
           localStorage.removeItem('csrftoken')
           return true
         }
-      } catch (error) {
-        if (error.response?.status === 401) {
+      } catch (error: unknown) {
+        if (isUnauthorizedError(error)) {
           this.handleUnauthorized()
         }
+
         console.log(error)
-        alert(`Log Out Error: ${error.response?.data?.message ?? error.message}`)
+        alert(`Log Out Error: ${getErrorMessage(error)}`)
         return false
       } finally {
         this.loggingOut = false
         this.sessionChecked = true
       }
+
       return false
     },
-    async deleteEntry(id) {
+    async deleteEntry(id: string): Promise<void> {
       this.gettingData = true
+
       try {
-        const response = await customAxios.delete('coffee/deleteEntry', {
+        const response = await customAxios.delete<ApiMessageResponse>('coffee/deleteEntry', {
           data: { id },
           headers: { CSRFToken: getCsrfToken() },
         })
+
         if (response.status === 200) {
           alert('Delete Entry Success')
           await this.getAllData()
         }
-      } catch (error) {
-        if (error.response?.status === 401) {
+      } catch (error: unknown) {
+        if (isUnauthorizedError(error)) {
           this.handleUnauthorized()
         }
-        console.log('Delete Error: ' + error)
+
+        console.log(`Delete Error: ${getErrorMessage(error)}`)
         alert('Delete Error')
         throw error
       } finally {
         this.gettingData = false
       }
     },
-    async editEntry(item) {
+    async editEntry(item: CoffeeEntryUpdate): Promise<void> {
       this.gettingData = true
+
       try {
-        const response = await customAxios.put(
+        const response = await customAxios.put<ApiMessageResponse>(
           'coffee/updateEntry',
           { id: item.id, item: item.body },
           { headers: { CSRFToken: getCsrfToken() } }
         )
+
         if (response) {
           alert('Entry Edited')
           await this.getAllData()
         }
-      } catch (error) {
-        if (error.response?.status === 401) {
+      } catch (error: unknown) {
+        if (isUnauthorizedError(error)) {
           this.handleUnauthorized()
         }
-        console.log('Edit Entry Error: ' + error)
-        alert(`Entry was not updated. Error: ${error}`)
+
+        console.log(`Edit Entry Error: ${getErrorMessage(error)}`)
+        alert(`Entry was not updated. Error: ${getErrorMessage(error)}`)
         throw error
       } finally {
         this.gettingData = false

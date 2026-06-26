@@ -54,15 +54,13 @@
  </div>
 </template>
 
-<script>
+<script setup lang="ts">
+defineOptions({
+  name: 'HomePage',
+})
 
-export default {
-  name: "HomePage",
-  methods: {
-    scrollToBottom() {
-      document.getElementById('bottom')?.scrollIntoView({ behavior: 'smooth' })
-    },
-  }
+const scrollToBottom = (): void => {
+  document.getElementById('bottom')?.scrollIntoView({ behavior: 'smooth' })
 }
 </script>
 
@@ -118,9 +116,6 @@ h1 {
   .routerLink{
     font-size: 4vw;
   }
-  .bottom-header {
-
-  }
 }
 
 .top {
@@ -151,10 +146,6 @@ h1 {
 .bottom-buttons {
   font-size: 2rem;
   position: relative;
-}
-
-
-.about-header{
 }
 .routerLink {
   text-decoration: none;

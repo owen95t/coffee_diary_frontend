@@ -7,7 +7,7 @@
           fixed
           responsive="sm"
           sticky-header="30rem"
-          :items="dataWatch"
+          :items="results"
           :fields="fields"
           :sort-by="sortBy"
           :sort-desc="sortDesc"
@@ -118,152 +118,152 @@
   </div>
 </template>
 
-<script>
-import { mapActions, mapState } from 'pinia'
+<script setup lang="ts">
 import dayjs from 'dayjs'
 import advancedFormat from 'dayjs/plugin/advancedFormat'
+import { storeToRefs } from 'pinia'
+import { onBeforeUnmount, onMounted, reactive, ref, toRef, watch } from 'vue'
 import { useAppStore } from '@/stores/app'
+import { createEmptyCoffeeEntry } from '@/types/coffee'
+import type { CoffeeEntry, CoffeeEntryUpdate } from '@/types/coffee'
 
 dayjs.extend(advancedFormat)
 
-const createEmptyContent = () => ({
-  _id: '',
-  brand: '',
-  beans: '',
-  roast: '',
-  weight: '',
-  grind_size: '',
-  yield: '',
-  time: '',
-  equipment: '',
-  remarks: '',
-  roaster_remarks: '',
+type SortFieldKey = 'date' | 'brand' | 'beans' | 'roast'
+
+interface ModalInfo {
+  title: string
+  content: CoffeeEntry
+}
+
+interface TableFieldDefinition {
+  key: SortFieldKey
+  label: string
+  sortable: boolean
+  formatter?: (_value: unknown, _key: string, item: CoffeeEntry) => string
+}
+
+const props = defineProps<{
+  search: string
+}>()
+
+const search = toRef(props, 'search')
+const appStore = useAppStore()
+const { results } = storeToRefs(appStore)
+
+const modalInfo = reactive<ModalInfo>({
+  title: '',
+  content: createEmptyCoffeeEntry(),
 })
 
-export default {
-  name: "TableView",
-  props: [
-      'search'
-  ],
-  data() {
-    return {
-      modalInfo: {
-        title: '',
-        content: createEmptyContent(),
-      },
-      fields: [{
-        key: 'date',
-        label: 'Date',
-        sortable: true,
-        formatter: (value, key, item) => {
-          return dayjs(item.date).format('MMM Do, YYYY')
-        }
-      }, {
-        key: 'brand',
-        label: 'Brand',
-        sortable: true
-      }, {
-        key: 'beans',
-        label: 'Beans',
-        sortable: true
-      }, {
-        key: 'roast',
-        label: 'Roast',
-        sortable: true
-      }],
-      disabled: true,
-      sortBy: 'date',
-      sortDesc: true,
-      showContentModal: false,
-      showDeleteModal: false,
-      showEditModal: false,
-    }
+const fields = [
+  {
+    key: 'date',
+    label: 'Date',
+    sortable: true,
+    formatter: (_value: unknown, _key: string, item: CoffeeEntry) => dayjs(item.date).format('MMM Do, YYYY'),
   },
-  methods: {
-    ...mapActions(useAppStore, {
-      fetchAllData: 'getAllData',
-      removeEntry: 'deleteEntry',
-      saveEntry: 'editEntry',
-      resetResults: 'clearResults',
-    }),
-    info(item) {
-      this.modalInfo.content = { ...item }
-      this.modalInfo.title = item.brand + " " + item.beans
-      this.disabled = true
-      this.showContentModal = true
-    },
-    modalClose(){
-      this.disabled = true
-      this.modalInfo.title = ''
-      this.modalInfo.content = createEmptyContent()
-      this.showDeleteModal = false
-      this.showEditModal = false
-    },
-    toggleDisabled() {
-      this.disabled = !this.disabled
-    },
-    mySortCompare(a, b, key) {
-      if (key === 'date') {
-        // Assuming the date field is a `Date` object, subtraction
-        // works on the date serial number (epoch value)
-        return Date.parse(a[key]) - Date.parse(b[key])
-      } else {
-        // Let b-table handle sorting other fields (other than `date` field)
-        return false
-      }
-    },
-    deleteCheck() {
-      this.showDeleteModal = true
-    },
-    async deleteEntry() {
-      const id = this.modalInfo.content._id
-      try {
-        await this.removeEntry(id)
-      } catch (error) {
-        console.log(error)
-      } finally {
-        this.showDeleteModal = false
-        this.showContentModal = false
-      }
-    },
-    editCheck(){
-      this.showEditModal = true
-    },
-    async editEntry(){
-      const item = {
-        id: this.modalInfo.content._id,
-        body: { ...this.modalInfo.content }
-      }
-      try {
-        await this.saveEntry(item)
-      } catch (error) {
-        console.log(error)
-      } finally {
-        this.showEditModal = false
-        this.showContentModal = false
-      }
-    }
+  {
+    key: 'brand',
+    label: 'Brand',
+    sortable: true,
   },
-  mounted() {
-    this.fetchAllData()
+  {
+    key: 'beans',
+    label: 'Beans',
+    sortable: true,
   },
-  watch: {
-    showContentModal(newValue) {
-      if (!newValue) {
-        this.modalClose()
-      }
-    },
+  {
+    key: 'roast',
+    label: 'Roast',
+    sortable: true,
   },
-  computed: {
-    ...mapState(useAppStore, ['results']),
-    dataWatch() {
-      return this.results
-    },
-  },
-  beforeUnmount() {
-    this.resetResults()
+] satisfies TableFieldDefinition[]
+
+const disabled = ref(true)
+const sortBy = ref<SortFieldKey>('date')
+const sortDesc = ref(true)
+const showContentModal = ref(false)
+const showDeleteModal = ref(false)
+const showEditModal = ref(false)
+
+const info = (item: CoffeeEntry): void => {
+  modalInfo.content = { ...item }
+  modalInfo.title = `${item.brand} ${item.beans}`
+  disabled.value = true
+  showContentModal.value = true
+}
+
+const modalClose = (): void => {
+  disabled.value = true
+  modalInfo.title = ''
+  modalInfo.content = createEmptyCoffeeEntry()
+  showDeleteModal.value = false
+  showEditModal.value = false
+}
+
+const toggleDisabled = (): void => {
+  disabled.value = !disabled.value
+}
+
+const mySortCompare = (a: CoffeeEntry, b: CoffeeEntry, key: string): number | boolean => {
+  if (key === 'date') {
+    return Date.parse(a.date) - Date.parse(b.date)
+  }
+
+  return false
+}
+
+const deleteCheck = (): void => {
+  showDeleteModal.value = true
+}
+
+const deleteEntry = async (): Promise<void> => {
+  const id = modalInfo.content._id
+
+  try {
+    await appStore.deleteEntry(id)
+  } catch (error: unknown) {
+    console.log(error)
+  } finally {
+    showDeleteModal.value = false
+    showContentModal.value = false
   }
 }
+
+const editCheck = (): void => {
+  showEditModal.value = true
+}
+
+const editEntry = async (): Promise<void> => {
+  const item: CoffeeEntryUpdate = {
+    id: modalInfo.content._id,
+    body: { ...modalInfo.content },
+  }
+
+  try {
+    await appStore.editEntry(item)
+  } catch (error: unknown) {
+    console.log(error)
+  } finally {
+    showEditModal.value = false
+    showContentModal.value = false
+  }
+}
+
+onMounted(() => {
+  void appStore.getAllData()
+})
+
+watch(showContentModal, (newValue) => {
+  if (!newValue) {
+    modalClose()
+  }
+})
+
+onBeforeUnmount(() => {
+  appStore.clearResults()
+})
 </script>
 
 <style>

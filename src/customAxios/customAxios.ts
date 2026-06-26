@@ -1,6 +1,6 @@
-import axios from 'axios'
+import axios, { type AxiosInstance } from 'axios'
 
-const customAxios = axios.create({
+const customAxios: AxiosInstance = axios.create({
   baseURL: 'https://api.coffeediary.app/api',
   timeout: 5000,
   withCredentials: true,

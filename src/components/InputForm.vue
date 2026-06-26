@@ -174,70 +174,47 @@
   </div>
 </template>
 
-<script>
-import { mapActions, mapState } from 'pinia'
+<script setup lang="ts">
+import { storeToRefs } from 'pinia'
+import { reactive, ref, watch } from 'vue'
 import { useAppStore } from '@/stores/app'
+import { createEmptyCoffeeEntryForm } from '@/types/coffee'
+import type { CoffeeEntryForm } from '@/types/coffee'
 
-export default {
-  name: "InputForm",
-  data() {
-    return {
-      page: 0,
-      entryInfo: {
-        brand: '',
-        beans: '',
-        roast: '',
-        weight: '',
-        grind_size: '',
-        yield: '',
-        time: '',
-        equipment: '',
-        remarks: '',
-        roaster_remarks: '',
-      },
-      showModal: false,
-    }
-  },
-  computed: {
-    ...mapState(useAppStore, ['submitting']),
-  },
-  watch: {
-    showModal(newValue) {
-      if (!newValue) {
-        this.page = 0
-      }
-    },
-  },
-  methods: {
-    ...mapActions(useAppStore, ['postEntry']),
-    async submit() {
-      try{
-        await this.postEntry({ ...this.entryInfo })
-        this.showModal = false
-        this.clear()
-      }catch (e) {
-        console.log('Error caught at submit: ' + e)
-      }
-    },
-    show(){
-      this.showModal = true
-    },
-    clear(){
-      this.entryInfo = {
-        brand: '',
-        beans: '',
-        roast: '',
-        weight: '',
-        grind_size: '',
-        yield: '',
-        time: '',
-        equipment: '',
-        remarks: '',
-        roaster_remarks: '',
-      }
-    },
-  },
+const appStore = useAppStore()
+const { submitting } = storeToRefs(appStore)
+
+const page = ref(0)
+const showModal = ref(false)
+const entryInfo = reactive<CoffeeEntryForm>(createEmptyCoffeeEntryForm())
+
+watch(showModal, (newValue) => {
+  if (!newValue) {
+    page.value = 0
+  }
+})
+
+const clear = (): void => {
+  Object.assign(entryInfo, createEmptyCoffeeEntryForm())
 }
+
+const submit = async (): Promise<void> => {
+  try {
+    await appStore.postEntry({ ...entryInfo })
+    showModal.value = false
+    clear()
+  } catch (error: unknown) {
+    console.log(`Error caught at submit: ${String(error)}`)
+  }
+}
+
+const show = (): void => {
+  showModal.value = true
+}
+
+defineExpose({
+  show,
+})
 </script>
 
 <style scoped>

@@ -46,42 +46,40 @@
   </div>
 </template>
 
-<script>
-import { mapActions, mapState } from 'pinia'
+<script setup lang="ts">
+import { storeToRefs } from 'pinia'
+import { ref, watch } from 'vue'
 import TableView from '@/components/TableView.vue'
 import InputForm from '@/components/InputForm.vue'
+import router from '@/router'
 import { useAppStore } from '@/stores/app'
 
-export default {
-  name: "UserDashboard",
-  components: {InputForm, TableView},
-  data() {
-    return {
-      searchTerm: '',
-    }
-  },
-  computed: {
-    ...mapState(useAppStore, ['gettingData', 'isLoggedIn', 'loggingOut']),
-  },
-  watch: {
-    isLoggedIn(newValue) {
-      if (!newValue && !this.loggingOut) {
-        this.$router.push('/login')
-      }
-    },
-  },
-  methods: {
-    ...mapActions(useAppStore, ['logout']),
-    async handleLogout() {
-      const loggedOut = await this.logout()
-      if (loggedOut) {
-        await this.$router.push('/')
-      }
-    },
-    openModal(){
-      this.$refs.modalComp.show()
-    },
+interface InputFormExposed {
+  show: () => void
+}
+
+const appStore = useAppStore()
+const { gettingData, isLoggedIn, loggingOut } = storeToRefs(appStore)
+
+const searchTerm = ref('')
+const modalComp = ref<InputFormExposed | null>(null)
+
+watch(isLoggedIn, async (newValue) => {
+  if (!newValue && !loggingOut.value) {
+    await router.push('/login')
   }
+})
+
+const handleLogout = async (): Promise<void> => {
+  const loggedOut = await appStore.logout()
+
+  if (loggedOut) {
+    await router.push('/')
+  }
+}
+
+const openModal = (): void => {
+  modalComp.value?.show()
 }
 </script>
 
@@ -120,10 +118,6 @@ export default {
 .logout-button:hover{
   text-decoration: underline;
   font-style: italic;
-}
-
-.main-column{
-
 }
 
 .input-form{

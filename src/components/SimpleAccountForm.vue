@@ -42,90 +42,127 @@
   </div>
 </template>
 
-<script>
-import customAxios from "@/customAxios/customAxios";
+<script setup lang="ts">
+import { computed, ref, toRef } from 'vue'
+import customAxios from '@/customAxios/customAxios'
+import router from '@/router'
 import { useAppStore } from '@/stores/app'
+import type { ApiMessageResponse, Credentials } from '@/types/api'
+import { getErrorMessage, normalizeHeaderValue } from '@/utils/api'
 
-export default {
-  name: "AccountForm",
-  props: {
-    isLogin: Boolean,
-    isRegister: Boolean
-  },
-  data(){
-    return{
-      header: '',
-      buttonText: '',
-      username: '',
-      password: '',
-      show: false,
-      waiting: true,
-    }
-  },
-  methods: {
-    check() {
-      if (this.isRegister) {
-        this.header = 'REGISTER'
-        this.buttonText = 'REGISTER'
-      }else if (this.isLogin) {
-        this.header = 'LOG IN'
-        this.buttonText = 'LOG IN'
-      }
-    },
-    submit() {
-      this.waiting = true
-      if(this.isRegister){
-        this.sendRegister()
-        this.show = true
-      }else if (this.isLogin) {
-        this.sendLogin()
-        this.show = true
-      }
-    },
-    async sendRegister(){
-      const userInfo = {
-        username: this.username.toLowerCase(),
-        password: this.password
-      }
-      try{
-        let response = await customAxios.post('user/register', userInfo)
-        if(response.status === 201){
-          alert('User Created Successfully! Please Login to Access Your Dashboard')
-          await this.$router.push('/login')
-        }
-      }catch (e) {
-        const message = e.response?.data?.message ?? e.message
-        console.log('Registration Error: ' + message)
-        alert('Registration Error. Please try again.' + '\n' + message)
-        this.show = false
-      }
-    },
-    async sendLogin(){
-      const userInfo = {
-        username: this.username,
-        password: this.password
-      }
-      this.waiting = true;
-      try {
-        let response = await customAxios.post('user/login', userInfo)
-        if(response.status === 200){
-          this.waiting = false
-          console.log('CSRFToken: ' + response.headers['csrftoken'])
-          localStorage.setItem('csrftoken', response.headers['csrftoken'])
-          const appStore = useAppStore()
-          appStore.setLoggedIn(true)
-          window.setTimeout(() => this.$router.push('/dashboard'), 3000)
-        }
-      }catch (e) {
-        console.log('Log in error: ' + e)
-        alert('Log in error: ' + (e.response?.data?.message ?? e.message))
-        this.show = false
-      }
-    },
-  },
-  mounted() {
-    this.check()
+const props = withDefaults(
+  defineProps<{
+    isLogin?: boolean
+    isRegister?: boolean
+  }>(),
+  {
+    isLogin: false,
+    isRegister: false,
   }
+)
+
+const isLogin = toRef(props, 'isLogin')
+const isRegister = toRef(props, 'isRegister')
+const appStore = useAppStore()
+
+const username = ref('')
+const password = ref('')
+const show = ref(false)
+const waiting = ref(true)
+
+const header = computed(() => {
+  if (isRegister.value) {
+    return 'REGISTER'
+  }
+
+  if (isLogin.value) {
+    return 'LOG IN'
+  }
+
+  return ''
+})
+
+const buttonText = computed(() => {
+  if (isRegister.value) {
+    return 'REGISTER'
+  }
+
+  if (isLogin.value) {
+    return 'LOG IN'
+  }
+
+  return ''
+})
+
+const sendRegister = async (): Promise<void> => {
+  const userInfo: Credentials = {
+    username: username.value.toLowerCase(),
+    password: password.value,
+  }
+
+  try {
+    const response = await customAxios.post<ApiMessageResponse>('user/register', userInfo)
+
+    if (response.status === 201) {
+      alert('User Created Successfully! Please Login to Access Your Dashboard')
+      await router.push('/login')
+    }
+  } catch (error: unknown) {
+    const message = getErrorMessage(error)
+    console.log(`Registration Error: ${message}`)
+    alert(`Registration Error. Please try again.\n${message}`)
+    waiting.value = true
+    show.value = false
+  }
+}
+
+const sendLogin = async (): Promise<void> => {
+  const userInfo: Credentials = {
+    username: username.value,
+    password: password.value,
+  }
+
+  waiting.value = true
+
+  try {
+    const response = await customAxios.post('user/login', userInfo)
+
+    if (response.status === 200) {
+      waiting.value = false
+
+      const csrfToken = normalizeHeaderValue(response.headers['csrftoken'])
+
+      if (csrfToken) {
+        localStorage.setItem('csrftoken', csrfToken)
+      }
+
+      appStore.setLoggedIn(true)
+      window.setTimeout(() => {
+        void router.push('/dashboard')
+      }, 3000)
+    }
+  } catch (error: unknown) {
+    console.log(`Log in error: ${getErrorMessage(error)}`)
+    alert(`Log in error: ${getErrorMessage(error)}`)
+    waiting.value = true
+    show.value = false
+  }
+}
+
+const submit = async (): Promise<void> => {
+  waiting.value = true
+  show.value = true
+
+  if (isRegister.value) {
+    await sendRegister()
+    return
+  }
+
+  if (isLogin.value) {
+    await sendLogin()
+    return
+  }
+  show.value = false
 }
 </script>
 

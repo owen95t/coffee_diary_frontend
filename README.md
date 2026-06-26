@@ -12,6 +12,7 @@ A place where you can keep track of your coffee diary brewing techniques!
 
 
 ## Dependencies:
+- TypeScript
 - Vue 3
 - Pinia
 - Vue Router
@@ -67,6 +68,11 @@ npm run preview
 ### Lints the project
 ```
 npm run lint
+```
+
+### Type-checks the project
+```
+npm run type-check
 ```
 
 ### Customize configuration
