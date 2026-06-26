@@ -8,12 +8,9 @@
   </div>
 </template>
 
-<script>
-import Form from "@/components/Form";
-export default {
-name: "FormTest",
-  components: {Form}
-}
+<script setup>
+import Form from '../components/FormComponent.vue'
+
 </script>
 
 <style scoped>

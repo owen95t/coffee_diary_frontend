@@ -45,17 +45,11 @@
 </template>
 
 <script>
-import customAxios from "@/customAxios/customAxios";
-//import NewEntry from "@/components/NewEntry";
 import TableView from "@/components/TableView";
 import InputForm from "@/components/InputForm";
 
-
-// customAxios.defaults.xsrfHeaderName = 'X-CSRFToken';
-// customAxios.defaults.xsrfCookieName = 'csrftoken';
-
 export default {
-  name: "Dashboard",
+  name: "UserDashboard",
   components: {InputForm, TableView},
   data() {
     return {

@@ -1,26 +1,25 @@
 <template>
-
     <div class="container">
       <div class="heading">
         <h1>{{ header }}</h1>
       </div>
-      <b-form class="form-input mx-auto" @submit="submit">
-        <b-form-group class="mb-0">
-          <b-form-input id="input-email" class="input" placeholder="ENTER EMAIL" v-model="username" required></b-form-input>
-        </b-form-group>
-        <b-form-group class="mt-0">
-          <b-form-input type="password" id="input-password" class="input" placeholder="ENTER PASSWORD" v-model="password" required></b-form-input>
-        </b-form-group>
-        <a v-on:click="$router.push('/')" style="font-size: 3vw">Forgot Password</a>
-        <div class="buttons">
-          <b-button class="custom-button mr-1" v-on:click="submit">{{button_text}}</b-button>
-          <b-button class="custom-button ml-1" v-on:click="$router.push('/')">CANCEL</b-button>
+      <form class="form-input mx-auto" @submit.prevent="submit">
+        <div class="mb-0">
+          <input id="input-email" class="input form-control" type="email" placeholder="ENTER EMAIL" v-model="username" required>
         </div>
-      </b-form>
+        <div class="mt-0">
+          <input type="password" id="input-password" class="input form-control" placeholder="ENTER PASSWORD" v-model="password" required>
+        </div>
+        <a @click="proxy.$router.push('/')" style="font-size: 3vw; cursor: pointer">Forgot Password</a>
+        <div class="buttons">
+          <button type="button" class="btn custom-button me-1" @click="submit">{{button_text}}</button>
+          <button type="button" class="btn custom-button ms-1" @click="proxy.$router.push('/')">CANCEL</button>
+        </div>
+      </form>
     </div>
 </template>
 
-<script>
+<!-- <script>
 import customAxios from "@/customAxios/customAxios";
 
 
@@ -104,6 +103,94 @@ export default {
     this.destroy()
   }
 }
+</script> -->
+
+<script setup>
+import customAxios from "../customAxios/customAxios";
+import { onMounted, onUnmounted, ref, getCurrentInstance } from 'vue';
+
+const props = defineProps({
+  isRegister: Boolean,
+  isLogin: Boolean,
+})
+
+const header = ref('')
+const button_text = ref('')
+const username = ref('')
+const password = ref('')
+
+const { proxy } = getCurrentInstance()
+
+const check = () => {
+  if (props.isRegister) {
+    header.value = 'REGISTER'
+    button_text.value = 'REGISTER'
+  }else if (props.isLogin) {
+    header.value = 'LOG IN'
+    button_text.value = 'LOG IN'
+  }
+}
+
+const submit = () => {
+  if (props.isRegister) {
+    sendRegister()
+  }else if (props.isLogin) {
+    sendLogin()
+  }
+}
+
+const sendLogin = async () => {
+  const userInfo = {
+    username: username.value,
+    password: password.value
+  }
+  try {
+    let response = await customAxios.post('user/login', userInfo)
+    if(response.status == 200){
+      alert('Log in success! Taking you to your dashboard...')
+      console.log('CSRFToken: ' + response.headers['csrftoken'])
+      localStorage.setItem('csrftoken', response.headers['csrftoken'])
+      // this.$store.commit("setCSRFToken", token)
+      await proxy.$store.dispatch("setLoggedIn", true);
+      await proxy.$router.push('/dashboard')
+    }
+  }catch (e) {
+    console.log('Log in error: ' + e)
+    alert('Log in error: ' + e.response.data.message)
+  }
+}
+
+const sendRegister = async () => {
+  const userInfo = {
+    username: username.value,
+    password: password.value
+  }
+  //console.log(userInfo)
+  try{
+    let response = await customAxios.post('http://localhost:3000/api/user/register', userInfo)
+    if (response.status == 201) {
+      alert('User created successfully! Taking you to your dashboard...')
+      await proxy.$router.push('/dashboard')
+    }
+  }catch (e) {
+    console.log('Registration Error: ' + e.response.data.message)
+    alert('Registration Error: ' + e.response.data.message)
+  }
+}
+
+const destroy = () => {
+  header.value = ''
+  button_text.value = ''
+}
+
+onMounted(() => {
+  check()
+})
+
+onUnmounted(() => {
+  destroy()
+})
+
 </script>
 
 <style scoped>
@@ -141,10 +228,11 @@ export default {
   border-left: none;
   border-right: none;
   border-radius: 0;
-
 }
+
 .input:focus{
   box-shadow: none;
+  border-color: black;
 }
 /*NEW*/
 

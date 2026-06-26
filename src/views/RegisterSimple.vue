@@ -2,15 +2,8 @@
   <SimpleAccountForm isRegister="true"/>
 </template>
 
-<script>
-import SimpleAccountForm from "@/components/SimpleAccountForm";
-
-export default {
-  name: "RegisterSimple",
-  components: {
-    SimpleAccountForm
-  }
-}
+<script setup>
+import SimpleAccountForm from "../components/SimpleAccountForm.vue";
 </script>
 
 <style scoped>

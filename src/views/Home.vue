@@ -55,12 +55,11 @@
 </template>
 
 <script>
-import SmoothScroll from 'smooth-scroll'
+
 export default {
-  name: "Home",
+  name: "HomePage",
   data() {
     return {
-      scroll: new SmoothScroll('a[href*="#"]')
     }
   }
 }

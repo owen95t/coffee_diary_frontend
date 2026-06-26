@@ -5,33 +5,14 @@
 </template>
 
 <script>
-
-import customAxios from "@/customAxios/customAxios";
-import store from "@/store";
-
 export default {
   name: 'App',
-  data() {
-    return {
-
-    }
-  },
-  components: {
-    // Home
-
-  },
-  methods: {
-
-  },
-  mounted() {
-
-  },
   metaInfo: {
     title: 'Coffee Diary',
   },
   created() {
     this.$store.dispatch('checkSession')
-  }
+  },
 }
 </script>
 

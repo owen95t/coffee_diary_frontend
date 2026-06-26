@@ -5,8 +5,8 @@
         <b-overlay :show="showLoading" rounded>
         <template id="modal-content">
 
-        <template v-if="this.page == 0" id="page1">
-          <div>
+        <template v-if="page === 0">
+          <div key="page1">
             <b-form-group
                 label="Brand: "
                 label-for="input-brand"
@@ -43,8 +43,8 @@
           </div>
         </template>
 
-        <template v-else-if="this.page == 1" id="page2">
-          <div>
+        <template v-else-if="page === 1">
+          <div key="page2">
             <b-form-group
                 label="Weight: "
                 label-for="input-weight"
@@ -106,8 +106,8 @@
           </div>
         </template>
 
-        <template v-else-if="this.page == 2" id="page3">
-          <div>
+        <template v-else-if="page === 2">
+          <div key="page3">
             <b-form-group
                 label="Remarks: "
                 label-for="input-remarks"
@@ -141,7 +141,7 @@
             </div>
           </template>
         </b-overlay>
-        <template #modal-footer id="modal-footer">
+        <template #modal-footer>
         <b-button
             v-on:click="$bvModal.hide('input-modal')"
             variant="danger"
@@ -156,7 +156,7 @@
           Previous
         </b-button>
         <b-button
-            v-show="page != 2"
+            v-show="page !== 2"
             v-on:click="page++"
             variant="outline-dark"
         >
@@ -164,7 +164,7 @@
         </b-button>
         <b-button
             variant="success"
-            v-show="page == 2"
+            v-show="page === 2"
             v-on:click="submit"
         >
           Submit

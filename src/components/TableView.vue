@@ -9,8 +9,8 @@
           sticky-header="30rem"
           :items="dataWatch"
           :fields="fields"
-          :sort-by.sync="sortBy"
-          :sort-desc.sync="sortDesc"
+          :sort-by="sortBy"
+          :sort-desc="sortDesc"
           :sort-compare="mySortCompare"
           @row-clicked="info"
           :key="modalKey"
@@ -262,7 +262,7 @@ export default {
       return this.$store.getters.getAllData
     },
   },
-  beforeDestroy() {
+  beforeUnmount() {
     this.$store.commit('setData', [])
   }
 }

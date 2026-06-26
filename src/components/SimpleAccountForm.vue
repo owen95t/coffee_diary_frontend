@@ -1,7 +1,7 @@
 <template>
   <div class="pagewrap">
     <b-nav>
-      <b-nav-item class="back-nav" to="/"><BIconArrowLeft/> Home</b-nav-item>
+      <b-nav-item class="back-nav" to="/"><i class="bi bi-arrow-left"></i> Home</b-nav-item>
     </b-nav>
     <div class="form-wrapper">
       <h1 class="mt-5 mb-0 form-header">Coffee Diary</h1>
@@ -44,17 +44,12 @@
 
 <script>
 import customAxios from "@/customAxios/customAxios";
-import {BIconArrowLeft} from 'bootstrap-vue'
-import router from "@/router";
 
 export default {
   name: "AccountForm",
   props: {
     isLogin: Boolean,
     isRegister: Boolean
-  },
-  components: {
-    BIconArrowLeft
   },
   computed: {
     isLoggedIn() {
@@ -142,10 +137,8 @@ export default {
   mounted() {
     this.check()
     if (this.isLoggedIn) {
-      router.push('/dashboard')
+      this.$router.push('/dashboard')
     }
-  },
-  created() {
   }
 }
 </script>

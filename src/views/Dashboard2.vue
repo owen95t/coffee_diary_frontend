@@ -56,10 +56,8 @@
 </template>
 
 <script>
-import TableView from "@/components/TableView";
 export default {
-name: "Dashboard2",
-
+  name: "DashboardTwo",
 }
 </script>
 

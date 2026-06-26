@@ -1,5 +1,4 @@
-const axios = require('axios');
-import router from '../router/index'
+import axios from 'axios'
 import store from '../store/index'
 
 const customAxios = new axios.create({
@@ -16,8 +15,8 @@ customAxios.interceptors.request.use((request) => {
     return request
 },
     error => {
-    return Promise.reject(error)
-})
+        return Promise.reject(error)
+    })
 customAxios.interceptors.response.use((response) => {
     return response
 }, (error) => {
