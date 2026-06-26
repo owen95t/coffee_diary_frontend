@@ -1,16 +1,9 @@
 <template>
-  <SimpleAccountForm isLogin="true"/>
+  <SimpleAccountForm is-login />
 </template>
 
-<script>
-import SimpleAccountForm from "@/components/SimpleAccountForm";
-
-export default {
-  name: "LoginSimple",
-  components: {
-    SimpleAccountForm
-  }
-}
+<script setup>
+import SimpleAccountForm from '@/components/SimpleAccountForm.vue'
 </script>
 
 <style scoped>

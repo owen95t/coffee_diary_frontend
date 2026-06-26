@@ -1,8 +1,7 @@
 <template>
   <div class="m-0 p-0">
-
-      <b-modal id="input-modal" size="lg" class="modal-dialog" @hide="hide" title="New Entry">
-        <b-overlay :show="showLoading" rounded>
+      <b-modal v-model="showModal" size="lg" title="New Entry">
+        <b-overlay :show="submitting" rounded>
         <template id="modal-content">
 
         <template v-if="page === 0">
@@ -141,23 +140,23 @@
             </div>
           </template>
         </b-overlay>
-        <template #modal-footer>
+        <template #footer>
         <b-button
-            v-on:click="$bvModal.hide('input-modal')"
+            @click="showModal = false"
             variant="danger"
         >
           Close
         </b-button>
         <b-button
             v-show="page > 0"
-            v-on:click="page--"
+            @click="page--"
             variant="outline-dark"
         >
           Previous
         </b-button>
         <b-button
             v-show="page !== 2"
-            v-on:click="page++"
+            @click="page++"
             variant="outline-dark"
         >
           Next
@@ -165,7 +164,7 @@
         <b-button
             variant="success"
             v-show="page === 2"
-            v-on:click="submit"
+            @click="submit"
         >
           Submit
         </b-button>
@@ -176,12 +175,14 @@
 </template>
 
 <script>
+import { mapActions, mapState } from 'pinia'
+import { useAppStore } from '@/stores/app'
+
 export default {
   name: "InputForm",
   data() {
     return {
       page: 0,
-      templates: [],
       entryInfo: {
         brand: '',
         beans: '',
@@ -194,38 +195,32 @@ export default {
         remarks: '',
         roaster_remarks: '',
       },
-      showLoading: false,
+      showModal: false,
     }
   },
   computed: {
-    isSubmitting() {
-      return this.$store.getters.getSubmitting
-    }
+    ...mapState(useAppStore, ['submitting']),
   },
   watch: {
-    isSubmitting(newVal) {
-      if (newVal === true) {
-        this.showLoading = true
-      }else if (newVal === false) {
-        this.showLoading = false
+    showModal(newValue) {
+      if (!newValue) {
+        this.page = 0
       }
-    }
+    },
   },
   methods: {
+    ...mapActions(useAppStore, ['postEntry']),
     async submit() {
-      this.showLoading = true
-      this.$store.commit('setPost', this.entryInfo)
       try{
-        await this.$store.dispatch('postEntry')
-        this.$bvModal.hide('input-modal')
+        await this.postEntry({ ...this.entryInfo })
+        this.showModal = false
         this.clear()
       }catch (e) {
         console.log('Error caught at submit: ' + e)
-        alert('Error Submitting: ' + e)
       }
     },
     show(){
-      this.$bvModal.show('input-modal')
+      this.showModal = true
     },
     clear(){
       this.entryInfo = {
@@ -241,9 +236,6 @@ export default {
         roaster_remarks: '',
       }
     },
-    hide() {
-      this.page = 0;
-    }
   },
 }
 </script>
@@ -263,12 +255,4 @@ export default {
   color: black;
   font-style: italic;
 }
-.modal-dialog{
-  height: 75%;
-  min-height: 75%;
-}
-#modal-content{
-  height: 100%;
-}
-
 </style>

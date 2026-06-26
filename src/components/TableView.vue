@@ -13,7 +13,6 @@
           :sort-desc="sortDesc"
           :sort-compare="mySortCompare"
           @row-clicked="info"
-          :key="modalKey"
           class="table-view m-0 w-100"
           id="my-table"
           :filter="search"
@@ -29,117 +28,117 @@
 <!--    MODAL OVERLAY-->
 <!--    TODO: overlay-->
     <b-modal
-        id="content"
-        @hide="modalClose"
+        v-model="showContentModal"
         size="lg"
+        :title="modalInfo.title.toUpperCase()"
         >
-      <template #modal-header>{{modalInfo.title.toUpperCase()}}</template>
       <template>
         <b-row id="row1">
           <b-col id="r1c1">
-            <b-form-group
-
-                :disabled="disabled"
-            >
+            <b-form-group>
               <label for="showBrand" class="mb-0">Brand:</label>
-              <b-form-input v-model="modalInfo.content.brand" id="showBrand"></b-form-input>
+              <b-form-input v-model="modalInfo.content.brand" id="showBrand" :disabled="disabled"></b-form-input>
               <label for="showBeans" class="mb-0 mt-1">Beans:</label>
-              <b-form-input v-model="modalInfo.content.beans" id="showBeans"></b-form-input>
+              <b-form-input v-model="modalInfo.content.beans" id="showBeans" :disabled="disabled"></b-form-input>
               <label for="showRoast" class="mb-0 mt-1">Roast:</label>
-              <b-form-input v-model="modalInfo.content.roast" id="showRoast"></b-form-input>
+              <b-form-input v-model="modalInfo.content.roast" id="showRoast" :disabled="disabled"></b-form-input>
             </b-form-group>
           </b-col>
           <b-col id="r1c2" class="w-100">
-            <b-form-group
-                :disabled="disabled"
-            >
+            <b-form-group>
               <label for="showWeight" class="mb-0">Weight:</label>
-              <b-form-input v-model="modalInfo.content.weight" id="showWeight"></b-form-input>
+              <b-form-input v-model="modalInfo.content.weight" id="showWeight" :disabled="disabled"></b-form-input>
               <label for="showGrind" class="mb-0 mt-1">Grind Size:</label>
-              <b-form-input v-model="modalInfo.content.grind_size" id="showGrind"></b-form-input>
+              <b-form-input v-model="modalInfo.content.grind_size" id="showGrind" :disabled="disabled"></b-form-input>
               <label for="showYield" class="mb-0 mt-1">Yield (gm):</label>
-              <b-form-input v-model="modalInfo.content.yield" id="showYield"></b-form-input>
+              <b-form-input v-model="modalInfo.content.yield" id="showYield" :disabled="disabled"></b-form-input>
               <label for="showTime" class="mb-0 mt-1">Time (sec):</label>
-              <b-form-input v-model="modalInfo.content.time" id="showTime"></b-form-input>
+              <b-form-input v-model="modalInfo.content.time" id="showTime" :disabled="disabled"></b-form-input>
               <label for="showEquip" class="mb-0 mt-1">Equipment:</label>
-              <b-form-input v-model="modalInfo.content.equipment" id="showEquip"></b-form-input>
+              <b-form-input v-model="modalInfo.content.equipment" id="showEquip" :disabled="disabled"></b-form-input>
             </b-form-group>
           </b-col>
         </b-row>
         <b-row id="row2">
-          <b-form-group
-              :disabled="disabled"
-            class="w-100 m-3"
-          >
+          <b-form-group class="w-100 m-3">
             <label for="showRemarks" class="mb-0 mt-1">Remarks:</label>
             <b-form-textarea
                 v-model="modalInfo.content.remarks"
               rows="3"
-            id="showRemarks">
+                id="showRemarks"
+                :disabled="disabled">
             </b-form-textarea>
           </b-form-group>
         </b-row>
         <b-row id="row3">
-          <b-form-group
-              :disabled="disabled"
-            class="w-100 m-3"
-          >
+          <b-form-group class="w-100 m-3">
             <label for="showRR" class="mb-0 mt-1">Roaster Remarks:</label>
             <b-form-textarea
                 v-model="modalInfo.content.roaster_remarks"
               rows="3"
               class="w-100"
                 id="showRR"
+               :disabled="disabled"
               >
-            </b-form-textarea>
-          </b-form-group>
-        </b-row>
-      </template>
-      <template #modal-footer>
-        <b-button v-on:click="deleteCheck" variant="danger" v-show="disabled === true">Delete</b-button>
-        <b-button v-on:click="$bvModal.hide('content')" v-show="disabled === false">Cancel</b-button>
-        <b-button v-show="disabled === false" v-on:click="toggleDisabled">Cancel Edit</b-button>
-        <b-button v-show="disabled === true" v-on:click="toggleDisabled">Edit</b-button>
-        <b-button v-on:click="$bvModal.hide('content')" variant="primary" v-show="disabled === true">OK</b-button>
-        <b-button v-show="disabled === false" v-on:click="editCheck">Save</b-button>
-      </template>
-    </b-modal>
+        </b-form-textarea>
+      </b-form-group>
+    </b-row>
+  </template>
+  <template #footer>
+    <b-button @click="deleteCheck" variant="danger" v-show="disabled === true">Delete</b-button>
+    <b-button @click="showContentModal = false" v-show="disabled === false">Cancel</b-button>
+    <b-button v-show="disabled === false" @click="toggleDisabled">Cancel Edit</b-button>
+    <b-button v-show="disabled === true" @click="toggleDisabled">Edit</b-button>
+    <b-button @click="showContentModal = false" variant="primary" v-show="disabled === true">OK</b-button>
+    <b-button v-show="disabled === false" @click="editCheck">Save</b-button>
+  </template>
+</b-modal>
 <!--    MODAL DELETE CONFIRM-->
-    <b-modal id="deleteConfirm">
-      <template #modal-title>
-        Delete {{modalInfo.title.toUpperCase()}} ?
-      </template>
-      <template>
-        <p>Are you sure you want to delete this entry? ID: </p>
-        <pre>{{modalInfo.content._id}}</pre>
-      </template>
-      <template #modal-footer>
-        <b-button v-on:click="$bvModal.hide('deleteConfirm')" variant="secondary">Cancel</b-button>
-        <b-button v-on:click="deleteEntry" variant="danger">Delete</b-button>
-      </template>
-    </b-modal>
+<b-modal v-model="showDeleteModal" :title="`Delete ${modalInfo.title.toUpperCase()} ?`">
+  <template>
+    <p>Are you sure you want to delete this entry? ID: </p>
+    <pre>{{modalInfo.content._id}}</pre>
+  </template>
+  <template #footer>
+    <b-button @click="showDeleteModal = false" variant="secondary">Cancel</b-button>
+    <b-button @click="deleteEntry" variant="danger">Delete</b-button>
+  </template>
+</b-modal>
 
 <!--    MODAL EDIT CONFIRM-->
-    <b-modal id="editConfirm">
-      <template #modal-title>
-        Edit {{modalInfo.title.toUpperCase()}} ?
-      </template>
-      <template>
-        <p>Are you sure you want to edit this entry?</p>
-<!--        <pre>{{modalInfo.content._id}}</pre>-->
-      </template>
-      <template #modal-footer>
-        <b-button v-on:click="$bvModal.hide('editConfirm')" variant="secondary">Cancel</b-button>
-        <b-button v-on:click="editEntry" variant="primary">Confirm Edit</b-button>
-      </template>
-    </b-modal>
+<b-modal v-model="showEditModal" :title="`Edit ${modalInfo.title.toUpperCase()} ?`">
+  <template>
+    <p>Are you sure you want to edit this entry?</p>
+  </template>
+  <template #footer>
+    <b-button @click="showEditModal = false" variant="secondary">Cancel</b-button>
+    <b-button @click="editEntry" variant="primary">Confirm Edit</b-button>
+  </template>
+</b-modal>
   </div>
 </template>
 
 <script>
+import { mapActions, mapState } from 'pinia'
 import dayjs from 'dayjs'
 import advancedFormat from 'dayjs/plugin/advancedFormat'
+import { useAppStore } from '@/stores/app'
+
 dayjs.extend(advancedFormat)
+
+const createEmptyContent = () => ({
+  _id: '',
+  brand: '',
+  beans: '',
+  roast: '',
+  weight: '',
+  grind_size: '',
+  yield: '',
+  time: '',
+  equipment: '',
+  remarks: '',
+  roaster_remarks: '',
+})
 
 export default {
   name: "TableView",
@@ -148,11 +147,9 @@ export default {
   ],
   data() {
     return {
-      list_results: [],
-      formatted_results: [],
       modalInfo: {
         title: '',
-        content: ''
+        content: createEmptyContent(),
       },
       fields: [{
         key: 'date',
@@ -174,38 +171,33 @@ export default {
         label: 'Roast',
         sortable: true
       }],
-      modalKey: '',
-      selectedItem: {
-        brand: '',
-        beans: '',
-        roast: '',
-        weight: '',
-        grind_size: '',
-        yield: '',
-        time: '',
-        equipment: '',
-        remarks: '',
-        roaster_remarks: '',
-      },
       disabled: true,
       sortBy: 'date',
       sortDesc: true,
-      loading: false,
-      searchFilter: '',
+      showContentModal: false,
+      showDeleteModal: false,
+      showEditModal: false,
     }
   },
   methods: {
+    ...mapActions(useAppStore, {
+      fetchAllData: 'getAllData',
+      removeEntry: 'deleteEntry',
+      saveEntry: 'editEntry',
+      resetResults: 'clearResults',
+    }),
     info(item) {
-      this.modalInfo.content = item
+      this.modalInfo.content = { ...item }
       this.modalInfo.title = item.brand + " " + item.beans
-      this.$bvModal.show('content')
-    },
-    getData() {
-      this.$store.dispatch('getAllData')
+      this.disabled = true
+      this.showContentModal = true
     },
     modalClose(){
       this.disabled = true
-      this.modalInfo.content = ''
+      this.modalInfo.title = ''
+      this.modalInfo.content = createEmptyContent()
+      this.showDeleteModal = false
+      this.showEditModal = false
     },
     toggleDisabled() {
       this.disabled = !this.disabled
@@ -221,49 +213,55 @@ export default {
       }
     },
     deleteCheck() {
-      this.$bvModal.show('deleteConfirm')
+      this.showDeleteModal = true
     },
-    deleteEntry() {
+    async deleteEntry() {
       const id = this.modalInfo.content._id
-      this.$store.dispatch('deleteEntry', id)
-      this.$bvModal.hide('deleteConfirm')
-      this.$bvModal.hide('content')
+      try {
+        await this.removeEntry(id)
+      } catch (error) {
+        console.log(error)
+      } finally {
+        this.showDeleteModal = false
+        this.showContentModal = false
+      }
     },
     editCheck(){
-      this.$bvModal.show('editConfirm')
+      this.showEditModal = true
     },
-    editEntry(){
+    async editEntry(){
       const item = {
         id: this.modalInfo.content._id,
-        body: this.modalInfo.content
+        body: { ...this.modalInfo.content }
       }
-      this.$store.dispatch('editEntry', item)
-      this.$bvModal.hide('editConfirm')
-      this.$bvModal.hide('content')
+      try {
+        await this.saveEntry(item)
+      } catch (error) {
+        console.log(error)
+      } finally {
+        this.showEditModal = false
+        this.showContentModal = false
+      }
     }
   },
   mounted() {
-    this.getData()
+    this.fetchAllData()
   },
   watch: {
-    isGettingData(newVal) {
-      if (newVal === true) {
-        this.loading = true
-      }else if (newVal === false) {
-        this.loading = false
+    showContentModal(newValue) {
+      if (!newValue) {
+        this.modalClose()
       }
-    }
+    },
   },
   computed: {
-    isGettingData() {
-      return this.$store.getters.getGettingData
-    },
+    ...mapState(useAppStore, ['results']),
     dataWatch() {
-      return this.$store.getters.getAllData
+      return this.results
     },
   },
   beforeUnmount() {
-    this.$store.commit('setData', [])
+    this.resetResults()
   }
 }
 </script>
@@ -280,7 +278,7 @@ export default {
 
 #my-table.table-hover tbody tr:hover {
   color: white;
-  background-color: var(--info);
+  background-color: var(--bs-info);
 }
 
 </style>

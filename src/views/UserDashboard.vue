@@ -1,6 +1,6 @@
 <template>
   <div id="dashboard">
-    <b-overlay :show="loggingout" style="height: 100vh">
+    <b-overlay :show="loggingOut" style="height: 100vh">
     <b-container fluid="xl">
       <b-row class="justify-content-center mt-5">
         <h1>Welcome to your Coffee Diary!</h1>
@@ -8,17 +8,19 @@
       <b-row class="">
         <b-col>
           <b-input-group class="mt-4">
-            <b-form-input class="custom-input-search" v-model="search_term" placeholder="Search..."></b-form-input>
-            <b-input-group-append class=""><b-button class="custom-button" v-on:click="openModal">NEW ENTRY</b-button></b-input-group-append>
+            <b-form-input class="custom-input-search" v-model="searchTerm" placeholder="Search..."></b-form-input>
+            <template #append>
+              <b-button class="custom-button" @click="openModal">NEW ENTRY</b-button>
+            </template>
           </b-input-group>
 
         </b-col>
       </b-row>
-      <b-row class="mt-3 border border-dark no-gutters mb-3" no-gutters style="height: 30rem">
+      <b-row class="mt-3 border border-dark g-0 mb-3" style="height: 30rem">
         <b-col class="main-column">
 <!--          main content-->
-          <b-overlay :show="show">
-          <TableView :search="search_term"/>
+          <b-overlay :show="gettingData">
+          <TableView :search="searchTerm"/>
             <template #overlay>
               <div class="text-center">
                 <b-spinner variant="info" style="height: 5rem; width: 5rem"></b-spinner>
@@ -29,7 +31,7 @@
         </b-col>
       </b-row>
     </b-container>
-    <b-link v-on:click="logout" class="logout-button">LOG OUT</b-link>
+    <b-link @click="handleLogout" class="logout-button">LOG OUT</b-link>
     <!--  MODAL NEW ENTRY-->
     <InputForm ref="modalComp"/>
 <!--    <b-button v-on:click="testCSRF">Test CSRFToken</b-button>-->
@@ -45,56 +47,36 @@
 </template>
 
 <script>
-import TableView from "@/components/TableView";
-import InputForm from "@/components/InputForm";
+import { mapActions, mapState } from 'pinia'
+import TableView from '@/components/TableView.vue'
+import InputForm from '@/components/InputForm.vue'
+import { useAppStore } from '@/stores/app'
 
 export default {
   name: "UserDashboard",
   components: {InputForm, TableView},
   data() {
     return {
-      message: '',
-      search_term: '',
-      tokenTest: '',
-      show: true,
-      loggingout: false
+      searchTerm: '',
     }
   },
   computed: {
-    isLoggedIn(){
-      return this.$store.state.isLoggedIn
-    },
-    gettingWatch() {
-      return this.$store.getters.getGettingData
-    },
-    getLoggingOut() {
-      return this.$store.getters.getLoggingOut
-    }
+    ...mapState(useAppStore, ['gettingData', 'isLoggedIn', 'loggingOut']),
   },
   watch: {
-    gettingWatch(newStat) {
-      if (newStat === true) {
-        this.show = true
-      }else if (newStat === false) {
-        this.show = false
+    isLoggedIn(newValue) {
+      if (!newValue && !this.loggingOut) {
+        this.$router.push('/login')
       }
     },
-    getLoggingOut(newVal) {
-      if (newVal === true) {
-        this.loggingout = true
-      }else if (newVal === false) {
-        this.loggingout = false
-      }
-    }
-  },
-  created() {
-    if (!this.isLoggedIn) {
-      this.$router.push('/login')
-    }
   },
   methods: {
-    logout() {
-      this.$store.dispatch('logout')
+    ...mapActions(useAppStore, ['logout']),
+    async handleLogout() {
+      const loggedOut = await this.logout()
+      if (loggedOut) {
+        await this.$router.push('/')
+      }
     },
     openModal(){
       this.$refs.modalComp.show()

@@ -12,12 +12,13 @@ A place where you can keep track of your coffee diary brewing techniques!
 
 
 ## Dependencies:
-- Vue.js
-- Vuex
+- Vue 3
+- Pinia
 - Vue Router
 - Axios
 - Dayjs
-- Bootstrap/Bootstrap-Vue
+- Bootstrap 5 / BootstrapVueNext
+- Vite
 
 ## Main Features: 
 - Registration and Login/Logout
@@ -48,9 +49,9 @@ Mobile (iOS 14 w/ iPhone 11)
 npm install
 ```
 
-### Compiles and hot-reloads for development
+### Runs the app in development
 ```
-npm run serve
+npm run dev
 ```
 
 ### Compiles and minifies for production
@@ -58,10 +59,15 @@ npm run serve
 npm run build
 ```
 
-### Lints and fixes files
+### Previews the production build locally
+```
+npm run preview
+```
+
+### Lints the project
 ```
 npm run lint
 ```
 
 ### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+See [Vite Configuration Reference](https://vite.dev/config/).

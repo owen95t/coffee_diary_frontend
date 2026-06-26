@@ -1,22 +1,16 @@
-import Vue from 'vue'
+import { createApp } from 'vue'
+import { createBootstrap } from 'bootstrap-vue-next'
 import App from './App.vue'
 import router from './router'
-import BootstrapVue from 'bootstrap-vue'
 import 'bootstrap/dist/css/bootstrap.css'
-import 'bootstrap-vue/dist/bootstrap-vue.css'
+import 'bootstrap-vue-next/dist/bootstrap-vue-next.css'
 import 'bootstrap-icons/font/bootstrap-icons.css'
-import store from './store'
-import VueScrollTo from 'vue-scrollto'
-import VueMeta from 'vue-meta'
+import { pinia } from './stores'
 
-Vue.config.productionTip = false
+const app = createApp(App)
 
-Vue.use(BootstrapVue)
-Vue.use(VueScrollTo)
-Vue.use(VueMeta)
+app.use(pinia)
+app.use(router)
+app.use(createBootstrap())
 
-new Vue({
-  router,
-  store,
-  render: h => h(App),
-}).$mount('#app')
+app.mount('#app')

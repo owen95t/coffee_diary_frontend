@@ -12,7 +12,7 @@
 <!--         <div class="welcome marquee" style="&#45;&#45;tw: 60vw; &#45;&#45;ad: 4.0s;">-->
 <!--           <span>COFFEE DIARY</span>-->
 <!--         </div>-->
-         <a href="#" v-scroll-to="'#bottom'">
+         <a href="#bottom" @click.prevent="scrollToBottom">
            <div class="scroll-down"></div>
          </a>
        </div>
@@ -58,9 +58,10 @@
 
 export default {
   name: "HomePage",
-  data() {
-    return {
-    }
+  methods: {
+    scrollToBottom() {
+      document.getElementById('bottom')?.scrollIntoView({ behavior: 'smooth' })
+    },
   }
 }
 </script>

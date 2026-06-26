@@ -8,16 +8,16 @@
       <div class="account-form">
         <!--      OVERLAY-->
         <b-overlay :show="show">
-          <b-form>
+          <b-form @submit.prevent="submit">
             <h2 class="text-center">{{header}}</h2>
             <b-form-group class="mt-3">
               <b-form-input type="text" class="form-control" placeholder="Email Address" v-model.trim="username" required></b-form-input>
             </b-form-group>
             <b-form-group>
-              <b-form-input type="password" class="form-control" placeholder="Password" v-model.trim="password" required v-on:keyup.enter="submit"></b-form-input>
+              <b-form-input type="password" class="form-control" placeholder="Password" v-model.trim="password" required></b-form-input>
             </b-form-group>
             <b-form-group>
-              <b-button variant="primary" class="btn-block" v-on:click="submit">{{ buttonText }}</b-button>
+              <b-button variant="primary" class="w-100" type="submit">{{ buttonText }}</b-button>
             </b-form-group>
           </b-form>
           <template #overlay>
@@ -44,24 +44,13 @@
 
 <script>
 import customAxios from "@/customAxios/customAxios";
+import { useAppStore } from '@/stores/app'
 
 export default {
   name: "AccountForm",
   props: {
     isLogin: Boolean,
     isRegister: Boolean
-  },
-  computed: {
-    isLoggedIn() {
-      return this.$store.state.isLoggedIn
-    }
-  },
-  watch: {
-    isLoggedIn(newStat) {
-      if (newStat === true) {
-        this.$router.push('/dashboard')
-      }
-    }
   },
   data(){
     return{
@@ -84,6 +73,7 @@ export default {
       }
     },
     submit() {
+      this.waiting = true
       if(this.isRegister){
         this.sendRegister()
         this.show = true
@@ -100,13 +90,13 @@ export default {
       try{
         let response = await customAxios.post('user/register', userInfo)
         if(response.status === 201){
-          //add loading
           alert('User Created Successfully! Please Login to Access Your Dashboard')
           await this.$router.push('/login')
         }
       }catch (e) {
-        console.log('Registration Error: ' + e.response.data.message)
-        alert('Registration Error. Please try again.' + '\n' + e.response.data.message)
+        const message = e.response?.data?.message ?? e.message
+        console.log('Registration Error: ' + message)
+        alert('Registration Error. Please try again.' + '\n' + message)
         this.show = false
       }
     },
@@ -119,26 +109,22 @@ export default {
       try {
         let response = await customAxios.post('user/login', userInfo)
         if(response.status === 200){
-          this.waiting = false;
-          //alert('Log in success! Taking you to your dashboard...')
+          this.waiting = false
           console.log('CSRFToken: ' + response.headers['csrftoken'])
           localStorage.setItem('csrftoken', response.headers['csrftoken'])
-          await this.$store.dispatch("setLoggedIn", true);
-          setTimeout(() => this.$router.push('/dashboard'),3000)
-          // await this.$router.push('/dashboard')
+          const appStore = useAppStore()
+          appStore.setLoggedIn(true)
+          window.setTimeout(() => this.$router.push('/dashboard'), 3000)
         }
       }catch (e) {
         console.log('Log in error: ' + e)
-        alert('Log in error: ' + e.response.data.message)
+        alert('Log in error: ' + (e.response?.data?.message ?? e.message))
         this.show = false
       }
     },
   },
   mounted() {
     this.check()
-    if (this.isLoggedIn) {
-      this.$router.push('/dashboard')
-    }
   }
 }
 </script>
