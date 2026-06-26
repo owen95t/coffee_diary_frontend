@@ -128,11 +128,6 @@ h1 {
   color: black;
 }
 
-.bottom-container {
-  /*box-sizing: border-box;*/
-  /*line-height: normal;*/
-}
-
 .span1 {
   font-family: 'Apple Garamond';
 }

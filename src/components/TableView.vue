@@ -10,9 +10,8 @@
           :items="results"
           :fields="fields"
           :sort-by="sortBy"
-          :sort-desc="sortDesc"
           :sort-compare="mySortCompare"
-          @row-clicked="info"
+          @row-clicked="handleRowClicked"
           class="table-view m-0 w-100"
           id="my-table"
           :filter="search"
@@ -129,18 +128,35 @@ import type { CoffeeEntry, CoffeeEntryUpdate } from '@/types/coffee'
 
 dayjs.extend(advancedFormat)
 
-type SortFieldKey = 'date' | 'brand' | 'beans' | 'roast'
+type TableSortOrder = 'desc' | 'asc' | undefined
 
 interface ModalInfo {
   title: string
   content: CoffeeEntry
 }
 
-interface TableFieldDefinition {
-  key: SortFieldKey
-  label: string
-  sortable: boolean
-  formatter?: (_value: unknown, _key: string, item: CoffeeEntry) => string
+interface TableFieldFormatterObject<T> {
+  value: unknown
+  key: string
+  item: T
+}
+
+interface TableFieldLike<T> {
+  key: string
+  label?: string
+  sortable?: boolean
+  formatter?: (obj: TableFieldFormatterObject<T>) => string
+}
+
+interface TableSortByLike {
+  key: string
+  order: TableSortOrder
+}
+
+interface TableRowClickEvent<T> {
+  item: T
+  index: number
+  event: Readonly<MouseEvent> | Readonly<KeyboardEvent>
 }
 
 const props = defineProps<{
@@ -156,12 +172,12 @@ const modalInfo = reactive<ModalInfo>({
   content: createEmptyCoffeeEntry(),
 })
 
-const fields = [
+const fields: TableFieldLike<CoffeeEntry>[] = [
   {
     key: 'date',
     label: 'Date',
     sortable: true,
-    formatter: (_value: unknown, _key: string, item: CoffeeEntry) => dayjs(item.date).format('MMM Do, YYYY'),
+    formatter: ({ item }) => dayjs(item.date).format('MMM Do, YYYY'),
   },
   {
     key: 'brand',
@@ -178,11 +194,10 @@ const fields = [
     label: 'Roast',
     sortable: true,
   },
-] satisfies TableFieldDefinition[]
+]
 
 const disabled = ref(true)
-const sortBy = ref<SortFieldKey>('date')
-const sortDesc = ref(true)
+const sortBy = ref<TableSortByLike[]>([{ key: 'date', order: 'desc' }])
 const showContentModal = ref(false)
 const showDeleteModal = ref(false)
 const showEditModal = ref(false)
@@ -192,6 +207,10 @@ const info = (item: CoffeeEntry): void => {
   modalInfo.title = `${item.brand} ${item.beans}`
   disabled.value = true
   showContentModal.value = true
+}
+
+const handleRowClicked = ({ item }: TableRowClickEvent<CoffeeEntry>): void => {
+  info(item)
 }
 
 const modalClose = (): void => {
@@ -206,12 +225,12 @@ const toggleDisabled = (): void => {
   disabled.value = !disabled.value
 }
 
-const mySortCompare = (a: CoffeeEntry, b: CoffeeEntry, key: string): number | boolean => {
+const mySortCompare = (a: CoffeeEntry, b: CoffeeEntry, key: string): number => {
   if (key === 'date') {
     return Date.parse(a.date) - Date.parse(b.date)
   }
 
-  return false
+  return String(a[key as keyof CoffeeEntry] ?? '').localeCompare(String(b[key as keyof CoffeeEntry] ?? ''))
 }
 
 const deleteCheck = (): void => {
